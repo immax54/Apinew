@@ -1,0 +1,6 @@
+{
+    "git.ignoreLimitWarning": true,
+    "js/ts.implicitProjectConfig.experimentalDecorators": true,
+    "git.enableStatusBarSync": false,
+    "git.confirmSync": false
+}

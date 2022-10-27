@@ -9,9 +9,9 @@ import { TemperatureСontrolLog } from "./entities/TemperatureСontrol";
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "postgres",
-    password: "123",
-    database: "postgres",
+    username: "ubuntu",
+    password:undefined,
+    database: "pi",
     entities:[User, Bracklog, Health,TemperatureСontrolLog],
     synchronize:true
 })

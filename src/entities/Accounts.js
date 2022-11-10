@@ -6,45 +6,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.Bracklog = void 0;
+exports.Account = void 0;
 var typeorm_1 = require("typeorm");
 var Client_1 = require("./Client");
-var Bracklog = /** @class */ (function () {
-    function Bracklog() {
+var Account = /** @class */ (function () {
+    function Account() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)()
-    ], Bracklog.prototype, "id");
+    ], Account.prototype, "id");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Bracklog.prototype, "dish");
+    ], Account.prototype, "login");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Bracklog.prototype, "timespend");
-    __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Bracklog.prototype, "dishmark");
-    __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Bracklog.prototype, "acception");
+    ], Account.prototype, "password");
     __decorate([
         (0, typeorm_1.Column)('date')
-    ], Bracklog.prototype, "created");
+    ], Account.prototype, "created");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.Bracklog; }),
+        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.Account; }),
         (0, typeorm_1.JoinColumn)({
             name: 'user_id'
         })
-    ], Bracklog.prototype, "user");
-    __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (userdone) { return userdone.Bracklog; }),
-        (0, typeorm_1.JoinColumn)({
-            name: 'user_done'
-        })
-    ], Bracklog.prototype, "userdone");
-    Bracklog = __decorate([
-        (0, typeorm_1.Entity)("BrackLog")
-    ], Bracklog);
-    return Bracklog;
+    ], Account.prototype, "user");
+    Account = __decorate([
+        (0, typeorm_1.Entity)('accounts')
+    ], Account);
+    return Account;
 }());
-exports.Bracklog = Bracklog;
+exports.Account = Account;

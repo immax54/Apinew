@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import { Account } from "./Accounts";
 import { Bracklog } from "./Brack";
 import { Health } from "./Health";
 import { TemperatureСontrolLog } from "./TemperatureСontrol";
@@ -19,6 +20,12 @@ export class User  {
 
     @Column('text')
     role!: string
+
+    @Column('boolean')
+    deleted!: boolean
+
+    @Column('boolean')
+    banned!: boolean
     
     @Column('date')
     created!:Date;
@@ -30,6 +37,14 @@ export class User  {
         }
     )
     Bracklog:Bracklog
+
+    @OneToMany(
+        ()=>Account,
+        Account=>Account.user,{
+            cascade: true,
+        }
+    )
+    Account:Account
 
     @OneToMany(
         ()=>Health,

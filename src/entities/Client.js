@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.User = void 0;
 var typeorm_1 = require("typeorm");
+var Accounts_1 = require("./Accounts");
 var Brack_1 = require("./Brack");
 var Health_1 = require("./Health");
 var Temperature_ontrol_1 = require("./Temperature\u0421ontrol");
@@ -30,6 +31,12 @@ var User = /** @class */ (function () {
         (0, typeorm_1.Column)('text')
     ], User.prototype, "role");
     __decorate([
+        (0, typeorm_1.Column)('boolean')
+    ], User.prototype, "deleted");
+    __decorate([
+        (0, typeorm_1.Column)('boolean')
+    ], User.prototype, "banned");
+    __decorate([
         (0, typeorm_1.Column)('date')
     ], User.prototype, "created");
     __decorate([
@@ -37,6 +44,11 @@ var User = /** @class */ (function () {
             cascade: true
         })
     ], User.prototype, "Bracklog");
+    __decorate([
+        (0, typeorm_1.OneToMany)(function () { return Accounts_1.Account; }, function (Account) { return Account.user; }, {
+            cascade: true
+        })
+    ], User.prototype, "Account");
     __decorate([
         (0, typeorm_1.OneToMany)(function () { return Health_1.Health; }, function (Health) { return Health.user; }, {
             cascade: true

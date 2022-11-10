@@ -43,20 +43,24 @@ var Client_1 = require("./entities/Client");
 var Brack_1 = require("./entities/Brack");
 var Health_1 = require("./entities/Health");
 var Temperature_ontrol_1 = require("./entities/Temperature\u0421ontrol");
+var Accounts_1 = require("./entities/Accounts");
 var AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "postgres",
-    password: "123",
-    database: "postgres",
-    entities: [Client_1.User, Brack_1.Bracklog, Health_1.Health, Temperature_ontrol_1.TemperatureСontrolLog],
+    username: "ubuntu",
+    password: "ubuntu",
+    database: "pi",
+    entities: [Client_1.User, Brack_1.Bracklog, Health_1.Health, Temperature_ontrol_1.TemperatureСontrolLog, Accounts_1.Account],
     synchronize: true
 });
 AppDataSource.initialize()
     .then(function () {
     console.log('DB connect');
 })["catch"](function (error) { return console.log(error); });
+var ngrok = require('ngrok');
+ngrok.authtoken('2Gj2e1okLI8jtft3cqzgiDaztCJ_795j3CUFjQGGhvgcLSu4r');
+ngrok.connect(8080).then(function (data) { return console.log(data); });
 http.createServer(function (req, res) {
     var _this = this;
     var url = req.url;
@@ -80,66 +84,58 @@ http.createServer(function (req, res) {
                 }
                 return true;
             }
-            function findvalid(rep) {
-                return __awaiter(this, void 0, void 0, function () {
-                    var find;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                find = AppDataSource.getRepository(rep);
-                                return [4 /*yield*/, find.findOne({
-                                        where: {
-                                            user: (0, typeorm_1.Not)((0, typeorm_1.IsNull)())
-                                        }
-                                    })];
-                            case 1: return [2 /*return*/, _a.sent()];
-                        }
-                    });
+            var resjson, TemperatureСontrol, UsersArray, userRepository;
+            return __generator(this, function (_a) {
+                body_1 = Buffer.concat(body_1).toString();
+                res.on('error', function (err) {
+                    console.error(err);
                 });
-            }
-            var resjson, TemperatureСontrol, find, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        body_1 = Buffer.concat(body_1).toString();
-                        res.on('error', function (err) {
-                            console.error(err);
-                        });
-                        res.statusCode = 200;
-                        res.setHeader('Content-Type', 'application/json');
-                        if (!(isJsonString(body_1) == true)) return [3 /*break*/, 3];
-                        resjson = (JSON.parse(body_1));
-                        TemperatureСontrol = new Temperature_ontrol_1.TemperatureСontrolLog();
-                        TemperatureСontrol.user = resjson.user;
-                        TemperatureСontrol.temperature = resjson.temperature;
-                        TemperatureСontrol.vlazhn = resjson.vlazhn;
-                        TemperatureСontrol.warehouse = resjson.warehouse;
-                        TemperatureСontrol.created = new Date;
-                        console.log('DB connect');
-                        find = AppDataSource.getRepository(Temperature_ontrol_1.TemperatureСontrolLog);
-                        _a = TemperatureСontrol.user != null;
-                        if (!_a) return [3 /*break*/, 2];
-                        return [4 /*yield*/, findvalid(Temperature_ontrol_1.TemperatureСontrolLog)];
-                    case 1:
-                        _a = ((_b.sent()) != null);
-                        _b.label = 2;
-                    case 2:
-                        if ((((_a && TemperatureСontrol.temperature != null && TemperatureСontrol.vlazhn != null && TemperatureСontrol.warehouse != null)))) {
-                            AppDataSource.manager.save(TemperatureСontrol);
-                            res.write("User has been added" + JSON.stringify(TemperatureСontrol));
-                            res.end();
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                if (isJsonString(body_1) == true) {
+                    resjson = (JSON.parse(body_1));
+                    TemperatureСontrol = new Temperature_ontrol_1.TemperatureСontrolLog();
+                    TemperatureСontrol.user = resjson.user;
+                    TemperatureСontrol.temperature = resjson.temperature;
+                    TemperatureСontrol.vlazhn = resjson.vlazhn;
+                    TemperatureСontrol.warehouse = resjson.warehouse;
+                    TemperatureСontrol.created = new Date;
+                    console.log('DB connect');
+                    userRepository = AppDataSource.getRepository(Client_1.User);
+                    userRepository.find().then(function (data) { return UsersArray; });
+                    if (typeof (TemperatureСontrol.user) == "number") {
+                        if (typeof (TemperatureСontrol.temperature) == "string") {
+                            if (typeof (TemperatureСontrol.vlazhn == "string")) {
+                                if (typeof (TemperatureСontrol.warehouse == "string")) {
+                                    AppDataSource.manager.save(TemperatureСontrol);
+                                    res.write("User has been added" + JSON.stringify(TemperatureСontrol));
+                                    res.end();
+                                }
+                                else {
+                                    res.write("ERROR! warehouse isnt type string");
+                                    res.end();
+                                }
+                            }
+                            else {
+                                res.write("ERROR! vlazhn isnt type string");
+                                res.end();
+                            }
                         }
                         else {
-                            res.write("ERROR! data error in JSON");
+                            res.write("ERROR! temperature isnt type string");
                             res.end();
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
-                        res.write("ERROR! Type of JSON input");
+                    }
+                    else {
+                        res.write("ERROR! User isnt type number");
                         res.end();
-                        _b.label = 4;
-                    case 4: return [2 /*return*/];
+                    }
                 }
+                else {
+                    res.write("ERROR! Type of JSON input");
+                    res.end();
+                }
+                return [2 /*return*/];
             });
         }); });
     }
@@ -270,9 +266,11 @@ http.createServer(function (req, res) {
                 user.fam = resjson.fam;
                 user.otch = resjson.otch;
                 user.role = resjson.role;
+                user.deleted = resjson.deleted;
+                user.banned = resjson.banned;
                 user.created = new Date;
                 console.log('DB connect');
-                if ((user.name != null && user.fam != null && user.otch != null && user.role != null)) {
+                if ((user.name != null && user.fam != null && user.otch != null && user.role != null && typeof (user.deleted) == "boolean" && typeof (user.banned) == "boolean")) {
                     AppDataSource.manager.save(user);
                     res.write("User has been added" + JSON.stringify(user));
                     res.end();
@@ -287,6 +285,163 @@ http.createServer(function (req, res) {
                 res.end();
             }
         });
+    }
+    else if (url.toString() === "/accountpost" && method === 'POST') {
+        var body_5 = [];
+        req.on('error', function (err) {
+            console.error(err);
+        }).on('data', function (chunk) {
+            body_5.push(chunk);
+        }).on('end', function () {
+            body_5 = Buffer.concat(body_5).toString();
+            res.on('error', function (err) {
+                console.error(err);
+            });
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            function isJsonString(str) {
+                try {
+                    JSON.parse(str);
+                }
+                catch (e) {
+                    return false;
+                }
+                return true;
+            }
+            if (isJsonString(body_5) == true) {
+                var resjson = (JSON.parse(body_5));
+                var account = new Accounts_1.Account();
+                account.login = resjson.login;
+                account.password = resjson.password;
+                account.user = resjson.user;
+                account.created = new Date;
+                console.log('DB connect');
+                if ((account.login != null && account.password != null && account.user != null)) {
+                    AppDataSource.manager.save(account);
+                    res.write("User has been added" + JSON.stringify(account));
+                    res.end();
+                }
+                else {
+                    res.write("ERROR! data error JSON");
+                    res.end();
+                }
+            }
+            else {
+                res.write("ERROR! Input isnt JSON");
+                res.end();
+            }
+        });
+    }
+    else if (url.toString() === "/userupdate" && method === 'POST') {
+        var body_6 = [];
+        req.on('error', function (err) {
+            console.error(err);
+        }).on('data', function (chunk) {
+            body_6.push(chunk);
+        }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
+            function isJsonString(str) {
+                try {
+                    JSON.parse(str);
+                }
+                catch (e) {
+                    return false;
+                }
+                return true;
+            }
+            var resjson, userRepository, userToUpdate;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        body_6 = Buffer.concat(body_6).toString();
+                        res.on('error', function (err) {
+                            console.error(err);
+                        });
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        if (!(isJsonString(body_6) == true)) return [3 /*break*/, 2];
+                        resjson = (JSON.parse(body_6));
+                        userRepository = AppDataSource.getRepository(Client_1.User);
+                        return [4 /*yield*/, userRepository.findOneBy({
+                                id: resjson.user
+                            })];
+                    case 1:
+                        userToUpdate = _a.sent();
+                        userToUpdate.deleted = resjson.deleted;
+                        userToUpdate.banned = resjson.banned;
+                        console.log('DB connect');
+                        if ((resjson.banned != null && resjson.deleted != null)) {
+                            userRepository.manager.save(userToUpdate);
+                            res.write("User has been updated" + JSON.stringify(userToUpdate));
+                            res.end();
+                        }
+                        else {
+                            res.write("ERROR! data error JSON");
+                            res.end();
+                        }
+                        return [3 /*break*/, 3];
+                    case 2:
+                        res.write("ERROR! Input isnt JSON");
+                        res.end();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); });
+    }
+    else if (url.toString() === "/passwordupdate" && method === 'POST') {
+        var body_7 = [];
+        req.on('error', function (err) {
+            console.error(err);
+        }).on('data', function (chunk) {
+            body_7.push(chunk);
+        }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
+            function isJsonString(str) {
+                try {
+                    JSON.parse(str);
+                }
+                catch (e) {
+                    return false;
+                }
+                return true;
+            }
+            var resjson, accRepository, accRepositoyrToUpdate;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        body_7 = Buffer.concat(body_7).toString();
+                        res.on('error', function (err) {
+                            console.error(err);
+                        });
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        if (!(isJsonString(body_7) == true)) return [3 /*break*/, 2];
+                        resjson = (JSON.parse(body_7));
+                        accRepository = AppDataSource.getRepository(Accounts_1.Account);
+                        return [4 /*yield*/, accRepository.findOneBy({
+                                id: resjson.account
+                            })];
+                    case 1:
+                        accRepositoyrToUpdate = _a.sent();
+                        accRepositoyrToUpdate.password = resjson.password;
+                        console.log('DB connect');
+                        if ((resjson.password != null)) {
+                            accRepository.manager.save(accRepositoyrToUpdate);
+                            res.write("User has been updated" + JSON.stringify(accRepositoyrToUpdate));
+                            res.end();
+                        }
+                        else {
+                            res.write("ERROR! data error JSON");
+                            res.end();
+                        }
+                        return [3 /*break*/, 3];
+                    case 2:
+                        res.write("ERROR! Input isnt JSON");
+                        res.end();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); });
     }
     else if (url.toString() === "/usersget") {
         function writeend(data) {
@@ -303,6 +458,14 @@ http.createServer(function (req, res) {
         }
         var BrackRepository = AppDataSource.getRepository(Brack_1.Bracklog);
         BrackRepository.find().then(function (data) { return writeend(JSON.stringify(data)); });
+    }
+    else if (url.toString() === "/accountget") {
+        function writeend(data) {
+            res.write(data);
+            res.end();
+        }
+        var AccountRep = AppDataSource.getRepository(Accounts_1.Account);
+        AccountRep.find().then(function (data) { return writeend(JSON.stringify(data)); });
     }
     else if (url.toString() === "/tempcontrolget") {
         function writeend(data) {
@@ -324,6 +487,6 @@ http.createServer(function (req, res) {
         res.write("ERROR! No API");
         res.end();
     }
-}).listen(3002, function () {
-    console.log("Server started at 3002 port");
+}).listen(8080, function () {
+    console.log("Server started at 8080 port");
 });

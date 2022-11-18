@@ -48,9 +48,9 @@ var AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "ubuntu",
-    password: "ubuntu",
-    database: "pi",
+    username: "postgres",
+    password: "123",
+    database: "postgres",
     entities: [Client_1.User, Brack_1.Bracklog, Health_1.Health, Temperature_ontrol_1.TemperatureСontrolLog, Accounts_1.Account],
     synchronize: true
 });
@@ -59,7 +59,7 @@ AppDataSource.initialize()
     console.log('DB connect');
 })["catch"](function (error) { return console.log(error); });
 var ngrok = require('ngrok');
-ngrok.authtoken('2Gj2e1okLI8jtft3cqzgiDaztCJ_795j3CUFjQGGhvgcLSu4r');
+ngrok.authtoken('2GuBDDtmUMvGx04gv6xhgUaVsPc_5Pyi3ytd1Ej7d14XkDiLf');
 ngrok.connect(8080).then(function (data) { return console.log(data); });
 http.createServer(function (req, res) {
     var _this = this;
@@ -84,7 +84,7 @@ http.createServer(function (req, res) {
                 }
                 return true;
             }
-            var resjson, TemperatureСontrol, UsersArray, userRepository;
+            var resjson, TemperatureСontrol, created, UsersArray, userRepository;
             return __generator(this, function (_a) {
                 body_1 = Buffer.concat(body_1).toString();
                 res.on('error', function (err) {
@@ -98,18 +98,27 @@ http.createServer(function (req, res) {
                     TemperatureСontrol.user = resjson.user;
                     TemperatureСontrol.temperature = resjson.temperature;
                     TemperatureСontrol.vlazhn = resjson.vlazhn;
+                    TemperatureСontrol.sign = resjson.sign;
                     TemperatureСontrol.warehouse = resjson.warehouse;
-                    TemperatureСontrol.created = new Date;
+                    created = new Date;
+                    TemperatureСontrol.date = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
+                    TemperatureСontrol.time = "".concat(created.getHours(), ":").concat(created.getMinutes(), ":").concat(created.getSeconds());
                     console.log('DB connect');
                     userRepository = AppDataSource.getRepository(Client_1.User);
                     userRepository.find().then(function (data) { return UsersArray; });
                     if (typeof (TemperatureСontrol.user) == "number") {
-                        if (typeof (TemperatureСontrol.temperature) == "string") {
-                            if (typeof (TemperatureСontrol.vlazhn == "string")) {
+                        if (typeof (TemperatureСontrol.temperature) == "number") {
+                            if (typeof (TemperatureСontrol.vlazhn == "number")) {
                                 if (typeof (TemperatureСontrol.warehouse == "string")) {
-                                    AppDataSource.manager.save(TemperatureСontrol);
-                                    res.write("User has been added" + JSON.stringify(TemperatureСontrol));
-                                    res.end();
+                                    if (typeof (TemperatureСontrol.sign) == 'boolean') {
+                                        AppDataSource.manager.save(TemperatureСontrol);
+                                        res.write("User has been added" + JSON.stringify(TemperatureСontrol) + JSON.stringify({ "created": TemperatureСontrol.date.toString() }));
+                                        res.end();
+                                    }
+                                    else {
+                                        res.write("ERROR! sign isnt type bool");
+                                        res.end();
+                                    }
                                 }
                                 else {
                                     res.write("ERROR! warehouse isnt type string");
@@ -164,15 +173,18 @@ http.createServer(function (req, res) {
             if (isJsonString(body_2) == true) {
                 var resjson = (JSON.parse(body_2));
                 var health = new Health_1.Health();
-                health.user = resjson.user;
+                health.User = resjson.user;
                 health.proffesion = resjson.proffesion;
                 health.okz = resjson.okz;
                 health.anginamark = resjson.anginamark;
                 health.diagnos = resjson.diagnos;
                 health.passtowork = resjson.passtowork;
-                health.created = new Date;
+                var created = new Date;
+                health.date = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
+                health.signSupervisor = resjson.signsupervisor;
+                health.signworker = resjson.signworker;
                 console.log('DB connect');
-                if ((health.user != null && (health.okz != null && (typeof (health.okz) == 'boolean')) && (health.anginamark != null && (typeof (health.anginamark) == 'boolean'))) && health.diagnos != null && (health.passtowork != null && typeof (health.passtowork) == 'boolean') && health.proffesion != null) {
+                if ((typeof (health.signSupervisor) == 'boolean' && typeof (health.signworker) == 'boolean' && health.User != null && (health.okz != null && (typeof (health.okz) == 'boolean')) && (health.anginamark != null && (typeof (health.anginamark) == 'boolean'))) && health.diagnos != null && (health.passtowork != null && typeof (health.passtowork) == 'boolean') && health.proffesion != null) {
                     AppDataSource.manager.save(health);
                     res.write("User has been added" + JSON.stringify(health));
                     res.end();
@@ -214,14 +226,16 @@ http.createServer(function (req, res) {
                 var resjson = (JSON.parse(body_3));
                 var brack = new Brack_1.Bracklog();
                 brack.user = resjson.user;
-                brack.acception = resjson.acception;
+                brack.serveTime = resjson.serveTime;
                 brack.dish = resjson.dish;
-                brack.dishmark = resjson.dishmark;
+                brack.rating = resjson.rating;
                 brack.timespend = resjson.timespend;
                 brack.userdone = resjson.userdone;
-                brack.created = new Date;
+                brack.note = resjson.note;
+                var created = new Date;
+                brack.date = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
                 console.log('DB connect');
-                if (brack.user != null && brack.acception != null && brack.dish != null && brack.dishmark != null && brack.timespend != null && brack.userdone != null) {
+                if (brack.user != null && typeof (brack.serveTime) == 'number' && brack.dish != null && brack.rating != null && typeof (brack.timespend) == 'number' && brack.userdone != null && brack.note != null) {
                     AppDataSource.manager.save(brack);
                     res.write("User has been added" + JSON.stringify(brack));
                     res.end();
@@ -266,8 +280,8 @@ http.createServer(function (req, res) {
                 user.fam = resjson.fam;
                 user.otch = resjson.otch;
                 user.role = resjson.role;
-                user.deleted = resjson.deleted;
-                user.banned = resjson.banned;
+                user.deleted = false;
+                user.banned = false;
                 user.created = new Date;
                 console.log('DB connect');
                 if ((user.name != null && user.fam != null && user.otch != null && user.role != null && typeof (user.deleted) == "boolean" && typeof (user.banned) == "boolean")) {

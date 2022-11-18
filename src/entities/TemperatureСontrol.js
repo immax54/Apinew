@@ -19,16 +19,23 @@ var TemperatureСontrolLog = /** @class */ (function () {
         (0, typeorm_1.Column)('text')
     ], TemperatureСontrolLog.prototype, "warehouse");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)('integer')
     ], TemperatureСontrolLog.prototype, "temperature");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)('integer')
     ], TemperatureСontrolLog.prototype, "vlazhn");
     __decorate([
-        (0, typeorm_1.Column)('date')
-    ], TemperatureСontrolLog.prototype, "created");
+        (0, typeorm_1.Column)('text')
+    ], TemperatureСontrolLog.prototype, "date");
+    __decorate([
+        (0, typeorm_1.Column)('text')
+    ], TemperatureСontrolLog.prototype, "time");
+    __decorate([
+        (0, typeorm_1.Column)('boolean')
+    ], TemperatureСontrolLog.prototype, "sign");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.TemperatureСontrolLog; }),
+        (0, typeorm_1.Column)('integer'),
         (0, typeorm_1.JoinColumn)({
             name: 'user_id'
         })
@@ -39,3 +46,12 @@ var TemperatureСontrolLog = /** @class */ (function () {
     return TemperatureСontrolLog;
 }());
 exports.TemperatureСontrolLog = TemperatureСontrolLog;
+// @ManyToOne(
+//     () =>User,
+//     user => user.TemperatureСontrolLog
+//     )
+//     @JoinColumn({
+//         name:'user_id'
+//     })
+//     user:User
+// }

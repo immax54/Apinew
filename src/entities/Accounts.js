@@ -22,10 +22,11 @@ var Account = /** @class */ (function () {
         (0, typeorm_1.Column)('text')
     ], Account.prototype, "password");
     __decorate([
-        (0, typeorm_1.Column)('date')
+        (0, typeorm_1.Column)('text')
     ], Account.prototype, "created");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.Account; }),
+        (0, typeorm_1.Column)('numeric'),
         (0, typeorm_1.JoinColumn)({
             name: 'user_id'
         })

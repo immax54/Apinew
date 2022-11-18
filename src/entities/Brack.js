@@ -19,27 +19,32 @@ var Bracklog = /** @class */ (function () {
         (0, typeorm_1.Column)('text')
     ], Bracklog.prototype, "dish");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)('integer')
     ], Bracklog.prototype, "timespend");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Bracklog.prototype, "dishmark");
+    ], Bracklog.prototype, "rating");
+    __decorate([
+        (0, typeorm_1.Column)('integer')
+    ], Bracklog.prototype, "serveTime");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Bracklog.prototype, "acception");
+    ], Bracklog.prototype, "note");
     __decorate([
-        (0, typeorm_1.Column)('date')
-    ], Bracklog.prototype, "created");
+        (0, typeorm_1.Column)('text')
+    ], Bracklog.prototype, "date");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.Bracklog; }),
+        (0, typeorm_1.Column)('integer'),
         (0, typeorm_1.JoinColumn)({
             name: 'user_id'
         })
     ], Bracklog.prototype, "user");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (userdone) { return userdone.Bracklog; }),
+        (0, typeorm_1.Column)('integer'),
         (0, typeorm_1.JoinColumn)({
-            name: 'user_done'
+            name: 'userdone'
         })
     ], Bracklog.prototype, "userdone");
     Bracklog = __decorate([

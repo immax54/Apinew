@@ -31,14 +31,21 @@ var Health = /** @class */ (function () {
         (0, typeorm_1.Column)('boolean')
     ], Health.prototype, "passtowork");
     __decorate([
-        (0, typeorm_1.Column)('date')
-    ], Health.prototype, "created");
+        (0, typeorm_1.Column)('text')
+    ], Health.prototype, "date");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.Health; }),
+        (0, typeorm_1.Column)('boolean')
+    ], Health.prototype, "signSupervisor");
+    __decorate([
+        (0, typeorm_1.Column)('boolean')
+    ], Health.prototype, "signworker");
+    __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (User) { return User.Health; }),
+        (0, typeorm_1.Column)('integer'),
         (0, typeorm_1.JoinColumn)({
             name: 'user_id'
         })
-    ], Health.prototype, "user");
+    ], Health.prototype, "User");
     Health = __decorate([
         (0, typeorm_1.Entity)("Health")
     ], Health);

@@ -9,22 +9,29 @@ id!:number;
 @Column('text')
 warehouse!:string
 
-@Column('text')
-temperature!:string
+@Column('integer')
+temperature!:number
+
+@Column('integer')
+vlazhn!:number
 
 @Column('text')
-vlazhn!:string
+date!:string;
 
-@Column('date')
-created!:Date;
+@Column('text')
+time!:string
+
+@Column('boolean')
+sign!:boolean// id_Tempcontrol_log +date+ id_usera          Подпись таблица
 
 @ManyToOne(
     () =>User,
     user => user.TemperatureСontrolLog
     )
-    @JoinColumn({
-        name:'user_id'
-    })
-    user:User
 
+@Column('integer')
+@JoinColumn({
+    name:'user_id'
+})
+user:User
 }

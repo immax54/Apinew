@@ -13,13 +13,13 @@ export class User  {
     name!:string
 
     @Column('text')
-    fam!:string
+    fam!:string //список [блюд + active] update + список подписей + 
 
     @Column('text')
     otch!: string
 
     @Column('text')
-    role!: string
+    role!: string //update role, roles отдельно таблица вывод лист id в поле 
 
     @Column('boolean')
     deleted!: boolean
@@ -27,7 +27,7 @@ export class User  {
     @Column('boolean')
     banned!: boolean
     
-    @Column('date')
+    @Column('text')
     created!:Date;
 
     @OneToMany(
@@ -39,6 +39,13 @@ export class User  {
     Bracklog:Bracklog
 
     @OneToMany(
+        ()=>Bracklog,
+        Bracklog=>Bracklog.userdone,{
+            cascade: true,
+        }
+    )
+
+    @OneToMany(
         ()=>Account,
         Account=>Account.user,{
             cascade: true,
@@ -48,7 +55,7 @@ export class User  {
 
     @OneToMany(
         ()=>Health,
-        Health=>Health.user,{
+        Health=>Health.User,{
             cascade: true,
         }
     )

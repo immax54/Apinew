@@ -46,12 +46,3 @@ var TemperatureСontrolLog = /** @class */ (function () {
     return TemperatureСontrolLog;
 }());
 exports.TemperatureСontrolLog = TemperatureСontrolLog;
-// @ManyToOne(
-//     () =>User,
-//     user => user.TemperatureСontrolLog
-//     )
-//     @JoinColumn({
-//         name:'user_id'
-//     })
-//     user:User
-// }

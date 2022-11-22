@@ -21,16 +21,23 @@ diagnos!:string
 @Column('boolean')
 passtowork!:boolean;
 
-@Column('date')
-created!:Date;
+@Column('text')
+date!:string;
+
+@Column('boolean')
+signSupervisor!:boolean;//Подпись, заполнение менеджером, получение пуш уведомления о соглассии с подписанием; id + date + iduserfrom + userto с журнала здоровья
+
+@Column('boolean')
+signWorker!:boolean;//id_health_log +date+id_usera
 
 @ManyToOne(
     () =>User,
-    user => user.Health
+    User => User.Health
     )
-@JoinColumn({
-        name:'user_id'
-    })
-    user:User
 
+@Column('integer')
+@JoinColumn({
+    name:'user_id'
+})
+User:User
 }

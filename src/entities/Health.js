@@ -38,7 +38,7 @@ var Health = /** @class */ (function () {
     ], Health.prototype, "signSupervisor");
     __decorate([
         (0, typeorm_1.Column)('boolean')
-    ], Health.prototype, "signworker");
+    ], Health.prototype, "signWorker");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (User) { return User.Health; }),
         (0, typeorm_1.Column)('integer'),

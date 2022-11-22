@@ -22,7 +22,7 @@ var Bracklog = /** @class */ (function () {
         (0, typeorm_1.Column)('integer')
     ], Bracklog.prototype, "timespend");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)('integer')
     ], Bracklog.prototype, "rating");
     __decorate([
         (0, typeorm_1.Column)('integer')
@@ -41,10 +41,11 @@ var Bracklog = /** @class */ (function () {
         })
     ], Bracklog.prototype, "user");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (userdone) { return userdone.Bracklog; }),
+        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (userdone) { return userdone.Bracklog; } //date + id_usera    
+        ),
         (0, typeorm_1.Column)('integer'),
         (0, typeorm_1.JoinColumn)({
-            name: 'userdone'
+            name: 'userdone' //id_Bracklog +date+ id_usera    
         })
     ], Bracklog.prototype, "userdone");
     Bracklog = __decorate([

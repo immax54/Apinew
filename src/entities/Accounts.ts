@@ -12,16 +12,17 @@ export class Account  {
     @Column('text')
     password!:string
 
-    @Column('date')
+    @Column('text')
     created!:Date;
     
-    @ManyToOne(
-        () =>User,
-        user => user.Account
-        )
-    @JoinColumn({
-            name:'user_id'
-        })
-        user:User
-   
+@ManyToOne(
+    () =>User,
+    user => user.Account
+    )
+
+@Column('numeric')
+@JoinColumn({
+    name:'user_id'
+})
+user:User
 }

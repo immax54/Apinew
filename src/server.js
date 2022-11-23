@@ -302,10 +302,10 @@ http.createServer(function (req, res) {
                 user.role = resjson.role;
                 user.deleted = false;
                 user.banned = false;
-                user.confirm = false;
+                user.passwordToChange = false;
                 user.created = new Date;
                 console.log('DB connect');
-                if ((user.name != null && user.fam != null && user.otch != null && user.role != null && typeof (user.deleted) == "boolean" && typeof (user.banned) == "boolean" && typeof (user.confirm) == 'boolean')) {
+                if ((user.name != null && user.fam != null && user.otch != null && user.role != null && typeof (user.deleted) == "boolean" && typeof (user.banned) == "boolean")) {
                     AppDataSource.manager.save(user);
                     res.write("User has been added" + JSON.stringify(user));
                     res.end();

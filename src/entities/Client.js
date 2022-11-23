@@ -38,7 +38,7 @@ var User = /** @class */ (function () {
     ], User.prototype, "banned");
     __decorate([
         (0, typeorm_1.Column)('boolean')
-    ], User.prototype, "confirm");
+    ], User.prototype, "passwordToChange");
     __decorate([
         (0, typeorm_1.Column)('text')
     ], User.prototype, "created");

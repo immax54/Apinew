@@ -13,9 +13,9 @@ import { Dishes } from "./entities/Dishes";
     type: "postgres",
     host: "localhost", 
     port: 5432,
-    username: "ubuntu",
-    password:undefined,
-    database: "pi",
+    username: "postgres",
+    password:"123",
+    database: "postgres",
     entities:[User, Bracklog, Health,TemperatureСontrolLog,Account,Dishes,Professions],
     synchronize:true
 })
@@ -327,9 +327,10 @@ AppDataSource.initialize()
           account.login = resjson.login
           account.password = resjson.password
           account.user = resjson.user
+          account.confirm = resjson.confirm
           account.created = new Date
           console.log('DB connect')
-        if((account.login!=null&&account.password!=null&&account.user!=null))
+        if((account.login!=null&&account.password!=null&&account.user!=null&&typeof(account.confirm)=='boolean'))
         {
           AppDataSource.manager.save(account)
           res.write("User has been added"+JSON.stringify(account));

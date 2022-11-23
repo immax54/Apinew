@@ -278,9 +278,10 @@ AppDataSource.initialize()
           user.role = resjson.role
           user.deleted = false
           user.banned = false
+          user.confirm = false
           user.created = new Date
           console.log('DB connect')
-        if((user.name!=null&&user.fam!=null&&user.otch!=null&&user.role!=null&&typeof(user.deleted)=="boolean"&&typeof(user.banned)=="boolean"))
+        if((user.name!=null&&user.fam!=null&&user.otch!=null&&user.role!=null&&typeof(user.deleted)=="boolean"&&typeof(user.banned)=="boolean"&&typeof(user.confirm)=='boolean'))
         {
           AppDataSource.manager.save(user)
           res.write("User has been added"+JSON.stringify(user));
@@ -327,10 +328,9 @@ AppDataSource.initialize()
           account.login = resjson.login
           account.password = resjson.password
           account.user = resjson.user
-          account.confirm = resjson.confirm
           account.created = new Date
           console.log('DB connect')
-        if((account.login!=null&&account.password!=null&&account.user!=null&&typeof(account.confirm)=='boolean'))
+        if((account.login!=null&&account.password!=null&&account.user!=null))
         {
           AppDataSource.manager.save(account)
           res.write("User has been added"+JSON.stringify(account));

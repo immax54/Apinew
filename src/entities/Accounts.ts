@@ -12,9 +12,6 @@ export class Account  {
     @Column('text')
     password!:string
 
-    @Column('boolean')
-    confirm!:boolean;
-
     @Column('text')
     created!:Date;
     

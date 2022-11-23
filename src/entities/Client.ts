@@ -26,7 +26,8 @@ export class User  {
 
     @Column('boolean')
     banned!: boolean
-    
+    @Column('boolean')
+    confirm!:boolean
     @Column('text')
     created!:Date;
 

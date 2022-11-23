@@ -22,9 +22,6 @@ var Account = /** @class */ (function () {
         (0, typeorm_1.Column)('text')
     ], Account.prototype, "password");
     __decorate([
-        (0, typeorm_1.Column)('boolean')
-    ], Account.prototype, "confirm");
-    __decorate([
         (0, typeorm_1.Column)('text')
     ], Account.prototype, "created");
     __decorate([

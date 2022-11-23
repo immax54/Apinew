@@ -51,9 +51,9 @@ var AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "postgres",
-    password: "123",
-    database: "postgres",
+    username: "ubuntu",
+    password: "ubuntu",
+    database: "pi",
     entities: [Client_1.User, Brack_1.Bracklog, Health_1.Health, Temperature_ontrol_1.TemperatureСontrolLog, Accounts_1.Account, Dishes_1.Dishes, Professions_1.Professions],
     synchronize: true
 });
@@ -79,7 +79,7 @@ listprof = ["Заведующий производством", "Повар", "П
 // console.log(desired_cell.v);
 // }
 var ngrok = require('ngrok');
-ngrok.authtoken('2GuBDDtmUMvGx04gv6xhgUaVsPc_5Pyi3ytd1Ej7d14XkDiLf');
+ngrok.authtoken('2Gj2e1okLI8jtft3cqzgiDaztCJ_795j3CUFjQGGhvgcLSu4r');
 ngrok.connect(8080).then(function (data) { return console.log(data); });
 http.createServer(function (req, res) {
     var _this = this;

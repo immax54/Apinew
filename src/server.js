@@ -403,8 +403,9 @@ http.createServer(function (req, res) {
                         userToUpdate = _a.sent();
                         userToUpdate.deleted = resjson.deleted;
                         userToUpdate.banned = resjson.banned;
+                        userToUpdate.passwordToChange = resjson.passwordToChange;
                         console.log('DB connect');
-                        if ((resjson.banned != null && resjson.deleted != null)) {
+                        if ((typeof (resjson.banned) == 'boolean' && typeof (resjson.deleted) == 'boolean' && typeof (resjson.passwordToChange) == 'boolean')) {
                             userRepository.manager.save(userToUpdate);
                             res.write("User has been updated" + JSON.stringify(userToUpdate));
                             res.end();

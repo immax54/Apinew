@@ -359,7 +359,7 @@ http.createServer(function (req, res) {
             }
         });
     }
-    else if (url.toString() === "/professionpost" && method === 'POST') {
+    else if (url.toString() === "/dishpost" && method === 'POST') {
         var body_7 = [];
         req.on('error', function (err) {
             console.error(err);
@@ -369,6 +369,38 @@ http.createServer(function (req, res) {
             GetData(body_7, res);
             if (isJsonString(body_7) == true) {
                 var resjson = (JSON.parse(body_7));
+                var dish = new Dishes_1.Dishes();
+                dish.active = true;
+                dish.dish = resjson.dish;
+                var created = new Date;
+                dish.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
+                if (typeof (dish.dish) == "string") {
+                    AppDataSource.manager.save(dish);
+                    res.write("Connection has been added" + JSON.stringify(dish));
+                    res.end();
+                    console.log('Connection post');
+                }
+                else {
+                    res.write("ERROR! data error Data");
+                    res.end();
+                }
+            }
+            else {
+                res.write("ERROR! Input isnt JSON");
+                res.end();
+            }
+        });
+    }
+    else if (url.toString() === "/professionpost" && method === 'POST') {
+        var body_8 = [];
+        req.on('error', function (err) {
+            console.error(err);
+        }).on('data', function (chunk) {
+            body_8.push(chunk);
+        }).on('end', function () {
+            GetData(body_8, res);
+            if (isJsonString(body_8) == true) {
+                var resjson = (JSON.parse(body_8));
                 var profession = new Professions_1.Professions();
                 profession.profession = resjson.profession;
                 if (typeof (profession.profession) == "string") {
@@ -389,15 +421,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/objectpost" && method === 'POST') {
-        var body_8 = [];
+        var body_9 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_8.push(chunk);
+            body_9.push(chunk);
         }).on('end', function () {
-            GetData(body_8, res);
-            if (isJsonString(body_8) == true) {
-                var resjson = (JSON.parse(body_8));
+            GetData(body_9, res);
+            if (isJsonString(body_9) == true) {
+                var resjson = (JSON.parse(body_9));
                 var object = new Objects_1.Objects();
                 object.object = resjson.object;
                 if (typeof (object.object) == "string") {
@@ -418,16 +450,16 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/placepost" && method === 'POST') {
-        var body_9 = [];
+        var body_10 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_9.push(chunk);
+            body_10.push(chunk);
         }).on('end', function () {
-            GetData(body_9, res);
-            if (isJsonString(body_9) == true) {
+            GetData(body_10, res);
+            if (isJsonString(body_10) == true) {
                 var created = new Date();
-                var resjson = (JSON.parse(body_9));
+                var resjson = (JSON.parse(body_10));
                 var place = new Places_1.Places();
                 place.place = resjson.place;
                 place.Object = resjson.object;
@@ -450,15 +482,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/departmentpost" && method === 'POST') {
-        var body_10 = [];
+        var body_11 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_10.push(chunk);
+            body_11.push(chunk);
         }).on('end', function () {
-            GetData(body_10, res);
-            if (isJsonString(body_10) == true) {
-                var resjson = (JSON.parse(body_10));
+            GetData(body_11, res);
+            if (isJsonString(body_11) == true) {
+                var resjson = (JSON.parse(body_11));
                 var department = new Objects_copy_1.Typedepartment();
                 department.department = resjson.department;
                 if (typeof (department.department) == "string") {
@@ -479,15 +511,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/categoryondishpost" && method === 'POST') {
-        var body_11 = [];
+        var body_12 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_11.push(chunk);
+            body_12.push(chunk);
         }).on('end', function () {
-            GetData(body_11, res);
-            if (isJsonString(body_11) == true) {
-                var resjson = (JSON.parse(body_11));
+            GetData(body_12, res);
+            if (isJsonString(body_12) == true) {
+                var resjson = (JSON.parse(body_12));
                 var Connect = new ConnectionCategoryDish_1.ConnectionCategoryDish();
                 Connect.Dish = resjson.dish;
                 Connect.Category = resjson.category;
@@ -511,15 +543,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/rolepost" && method === 'POST') {
-        var body_12 = [];
+        var body_13 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_12.push(chunk);
+            body_13.push(chunk);
         }).on('end', function () {
-            GetData(body_12, res);
-            if (isJsonString(body_12) == true) {
-                var resjson = (JSON.parse(body_12));
+            GetData(body_13, res);
+            if (isJsonString(body_13) == true) {
+                var resjson = (JSON.parse(body_13));
                 var role = new Roles_1.Roles();
                 role.role = resjson.role;
                 if (typeof (role.role) == "string") {
@@ -540,15 +572,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/fridgepost" && method === 'POST') {
-        var body_13 = [];
+        var body_14 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_13.push(chunk);
+            body_14.push(chunk);
         }).on('end', function () {
-            GetData(body_13, res);
-            if (isJsonString(body_13) == true) {
-                var resjson = (JSON.parse(body_13));
+            GetData(body_14, res);
+            if (isJsonString(body_14) == true) {
+                var resjson = (JSON.parse(body_14));
                 var fridge = new Fridges_1.Fridges();
                 fridge.appliance = resjson.appliance;
                 fridge.normalpoint = resjson.normalPoint;
@@ -572,15 +604,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/lamppost" && method === 'POST') {
-        var body_14 = [];
+        var body_15 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_14.push(chunk);
+            body_15.push(chunk);
         }).on('end', function () {
-            GetData(body_14, res);
-            if (isJsonString(body_14) == true) {
-                var resjson = (JSON.parse(body_14));
+            GetData(body_15, res);
+            if (isJsonString(body_15) == true) {
+                var resjson = (JSON.parse(body_15));
                 var lamp = new Lamps_1.Lamps();
                 lamp.appliance = resjson.appliance;
                 lamp.startnormalpoint = resjson.startNormalPoint;
@@ -604,15 +636,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/lampintemperaturelog" && method === 'POST') {
-        var body_15 = [];
+        var body_16 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_15.push(chunk);
+            body_16.push(chunk);
         }).on('end', function () {
-            GetData(body_15, res);
-            if (isJsonString(body_15) == true) {
-                var resjson = (JSON.parse(body_15));
+            GetData(body_16, res);
+            if (isJsonString(body_16) == true) {
+                var resjson = (JSON.parse(body_16));
                 var connection = new ConnectionLampsTemperatureLog_1.ConnectionLampsTemperatureLog();
                 connection.Lamp = resjson.lamp;
                 connection.TemperatureСontrolLog = resjson.temperatureControl;
@@ -634,15 +666,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/fridgeintemperaturelog" && method === 'POST') {
-        var body_16 = [];
+        var body_17 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_16.push(chunk);
+            body_17.push(chunk);
         }).on('end', function () {
-            GetData(body_16, res);
-            if (isJsonString(body_16) == true) {
-                var resjson = (JSON.parse(body_16));
+            GetData(body_17, res);
+            if (isJsonString(body_17) == true) {
+                var resjson = (JSON.parse(body_17));
                 var connection = new ConnectionFridgesTemperatureLog_1.ConnectionFridgesTemperatureLog();
                 connection.Fridges = resjson.fridge;
                 connection.TemperatureСontrolLog = resjson.temperatureControl;
@@ -664,15 +696,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/roleonuserpost" && method === 'POST') {
-        var body_17 = [];
+        var body_18 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_17.push(chunk);
+            body_18.push(chunk);
         }).on('end', function () {
-            GetData(body_17, res);
-            if (isJsonString(body_17) == true) {
-                var resjson = (JSON.parse(body_17));
+            GetData(body_18, res);
+            if (isJsonString(body_18) == true) {
+                var resjson = (JSON.parse(body_18));
                 var connect = new ConnectionUserRole_1.ConnectionUserRole();
                 connect.Roles = resjson.role;
                 connect.User = resjson.user;
@@ -696,15 +728,15 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/departmentofplace" && method === 'POST') {
-        var body_18 = [];
+        var body_19 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_18.push(chunk);
+            body_19.push(chunk);
         }).on('end', function () {
-            GetData(body_18, res);
-            if (isJsonString(body_18) == true) {
-                var resjson = (JSON.parse(body_18));
+            GetData(body_19, res);
+            if (isJsonString(body_19) == true) {
+                var resjson = (JSON.parse(body_19));
                 var connectDepartment = new ConnectionDepartmentPlaces_1.ConnectionDepartmentPlaces();
                 connectDepartment.Place = resjson.place;
                 connectDepartment.Typedepartment = resjson.department;
@@ -728,19 +760,19 @@ http.createServer(function (req, res) {
         });
     }
     else if (url.toString() === "/userupdate" && method === 'POST') {
-        var body_19 = [];
+        var body_20 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_19.push(chunk);
+            body_20.push(chunk);
         }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
             var resjson, userRepository, userToUpdate;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        GetData(body_19, res);
-                        if (!(isJsonString(body_19) == true)) return [3 /*break*/, 2];
-                        resjson = (JSON.parse(body_19));
+                        GetData(body_20, res);
+                        if (!(isJsonString(body_20) == true)) return [3 /*break*/, 2];
+                        resjson = (JSON.parse(body_20));
                         userRepository = AppDataSource.getRepository(Client_1.User);
                         return [4 /*yield*/, userRepository.findOneBy({
                                 id: resjson.user
@@ -771,19 +803,19 @@ http.createServer(function (req, res) {
         }); });
     }
     else if (url.toString() === "/passwordrestore" && method === 'POST') {
-        var body_20 = [];
+        var body_21 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_20.push(chunk);
+            body_21.push(chunk);
         }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
             var resjson, accRepository, accRepositoyrToUpdate;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        GetData(body_20, res);
-                        if (!(isJsonString(body_20) == true)) return [3 /*break*/, 2];
-                        resjson = (JSON.parse(body_20));
+                        GetData(body_21, res);
+                        if (!(isJsonString(body_21) == true)) return [3 /*break*/, 2];
+                        resjson = (JSON.parse(body_21));
                         accRepository = AppDataSource.getRepository(Accounts_1.Account);
                         return [4 /*yield*/, accRepository.findOneBy({
                                 id: resjson.account
@@ -812,19 +844,19 @@ http.createServer(function (req, res) {
         }); });
     }
     else if (url.toString() === "/toggledishinmenu" && method === 'POST') {
-        var body_21 = [];
+        var body_22 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_21.push(chunk);
+            body_22.push(chunk);
         }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
             var resjson, dishRepository, dishRepositoyrToUpdate;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        GetData(body_21, res);
-                        if (!(isJsonString(body_21) == true)) return [3 /*break*/, 2];
-                        resjson = (JSON.parse(body_21));
+                        GetData(body_22, res);
+                        if (!(isJsonString(body_22) == true)) return [3 /*break*/, 2];
+                        resjson = (JSON.parse(body_22));
                         dishRepository = AppDataSource.getRepository(Dishes_1.Dishes);
                         return [4 /*yield*/, dishRepository.findOneBy({
                                 id: resjson.dish
@@ -853,19 +885,19 @@ http.createServer(function (req, res) {
         }); });
     }
     else if (url.toString() === "/updatedish" && method === 'POST') {
-        var body_22 = [];
+        var body_23 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_22.push(chunk);
+            body_23.push(chunk);
         }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
             var resjson, dishRepository, dishRepositoyrToUpdate;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        GetData(body_22, res);
-                        if (!(isJsonString(body_22) == true)) return [3 /*break*/, 2];
-                        resjson = (JSON.parse(body_22));
+                        GetData(body_23, res);
+                        if (!(isJsonString(body_23) == true)) return [3 /*break*/, 2];
+                        resjson = (JSON.parse(body_23));
                         dishRepository = AppDataSource.getRepository(Dishes_1.Dishes);
                         return [4 /*yield*/, dishRepository.findOneBy({
                                 id: resjson.id
@@ -894,19 +926,19 @@ http.createServer(function (req, res) {
         }); });
     }
     else if (url.toString() === "/roleupdate" && method === 'POST') {
-        var body_23 = [];
+        var body_24 = [];
         req.on('error', function (err) {
             console.error(err);
         }).on('data', function (chunk) {
-            body_23.push(chunk);
+            body_24.push(chunk);
         }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
             var resjson, userRepository, userRepositoyrToUpdate;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        GetData(body_23, res);
-                        if (!(isJsonString(body_23) == true)) return [3 /*break*/, 2];
-                        resjson = (JSON.parse(body_23));
+                        GetData(body_24, res);
+                        if (!(isJsonString(body_24) == true)) return [3 /*break*/, 2];
+                        resjson = (JSON.parse(body_24));
                         userRepository = AppDataSource.getRepository(ConnectionUserRole_1.ConnectionUserRole);
                         return [4 /*yield*/, userRepository.findOneBy({
                                 User: resjson.user

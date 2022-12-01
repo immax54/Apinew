@@ -999,6 +999,9 @@ http.createServer(function (req, res) {
     else if (url.toString() === '/placesget') {
         Get(Places_1.Places);
     }
+    else if (url.toString() === '/departmentofplacesget') {
+        Get(ConnectionDepartmentPlaces_1.ConnectionDepartmentPlaces);
+    }
     else if (url.toString() === '/objectsget') {
         Get(Objects_1.Objects);
     }

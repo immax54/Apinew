@@ -9,6 +9,7 @@ exports.__esModule = true;
 exports.Bracklog = void 0;
 var typeorm_1 = require("typeorm");
 var Client_1 = require("./Client");
+var Dishes_1 = require("./Dishes");
 var Bracklog = /** @class */ (function () {
     function Bracklog() {
     }
@@ -16,7 +17,11 @@ var Bracklog = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], Bracklog.prototype, "id");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.ManyToOne)(function () { return Dishes_1.Dishes; }, function (dish) { return dish.dish; }),
+        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.JoinColumn)({
+            name: 'dish'
+        })
     ], Bracklog.prototype, "dish");
     __decorate([
         (0, typeorm_1.Column)('integer')

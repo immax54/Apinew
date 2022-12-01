@@ -28,9 +28,6 @@ var User = /** @class */ (function () {
         (0, typeorm_1.Column)('text')
     ], User.prototype, "otch");
     __decorate([
-        (0, typeorm_1.Column)('text')
-    ], User.prototype, "role");
-    __decorate([
         (0, typeorm_1.Column)('boolean')
     ], User.prototype, "deleted");
     __decorate([

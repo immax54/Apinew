@@ -6,38 +6,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.Dishes = void 0;
+exports.Categories = void 0;
 var typeorm_1 = require("typeorm");
-var Brack_1 = require("./Brack");
 var ConnectionCategoryDish_1 = require("./ConnectionCategoryDish");
-var Dishes = /** @class */ (function () {
-    function Dishes() {
+var Categories = /** @class */ (function () {
+    function Categories() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)()
-    ], Dishes.prototype, "id");
+    ], Categories.prototype, "id");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Dishes.prototype, "dish");
-    __decorate([
-        (0, typeorm_1.Column)('boolean')
-    ], Dishes.prototype, "active");
+    ], Categories.prototype, "category");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Dishes.prototype, "created");
+    ], Categories.prototype, "created");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Brack_1.Bracklog; }, function (Bracklog) { return Bracklog.dish; }, {
+        (0, typeorm_1.OneToMany)(function () { return ConnectionCategoryDish_1.ConnectionCategoryDish; }, function (ConnectionCategoryDish) { return ConnectionCategoryDish.Category; }, {
             cascade: true
         })
-    ], Dishes.prototype, "Bracklog");
-    __decorate([
-        (0, typeorm_1.OneToMany)(function () { return ConnectionCategoryDish_1.ConnectionCategoryDish; }, function (ConnectionCategoryDish) { return ConnectionCategoryDish.Dish; }, {
-            cascade: true
-        })
-    ], Dishes.prototype, "ConnectionCategoryDish");
-    Dishes = __decorate([
-        (0, typeorm_1.Entity)("Dishes")
-    ], Dishes);
-    return Dishes;
+    ], Categories.prototype, "ConnectionCategoryDish");
+    Categories = __decorate([
+        (0, typeorm_1.Entity)("Categories")
+    ], Categories);
+    return Categories;
 }());
-exports.Dishes = Dishes;
+exports.Categories = Categories;

@@ -1,13 +1,22 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "./Client";
+import { Professions } from "./Professions";
 @Entity("Health")
 export class Health
 {
 @PrimaryGeneratedColumn()
 id!:number;
 
-@Column('text')
-proffesion!:string
+@ManyToOne(
+    () =>Professions,
+    Professions => Professions.id
+    )
+
+@Column('integer')
+@JoinColumn({
+    name:'professionId'
+})
+Professions:Professions
 
 @Column('boolean')
 okz!:boolean

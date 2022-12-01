@@ -1,14 +1,23 @@
 
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "./Client";
+import { Dishes } from "./Dishes";
 @Entity("BrackLog")
 export class Bracklog
 {
 @PrimaryGeneratedColumn()
 id!:number;
 
-@Column('text')
-dish!:string
+@ManyToOne(
+    () =>Dishes,
+    dish => dish.dish
+    )
+
+@Column('integer')
+@JoinColumn({
+    name:'dish'
+})
+dish:Dishes
 
 @Column('integer')
 timespend!:number

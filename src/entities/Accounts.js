@@ -13,7 +13,7 @@ var Account = /** @class */ (function () {
     function Account() {
     }
     __decorate([
-        (0, typeorm_1.PrimaryGeneratedColumn)()
+        (0, typeorm_1.PrimaryGeneratedColumn)() //проф + role... таблиц связи проф, между пользователями
     ], Account.prototype, "id");
     __decorate([
         (0, typeorm_1.Column)('text')

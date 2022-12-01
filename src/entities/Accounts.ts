@@ -3,7 +3,7 @@ import { User } from "./Client";
 
 @Entity('accounts')
 export class Account  {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn()//проф + role... таблиц связи проф, между пользователями
     id!:number
 
     @Column('text')

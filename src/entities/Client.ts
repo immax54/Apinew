@@ -13,13 +13,10 @@ export class User  {
     name!:string
 
     @Column('text')
-    fam!:string //список [блюд + active] update + список подписей + 
+    fam!:string //обычный работник привязан к обьекту
 
     @Column('text')
     otch!: string
-
-    @Column('text')
-    role!: string //update role, roles отдельно таблица вывод лист id в поле 
 
     @Column('boolean')
     deleted!: boolean
@@ -27,7 +24,7 @@ export class User  {
     @Column('boolean')
     banned!: boolean
     @Column('boolean')
-    passwordToChange!:boolean
+    passwordToChange!:boolean //RequestPasswordChange Entity
     @Column('text')
     created!:Date;
 
@@ -68,5 +65,6 @@ export class User  {
             cascade: true,
         }
     )
+    
     TemperatureСontrolLog:TemperatureСontrolLog
 }

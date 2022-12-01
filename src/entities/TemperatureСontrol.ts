@@ -1,13 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "./Client";
+import { ConnectionDepartmentPlaces } from "./ConnectionDepartmentPlaces";
+import { ConnectionFridgesTemperatureLog } from "./ConnectionFridgesTemperatureLog";
+import { ConnectionLampsTemperatureLog } from "./ConnectionLampsTemperatureLog";
 @Entity("TemperatureСontrolLog")
 export class TemperatureСontrolLog
 {
 @PrimaryGeneratedColumn()
 id!:number;
-
-@Column('text')
-warehouse!:string
 
 @Column('integer')
 temperature!:number
@@ -23,6 +23,18 @@ time!:string
 
 @Column('boolean')
 sign!:boolean// id_Tempcontrol_log +date+ id_usera          Подпись таблица
+
+
+@ManyToOne(
+    () =>ConnectionDepartmentPlaces,
+    ConnectionDepartmentPlaces => ConnectionDepartmentPlaces.id
+    )
+
+@Column('integer')
+@JoinColumn({
+    name:'placeId'
+})
+ConnectionDepartmentPlaces:ConnectionDepartmentPlaces
 
 @ManyToOne(
     () =>User,

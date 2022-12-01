@@ -63,9 +63,9 @@ var AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "postgres",
-    password: "123",
-    database: "postgres",
+    username: "ubuntu",
+    password: "ubuntu",
+    database: "pi",
     entities: [Client_1.User, Brack_1.Bracklog, Health_1.Health, Temperature_ontrol_1.TemperatureСontrolLog, Accounts_1.Account, Dishes_1.Dishes, Professions_1.Professions, Categories_1.Categories, ConnectionCategoryDish_1.ConnectionCategoryDish, Roles_1.Roles, ConnectionUserRole_1.ConnectionUserRole, Places_1.Places, Objects_1.Objects, Objects_copy_1.Typedepartment, ConnectionDepartmentPlaces_1.ConnectionDepartmentPlaces, Fridges_1.Fridges, Lamps_1.Lamps, ConnectionFridgesTemperatureLog_1.ConnectionFridgesTemperatureLog, ConnectionLampsTemperatureLog_1.ConnectionLampsTemperatureLog],
     synchronize: true
 });
@@ -116,7 +116,7 @@ function GetData(body, res) {
     res.setHeader('Content-Type', 'application/json');
 }
 var ngrok = require('ngrok');
-ngrok.authtoken('2GuBDDtmUMvGx04gv6xhgUaVsPc_5Pyi3ytd1Ej7d14XkDiLf');
+ngrok.authtoken('2Gj2e1okLI8jtft3cqzgiDaztCJ_795j3CUFjQGGhvgcLSu4r');
 ngrok.connect(8080).then(function (data) { return console.log(data); });
 http.createServer(function (req, res) {
     var _this = this;

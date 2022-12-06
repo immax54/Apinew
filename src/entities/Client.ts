@@ -1,8 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
-import { Account } from "./Accounts";
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
 import { Bracklog } from "./Brack";
-import { Health } from "./Health";
-import { TemperatureСontrolLog } from "./TemperatureСontrol";
 
 @Entity('user')
 export class User  {
@@ -13,58 +10,23 @@ export class User  {
     name!:string
 
     @Column('text')
-    fam!:string //обычный работник привязан к обьекту
+    fam!:string
 
     @Column('text')
     otch!: string
 
-    @Column('boolean')
-    deleted!: boolean
-
-    @Column('boolean')
-    banned!: boolean
-    @Column('boolean')
-    passwordToChange!:boolean //RequestPasswordChange Entity
     @Column('text')
+    role!: string
+
+    @Column('text')
+    additional!: string
+    
+    @Column('date')
     created!:Date;
 
     @OneToMany(
         ()=>Bracklog,
-        Bracklog=>Bracklog.user,{
-            cascade: true,
-        }
+        Bracklog=>Bracklog.user
     )
     Bracklog:Bracklog
-
-    @OneToMany(
-        ()=>Bracklog,
-        Bracklog=>Bracklog.userdone,{
-            cascade: true,
-        }
-    )
-
-    @OneToMany(
-        ()=>Account,
-        Account=>Account.user,{
-            cascade: true,
-        }
-    )
-    Account:Account
-
-    @OneToMany(
-        ()=>Health,
-        Health=>Health.User,{
-            cascade: true,
-        }
-    )
-    Health:Health
-
-    @OneToMany(
-        ()=>TemperatureСontrolLog,
-        TemperatureСontrolLog=>TemperatureСontrolLog.user,{
-            cascade: true,
-        }
-    )
-    
-    TemperatureСontrolLog:TemperatureСontrolLog
 }

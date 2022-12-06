@@ -16,7 +16,7 @@ var Professions = /** @class */ (function () {
     ], Professions.prototype, "id");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Professions.prototype, "profession");
+    ], Professions.prototype, "name");
     Professions = __decorate([
         (0, typeorm_1.Entity)("Professions")
     ], Professions);

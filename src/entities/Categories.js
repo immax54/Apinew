@@ -17,7 +17,7 @@ var Categories = /** @class */ (function () {
     ], Categories.prototype, "id");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Categories.prototype, "category");
+    ], Categories.prototype, "name");
     __decorate([
         (0, typeorm_1.Column)('text')
     ], Categories.prototype, "created");

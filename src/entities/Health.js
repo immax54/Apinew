@@ -9,7 +9,7 @@ exports.__esModule = true;
 exports.Health = void 0;
 var typeorm_1 = require("typeorm");
 var Client_1 = require("./Client");
-var Professions_1 = require("./Professions");
+var ConnectionUserProfession_copy_1 = require("./ConnectionUserProfession copy");
 var Health = /** @class */ (function () {
     function Health() {
     }
@@ -17,12 +17,12 @@ var Health = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], Health.prototype, "id");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Professions_1.Professions; }, function (Professions) { return Professions.id; }),
+        (0, typeorm_1.ManyToOne)(function () { return ConnectionUserProfession_copy_1.ConnectionUserProfession; }, function (ConnectionUserProfession) { return ConnectionUserProfession.Professions; }),
         (0, typeorm_1.Column)('integer'),
         (0, typeorm_1.JoinColumn)({
-            name: 'professionId'
+            name: 'userProfessionId'
         })
-    ], Health.prototype, "Professions");
+    ], Health.prototype, "ConnectionUserProfession");
     __decorate([
         (0, typeorm_1.Column)('boolean')
     ], Health.prototype, "okz");

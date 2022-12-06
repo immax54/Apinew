@@ -6,29 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.Appliances = void 0;
+exports.Typedepartment = void 0;
 var typeorm_1 = require("typeorm");
-var Appliances = /** @class */ (function () {
-    function Appliances() {
+var Typedepartment = /** @class */ (function () {
+    function Typedepartment() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)()
-    ], Appliances.prototype, "id");
+    ], Typedepartment.prototype, "id");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Appliances.prototype, "name");
-    __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Appliances.prototype, "normalpoint");
-    __decorate([
-        (0, typeorm_1.Column)('integer')
-    ], Appliances.prototype, "startnormalpoint");
-    __decorate([
-        (0, typeorm_1.Column)('integer')
-    ], Appliances.prototype, "endnormalpoint");
-    Appliances = __decorate([
-        (0, typeorm_1.Entity)("Appliances")
-    ], Appliances);
-    return Appliances;
+    ], Typedepartment.prototype, "name");
+    Typedepartment = __decorate([
+        (0, typeorm_1.Entity)("Typedepartment")
+    ], Typedepartment);
+    return Typedepartment;
 }());
-exports.Appliances = Appliances;
+exports.Typedepartment = Typedepartment;

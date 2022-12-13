@@ -6,5 +6,5 @@ export class Professions
 id!:number;
 
 @Column('text')
-profession!:string
+name!:string
 }

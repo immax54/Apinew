@@ -6,20 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.Typedepartment = void 0;
+exports.Department = void 0;
 var typeorm_1 = require("typeorm");
-var Typedepartment = /** @class */ (function () {
-    function Typedepartment() {
+var Department = /** @class */ (function () {
+    function Department() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)()
-    ], Typedepartment.prototype, "id");
+    ], Department.prototype, "id");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Typedepartment.prototype, "name");
-    Typedepartment = __decorate([
-        (0, typeorm_1.Entity)("Typedepartment")
-    ], Typedepartment);
-    return Typedepartment;
+    ], Department.prototype, "name");
+    Department = __decorate([
+        (0, typeorm_1.Entity)("Department")
+    ], Department);
+    return Department;
 }());
-exports.Typedepartment = Typedepartment;
+exports.Department = Department;

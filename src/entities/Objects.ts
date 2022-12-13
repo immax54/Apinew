@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-@Entity("Objects")
-export class Objects
+@Entity("subject")
+export class Subject
 {
 @PrimaryGeneratedColumn()
 id!:number;
 
 @Column('text')
-object!:string
+name!:string
 }

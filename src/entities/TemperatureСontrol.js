@@ -9,7 +9,7 @@ exports.__esModule = true;
 exports.TemperatureСontrolLog = void 0;
 var typeorm_1 = require("typeorm");
 var Client_1 = require("./Client");
-var ConnectionFacilityPlacesDepartmentApplianece_1 = require("./ConnectionFacilityPlacesDepartmentApplianece");
+var Devices_1 = require("./Devices");
 var TemperatureСontrolLog = /** @class */ (function () {
     function TemperatureСontrolLog() {
     }
@@ -32,12 +32,12 @@ var TemperatureСontrolLog = /** @class */ (function () {
         (0, typeorm_1.Column)('boolean')
     ], TemperatureСontrolLog.prototype, "sign");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return ConnectionFacilityPlacesDepartmentApplianece_1.ConnectionFacilityPlacesDepartmentApplianece; }, function (ConnectionFacilityPlacesDepartmentApplianece) { return ConnectionFacilityPlacesDepartmentApplianece.id; }),
+        (0, typeorm_1.ManyToOne)(function () { return Devices_1.Appliance; }, function (Appliance) { return Appliance.name; }),
         (0, typeorm_1.Column)('integer'),
         (0, typeorm_1.JoinColumn)({
-            name: 'appliancePlaceId'
+            name: 'applianceId'
         })
-    ], TemperatureСontrolLog.prototype, "ConnectionFacilityPlacesDepartmentApplianece");
+    ], TemperatureСontrolLog.prototype, "Appliance");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.TemperatureСontrolLog; }),
         (0, typeorm_1.Column)('integer'),

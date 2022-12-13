@@ -20,7 +20,7 @@ var Bracklog = /** @class */ (function () {
         (0, typeorm_1.ManyToOne)(function () { return Dishes_1.Dishes; }, function (dish) { return dish.dish; }),
         (0, typeorm_1.Column)('integer'),
         (0, typeorm_1.JoinColumn)({
-            name: 'dish'
+            name: 'dishId'
         })
     ], Bracklog.prototype, "dish");
     __decorate([

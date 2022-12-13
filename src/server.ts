@@ -1,6 +1,6 @@
 import "reflect-metadata"
 const http =  require("http");
-import { createQueryBuilder, DataSource, Entity} from "typeorm";
+import { DataSource} from "typeorm";
 // var XLSX = require('xlsx');
 import {User} from "./entities/Client";
 import { Bracklog } from "./entities/Brack";
@@ -10,15 +10,14 @@ import { Account } from "./entities/Accounts";
 import {Professions} from "./entities/Professions"
 import {Categories} from "./entities/Categories"
 import { Dishes } from "./entities/Dishes";
-import { ConnectionCategoryDish} from "./entities/ConnectionCategoryDish";
 import { Roles } from "./entities/Roles";
 import { ConnectionUserRole } from "./entities/ConnectionUserRole";
 import { Subject } from "./entities/Objects";
 import { Places } from "./entities/Places";
-import { Typedepartment } from "./entities/Typedepartment";
-import { ConnectionFacilityPlacesDepartmentApplianece } from "./entities/ConnectionFacilityPlacesDepartmentApplianece";
+import { Department } from "./entities/Typedepartment";
 import { ConnectionUserProfession } from "./entities/ConnectionUserProfession copy";
-import { Appliances } from "./entities/Devices";
+import { Appliance } from "./entities/Devices";
+import { NotificationsTempcontrolLog } from "./entities/NotificationsTempcontrolLog";
  const AppDataSource = new DataSource({
     type: "postgres",
     host: "localhost", 
@@ -26,7 +25,7 @@ import { Appliances } from "./entities/Devices";
     username: "postgres",
     password:"123",
     database: "postgres",
-    entities:[User, Bracklog, Appliances,Health,TemperatureСontrolLog,Account,Dishes,Professions, Categories, ConnectionCategoryDish,Roles,ConnectionUserRole,Places,Subject,Typedepartment,ConnectionFacilityPlacesDepartmentApplianece,ConnectionUserProfession],
+    entities:[User,NotificationsTempcontrolLog, Bracklog, Appliance,Health,TemperatureСontrolLog,Account,Dishes,Professions, Categories,Roles,ConnectionUserRole,Places,Subject,Department,ConnectionUserProfession],
     synchronize:true
 })
 AppDataSource.initialize()
@@ -78,7 +77,11 @@ AppDataSource.initialize()
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
   }
-
+  function sleep(ms:number) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
     const ngrok = require('ngrok');
     ngrok.authtoken('2GuBDDtmUMvGx04gv6xhgUaVsPc_5Pyi3ytd1Ej7d14XkDiLf');
     ngrok.connect(8080).then((data:any)=>console.log(data))
@@ -111,13 +114,14 @@ AppDataSource.initialize()
         GetData(body,res)
       if(isJsonString(body)==true)
         {
+        const TempcontrolRepository =  AppDataSource.getRepository(TemperatureСontrolLog)
         let resjson = (JSON.parse(body))
         const TemperatureСontrol = new TemperatureСontrolLog()
         TemperatureСontrol.user = resjson.user
         TemperatureСontrol.temperature = resjson.temperature
         TemperatureСontrol.vlazhn = resjson.vlazhn
-        TemperatureСontrol.sign = resjson.sign
-        TemperatureСontrol.ConnectionFacilityPlacesDepartmentApplianece = resjson.applianceplace
+        TemperatureСontrol.sign = false
+        TemperatureСontrol.Appliance = resjson.appliance
         var created = new Date  
         TemperatureСontrol.date = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
         TemperatureСontrol.time = `${created.getHours()}:${created.getMinutes()}:${created.getSeconds()}`
@@ -127,11 +131,27 @@ AppDataSource.initialize()
           {
             if(typeof(TemperatureСontrol.vlazhn)=="number")
             {
-              if(typeof(TemperatureСontrol.ConnectionFacilityPlacesDepartmentApplianece)=="number")
+              if(typeof(TemperatureСontrol.Appliance)=="number")
               {
                 if(typeof(TemperatureСontrol.sign)== 'boolean')
                 {
         AppDataSource.manager.save(TemperatureСontrol)
+     async function NotificationPost(data:number){
+
+      await sleep(2500);
+      const Notification  = new NotificationsTempcontrolLog()
+        Notification.User = resjson.user
+        created = new Date()
+        Notification.TemperatureСontrolLog=data+1
+        Notification.created = created
+        Notification.statusOfSign = false
+        Notification.statusNotification = false
+        AppDataSource.manager.save(Notification)
+        res.write(JSON.stringify(Notification))
+     }
+        var id = TemperatureСontrol.id
+        var FindOne =   TempcontrolRepository.find({select:{id:true},where:{id:id}}).then(data=>(data.slice(-1)[0].id))
+     FindOne.then(data=>NotificationPost(data))
         res.write("TemperatureControlLog has been added"+JSON.stringify(TemperatureСontrol));
         res.end();
         console.log('TemperatureControl post')
@@ -165,11 +185,11 @@ AppDataSource.initialize()
         health.okz = resjson.okz
         health.anginamark = resjson.anginamark
         health.diagnos = resjson.diagnos
-        health.passtowork =resjson.passtowork
+        health.passtowork = false
         var created = new Date  
         health.date = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
-        health.signSupervisor = resjson.signsupervisor
-        health.signWorker = resjson.signworker
+        health.signSupervisor = false
+        health.signWorker = false
         
         if((typeof(health.signSupervisor)=='boolean'&&typeof(health.signWorker)=='boolean'&&health.User!=null&&(health.okz!=null&& (typeof(health.okz)=='boolean'))&&(health.anginamark!=null&& (typeof(health.anginamark)=='boolean')))&&health.diagnos!=null&&(health.passtowork!=null&&typeof(health.passtowork)=='boolean')&&typeof(health.ConnectionUserProfession)=='number')
         {
@@ -253,7 +273,7 @@ AppDataSource.initialize()
           user.otch = resjson.otch
           user.deleted = false
           user.banned = false
-          user.passwordToChange = false
+          user.requestToChange = false
           user.created = new Date
           if((user.name!=null&&user.fam!=null&&user.otch!=null&&typeof(user.deleted)=="boolean"&&typeof(user.banned)=="boolean"))
           {
@@ -357,9 +377,10 @@ AppDataSource.initialize()
           const dish = new Dishes()
           dish.active = true
           dish.dish= resjson.dish
+          dish.Category = resjson.category
           var created = new Date  
           dish.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
-          if(typeof(dish.dish)=="string")
+          if(typeof(dish.dish)=="string"&&typeof(dish.Category)=="number")
           {
             AppDataSource.manager.save(dish)
             res.write("Connection has been added"+JSON.stringify(dish));
@@ -394,7 +415,7 @@ AppDataSource.initialize()
           if(typeof(profession.name)=="string")
           {
             AppDataSource.manager.save(profession)
-            res.write("Connection has been added"+JSON.stringify(profession));
+            res.write("Profession has been added"+JSON.stringify(profession));
             res.end();
             console.log('Profession post')
         }
@@ -461,9 +482,9 @@ AppDataSource.initialize()
           if(typeof(object.name)=="string")
           {
             AppDataSource.manager.save(object)
-            res.write("Object has been added"+JSON.stringify(object));
+            res.write("Subject has been added"+JSON.stringify(object));
             res.end();
-            console.log('Object post')
+            console.log('Subject post')
         }
         else{
           res.write("ERROR! data error Data");
@@ -522,7 +543,7 @@ AppDataSource.initialize()
         if(isJsonString(body)==true)
           {
           var resjson = (JSON.parse(body))
-          const department = new Typedepartment()
+          const department = new Department()
           department.name= resjson.name
           if(typeof(department.name)=="string")
           {
@@ -542,41 +563,7 @@ AppDataSource.initialize()
         }
         });
       }
-      else if (url.toString()  === `/categoryondishpost` && method === 'POST') {
-    
-        let body:any| Uint8Array[]= [];
-        req.on('error', (err:string) => {
-          console.error(err);
-        }).on('data', (chunk:string) => {
-          body.push(chunk);
-        }).on('end', () => {
-          GetData(body,res)
-        if(isJsonString(body)==true)
-          {
-          let resjson = (JSON.parse(body))
-          const Connect = new ConnectionCategoryDish()
-          Connect.Dish = resjson.dish
-          Connect.Category= resjson.category
-          var created = new Date  
-          Connect.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
-          if(typeof(Connect.Dish)=="number"&&typeof(Connect.Category)=='number')
-          {
-            AppDataSource.manager.save(Connect)
-            res.write("Connection has been added"+JSON.stringify(Connect));
-            res.end();
-            console.log('Connection post')
-        }
-        else{
-          res.write("ERROR! data error Data");
-          res.end();
-        }
-      }
-        else{
-          res.write("ERROR! Input isnt JSON");
-          res.end();
-        }
-        });
-      }
+
       else if (url.toString()  === `/rolepost` && method === 'POST') {
     
         let body:any| Uint8Array[]= [];
@@ -590,11 +577,11 @@ AppDataSource.initialize()
           {
           let resjson = (JSON.parse(body))
           const role = new Roles()
-          role.role= resjson.role
-          if(typeof(role.role)=="string")
+          role.name= resjson.name
+          if(typeof(role.name)=="string")
           {
             AppDataSource.manager.save(role)
-            res.write("Connection has been added"+JSON.stringify(role));
+            res.write("Role has been added"+JSON.stringify(role));
             res.end();
             console.log('Role post')
         }
@@ -656,55 +643,23 @@ AppDataSource.initialize()
         if(isJsonString(body)==true)
           {
           let resjson = (JSON.parse(body))
-          const appliance = new Appliances()
+          const appliance = new Appliance()
           appliance.name= resjson.name
           appliance.normalpoint= resjson.normalpoint
           appliance.startnormalpoint = resjson.startnormalpoint
           appliance.endnormalpoint = resjson.endnormalpoint
+          appliance.Subject = resjson.subject
+          appliance.Place = resjson.place
+          appliance.Department = resjson.department
+          var created = new Date  
+          appliance.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
           if(typeof(appliance.name)=="string"&&typeof(appliance.normalpoint)=="string"&&typeof(appliance.startnormalpoint)=="number"&&typeof(appliance.endnormalpoint)=="number")
           {
             AppDataSource.manager.save(appliance)
             res.write("Connection has been added"+JSON.stringify(appliance));
             res.end();
             console.log('Connection post')
-        }
-        else{
-          res.write("ERROR! data error Data");
-          res.end();
-        }
-      }
-        else{
-          res.write("ERROR! Input isnt JSON");
-          res.end();
-        }
-        });
-      }
-      else if (url.toString()  === `/appliancewithplacepost` && method === 'POST') {
-    
-        let body:any| Uint8Array[]= [];
-        req.on('error', (err:string) => {
-          console.error(err);
-        }).on('data', (chunk:string) => {
-          body.push(chunk);
-        }).on('end', () => {
-          GetData(body,res)
-        if(isJsonString(body)==true)
-          {
-          let resjson = (JSON.parse(body))
-          const connectionFacilityPlacesDepartmentApplianece = new ConnectionFacilityPlacesDepartmentApplianece()
-          connectionFacilityPlacesDepartmentApplianece.Place= resjson.place
-          connectionFacilityPlacesDepartmentApplianece.Typedepartment = resjson.department
-          connectionFacilityPlacesDepartmentApplianece.Appliances = resjson.appliance
-          connectionFacilityPlacesDepartmentApplianece.Subject = resjson.subject
-          var created = new Date  
-          connectionFacilityPlacesDepartmentApplianece.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
-          if(typeof(connectionFacilityPlacesDepartmentApplianece.Place)=="number"&&typeof(connectionFacilityPlacesDepartmentApplianece.Appliances)=="number"&&typeof(connectionFacilityPlacesDepartmentApplianece.Subject)=="number"&&typeof(connectionFacilityPlacesDepartmentApplianece.Typedepartment)=="number")
-          {
-            AppDataSource.manager.save(connectionFacilityPlacesDepartmentApplianece)
-            res.write("Connection has been added"+JSON.stringify(connectionFacilityPlacesDepartmentApplianece));
-            res.end();
-            console.log('Connection post')
-        }
+          }
         else{
           res.write("ERROR! data error Data");
           res.end();
@@ -735,7 +690,7 @@ AppDataSource.initialize()
         })        
         userToUpdate.deleted= resjson.deleted
         userToUpdate.banned= resjson.banned
-        userToUpdate.passwordToChange = resjson.passwordToChange
+        userToUpdate.requestToChange = resjson.requestToChange
         if((typeof(resjson.banned)=='boolean'&&typeof(resjson.deleted)=='boolean'&&typeof(resjson.passwordToChange)=='boolean'))
         {
           userRepository.manager.save(userToUpdate)
@@ -801,10 +756,16 @@ AppDataSource.initialize()
           if(isJsonString(body)==true)
           {
           let resjson = (JSON.parse(body))
+          if(typeof(resjson.dish)!=='object')
+          {res.write("ERROR! dish isnt array error");res.end();}
+          for(let i = 0; i<resjson.dish.length;i++)
+          {
           const dishRepository = AppDataSource.getRepository(Dishes)
           var dishRepositoyrToUpdate:any
+          if (typeof(resjson.dish[i])!=='number')
+          { res.write(`ERROR! dish ${resjson.dish[i]} not number error`);resjson.dish[i]=resjson.dish[i+1] }
           dishRepositoyrToUpdate = await dishRepository.findOneBy({
-            id: resjson.dish,
+            id: resjson.dish[i],
         })        
         dishRepositoyrToUpdate.active= resjson.active
         if((typeof(resjson.active)=='boolean')&&(dishRepositoyrToUpdate!=null))
@@ -818,6 +779,7 @@ AppDataSource.initialize()
             res.write("ERROR! data error Data");
             res.end();
           }
+        }
         }
           else{
             res.write("ERROR! Input isnt JSON");
@@ -860,7 +822,7 @@ AppDataSource.initialize()
           }
           });
       }
-       else if (url.toString()  === `/roleupdate` && method === 'POST') {
+       else if (url.toString()  === `/roleonuserupdate` && method === 'POST') {
         
         let body:any| Uint8Array[]= [];
         req.on('error', (err:string) => {
@@ -903,23 +865,21 @@ Get(User)
 else if (url.toString()  === `/categoriesget`) {
   Get(Categories)
 }
-else if (url.toString() === '/connectioncategorydishget')
-{
-  function writeend(data:any):void {
-    res.write(data)
-    res.end()
-  }
-  const userRepository =  AppDataSource.getRepository(ConnectionCategoryDish)
-  userRepository.find({relations:{Dish: true,Category:true}}).then(data=>writeend(JSON.stringify(data)))
-}
 else if (url.toString() === '/connectionuserroleget')
 {
   function writeend(data:any):void {
     res.write(data)
     res.end()
   }
-  const userRepository =  AppDataSource.getRepository(ConnectionUserRole)
-  userRepository.find({relations:{User: true,Roles:true}}).then(data=>writeend(JSON.stringify(data)))
+  const rolesRepository =  AppDataSource.getRepository(ConnectionUserRole)
+  rolesRepository.createQueryBuilder('RolesOnUser')
+  .select("RolesOnUser.User")
+  .leftJoin("RolesOnUser.User","User")
+  .addSelect(["User.fam","User.name","User.otch"])
+  .leftJoin("RolesOnUser.Roles","Roles")
+  .addSelect(["Roles.name"])
+  .getMany()
+  .then(data=>writeend(JSON.stringify(data)))                   
 }
 else if (url.toString() === '/rolesget')
 {
@@ -927,7 +887,7 @@ else if (url.toString() === '/rolesget')
 }
 else if (url.toString() === '/departmentsget')
 {
-  Get(Typedepartment)
+  Get(Department)
 }
 
 else if (url.toString() === '/placesget')
@@ -935,19 +895,26 @@ else if (url.toString() === '/placesget')
   Get(Places)
 }
 
+
 else if (url.toString() === '/appliancesget')
-{
-  Get(Appliances)
-}
-else if (url.toString() === '/applianceofplacesget')
 {
   function writeend(data:any):void {
     res.write(data)
     res.end()
   }
-  const userRepository =  AppDataSource.getRepository(ConnectionFacilityPlacesDepartmentApplianece)
-  userRepository.find({relations:{Subject: true,Place:true, Typedepartment:true,Appliances:true}}).then(data=>writeend(JSON.stringify(data)))
+  const TempcontrolRepository =  AppDataSource.getRepository(Appliance)
+  TempcontrolRepository.createQueryBuilder('Appliance')
+  .leftJoin("Appliance.Subject","Subject")
+  .addSelect(["Subject.name"])
+  .leftJoin("Appliance.Place","Place")
+  .addSelect(["Place.name"])
+  .leftJoin("Appliance.Department","Department")
+  .addSelect(["Department.name"])
+  .getMany()
+  .then(data=>writeend(JSON.stringify(data)))    
 }
+
+
 else if (url.toString() === '/subjectsget')
 {
   Get(Subject)
@@ -960,11 +927,27 @@ else if (url.toString()  === `/professiononuserget`) {
     res.write(data)
     res.end()
   }
-  const userRepository =  AppDataSource.getRepository(ConnectionUserProfession)
-  userRepository.find({relations:{User: true,Professions:true}}).then(data=>writeend(JSON.stringify(data)))
+  const rolesRepository =  AppDataSource.getRepository(ConnectionUserProfession)
+  rolesRepository.createQueryBuilder('ProfessionOnUser')
+  .select("ProfessionOnUser.User")
+  .leftJoin("ProfessionOnUser.User","User")
+  .addSelect(["User.fam","User.name","User.otch"])
+  .leftJoin("ProfessionOnUser.Professions","Professions")
+  .addSelect(["Professions.name"])
+  .getMany()
+  .then(data=>writeend(JSON.stringify(data)))           
   }
 else if (url.toString()  === `/dishesget`) {
-Get(Dishes)
+  function writeend(data:any):void {
+    res.write(data)
+    res.end()
+  }
+  const rolesRepository =  AppDataSource.getRepository(Dishes)
+  rolesRepository.createQueryBuilder('Dishes')
+  .leftJoin("Dishes.Category","Category")
+  .addSelect("Category.name")
+  .getMany()
+  .then(data=>writeend(JSON.stringify(data)))     
 }
 else if (url.toString()  === `/brackget`) {  
 Get(Bracklog)
@@ -978,8 +961,18 @@ else if (url.toString()  === `/tempcontrolget`) {
     res.write(data)
     res.end()
   }
-  const userRepository =  AppDataSource.getRepository(TemperatureСontrolLog)
-  userRepository.find({relations:{ConnectionFacilityPlacesDepartmentApplianece: {Subject:true, Typedepartment:true, Appliances:true,Place:true}}}).then(data=>writeend(JSON.stringify(data)))
+  const TempcontrolRepository =  AppDataSource.getRepository(TemperatureСontrolLog)
+  TempcontrolRepository.createQueryBuilder('Tempcontrol')
+  .leftJoin("Tempcontrol.Appliance","Appliance")
+  .addSelect(["Appliance.name"])
+  .leftJoin("Appliance.Subject","Subject")
+  .addSelect(["Subject.name"])
+  .leftJoin("Appliance.Place","Place")
+  .addSelect(["Place.name"])
+  .leftJoin("Appliance.Department","Department")
+  .addSelect(["Department.name"])
+  .getMany()
+  .then(data=>writeend(JSON.stringify(data)))                                    
   }
 else if (url.toString()  === `/healthget`) {  
 Get(Health)
@@ -992,6 +985,7 @@ else if (url.toString()==='/dishes1')
   const dishes = new Dishes()
     dishes.dish = listdishesgarnire[i]
     dishes.active = true
+    dishes.Category = 1
     dishes.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
     AppDataSource.manager.save(dishes)
 }
@@ -1000,6 +994,7 @@ for(let i=0;i<=listdishesnapit.length-1;i++)
   const dishes = new Dishes()
     dishes.dish = listdishesnapit[i]
     dishes.active = true
+    dishes.Category = 2
     dishes.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
     AppDataSource.manager.save(dishes)
 }
@@ -1008,6 +1003,7 @@ for(let i=0;i<=listdishespech.length-1;i++)
   const dishes = new Dishes()
     dishes.dish = listdishespech[i]
     dishes.active = true
+    dishes.Category = 3
     dishes.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
     AppDataSource.manager.save(dishes)
 }
@@ -1016,6 +1012,7 @@ for(let i=0;i<=listdishessalats.length-1;i++)
   const dishes = new Dishes()
     dishes.dish = listdishessalats[i]
     dishes.active = true
+    dishes.Category = 4
     dishes.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
     AppDataSource.manager.save(dishes)
 }
@@ -1042,7 +1039,7 @@ else if(url.toString()==='/roles1')
   for(var i=0;i<=listroles.length-1;i++)
   {
   const role = new Roles
-  role.role = listroles[i];
+  role.name = listroles[i];
   AppDataSource.manager.save(role)
   
   }
@@ -1050,48 +1047,6 @@ else if(url.toString()==='/roles1')
   res.end(); 
 }
 
-else if (url.toString()==='/connectcategory1')
-{
-  var created = new Date
-for(var i=1;i<=55;i++)
-{
-const connect = new ConnectionCategoryDish
-connect.Dish = i
-connect.Category = 2
-connect.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
-AppDataSource.manager.save(connect)
-}
-
-for(var i=56;i<=63;i++)
-{
-
-const connect = new ConnectionCategoryDish
-connect.Dish = i
-connect.Category = 3
-connect.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
-AppDataSource.manager.save(connect)
-}
-for(var i=64;i<=69;i++)
-{
-const connect = new ConnectionCategoryDish
-connect.Dish = i
-connect.Category = 4
-connect.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
-AppDataSource.manager.save(connect)
-}
-
-for(var i=70;i<=75;i++)
-{
-const connect = new ConnectionCategoryDish
-connect.Dish = i
-connect.Category = 5
-connect.created = `${created.getDate()}-${created.getMonth()+1}-${created.getFullYear()}`
-AppDataSource.manager.save(connect)
-}
-
-  res.write("Done connection")
-res.end();
-}
 else if (url.toString()==='/users1')
 {
 
@@ -1105,7 +1060,7 @@ else if (url.toString()==='/users1')
   user.created = created
   user.deleted = false
   user.banned = false
-  user.passwordToChange = false
+  user.requestToChange = false
   AppDataSource.manager.save(user)
 }
 res.write("Done users")

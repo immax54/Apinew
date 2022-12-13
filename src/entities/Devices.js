@@ -6,29 +6,56 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.Appliances = void 0;
+exports.Appliance = void 0;
 var typeorm_1 = require("typeorm");
-var Appliances = /** @class */ (function () {
-    function Appliances() {
+var Objects_1 = require("./Objects");
+var Places_1 = require("./Places");
+var Typedepartment_1 = require("./Typedepartment");
+var Appliance = /** @class */ (function () {
+    function Appliance() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)()
-    ], Appliances.prototype, "id");
+    ], Appliance.prototype, "id");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Appliances.prototype, "name");
+    ], Appliance.prototype, "name");
     __decorate([
         (0, typeorm_1.Column)('text')
-    ], Appliances.prototype, "normalpoint");
+    ], Appliance.prototype, "normalpoint");
     __decorate([
         (0, typeorm_1.Column)('integer')
-    ], Appliances.prototype, "startnormalpoint");
+    ], Appliance.prototype, "startnormalpoint");
     __decorate([
         (0, typeorm_1.Column)('integer')
-    ], Appliances.prototype, "endnormalpoint");
-    Appliances = __decorate([
-        (0, typeorm_1.Entity)("Appliances")
-    ], Appliances);
-    return Appliances;
+    ], Appliance.prototype, "endnormalpoint");
+    __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return Objects_1.Subject; }, function (Subject) { return Subject.name; }),
+        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.JoinColumn)({
+            name: 'subjectId'
+        })
+    ], Appliance.prototype, "Subject");
+    __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return Places_1.Places; }, function (Place) { return Place.name; }),
+        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.JoinColumn)({
+            name: 'placeId'
+        })
+    ], Appliance.prototype, "Place");
+    __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return Typedepartment_1.Department; }, function (Department) { return Department.name; }),
+        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.JoinColumn)({
+            name: 'departmentId'
+        })
+    ], Appliance.prototype, "Department");
+    __decorate([
+        (0, typeorm_1.Column)('text')
+    ], Appliance.prototype, "created");
+    Appliance = __decorate([
+        (0, typeorm_1.Entity)("Appliance")
+    ], Appliance);
+    return Appliance;
 }());
-exports.Appliances = Appliances;
+exports.Appliance = Appliance;

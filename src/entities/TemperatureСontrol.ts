@@ -1,8 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "./Client";
-import { ConnectionDepartmentPlaces } from "./ConnectionDepartmentPlaces";
-import { ConnectionFridgesTemperatureLog } from "./ConnectionFridgesTemperatureLog";
-import { ConnectionLampsTemperatureLog } from "./ConnectionLampsTemperatureLog";
+import { Appliance } from "./Devices";
 @Entity("TemperatureСontrolLog")
 export class TemperatureСontrolLog
 {
@@ -26,15 +24,15 @@ sign!:boolean// id_Tempcontrol_log +date+ id_usera          Подпись та�
 
 
 @ManyToOne(
-    () =>ConnectionDepartmentPlaces,
-    ConnectionDepartmentPlaces => ConnectionDepartmentPlaces.id
+    () =>Appliance,
+    Appliance => Appliance.name
     )
 
 @Column('integer')
 @JoinColumn({
-    name:'placeId'
+    name:'applianceId'
 })
-ConnectionDepartmentPlaces:ConnectionDepartmentPlaces
+Appliance:Appliance
 
 @ManyToOne(
     () =>User,

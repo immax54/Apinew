@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.Categories = void 0;
 var typeorm_1 = require("typeorm");
-var ConnectionCategoryDish_1 = require("./ConnectionCategoryDish");
+var Dishes_1 = require("./Dishes");
 var Categories = /** @class */ (function () {
     function Categories() {
     }
@@ -22,10 +22,10 @@ var Categories = /** @class */ (function () {
         (0, typeorm_1.Column)('text')
     ], Categories.prototype, "created");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return ConnectionCategoryDish_1.ConnectionCategoryDish; }, function (ConnectionCategoryDish) { return ConnectionCategoryDish.Category; }, {
+        (0, typeorm_1.OneToMany)(function () { return Dishes_1.Dishes; }, function (Dishes) { return Dishes.Category; }, {
             cascade: true
         })
-    ], Categories.prototype, "ConnectionCategoryDish");
+    ], Categories.prototype, "Dishes");
     Categories = __decorate([
         (0, typeorm_1.Entity)("Categories")
     ], Categories);

@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "./Client";
-import { Professions } from "./Professions";
+import { ConnectionUserProfession } from "./ConnectionUserProfession copy";
 @Entity("Health")
 export class Health
 {
@@ -8,15 +8,15 @@ export class Health
 id!:number;
 
 @ManyToOne(
-    () =>Professions,
-    Professions => Professions.id
+    () =>ConnectionUserProfession,
+    ConnectionUserProfession=> ConnectionUserProfession.Professions
     )
 
 @Column('integer')
 @JoinColumn({
-    name:'professionId'
+    name:'userProfessionId'
 })
-Professions:Professions
+ConnectionUserProfession:ConnectionUserProfession
 
 @Column('boolean')
 okz!:boolean

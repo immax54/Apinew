@@ -9,7 +9,7 @@ exports.__esModule = true;
 exports.Dishes = void 0;
 var typeorm_1 = require("typeorm");
 var Brack_1 = require("./Brack");
-var ConnectionCategoryDish_1 = require("./ConnectionCategoryDish");
+var Categories_1 = require("./Categories");
 var Dishes = /** @class */ (function () {
     function Dishes() {
     }
@@ -31,10 +31,12 @@ var Dishes = /** @class */ (function () {
         })
     ], Dishes.prototype, "Bracklog");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return ConnectionCategoryDish_1.ConnectionCategoryDish; }, function (ConnectionCategoryDish) { return ConnectionCategoryDish.Dish; }, {
-            cascade: true
+        (0, typeorm_1.ManyToOne)(function () { return Categories_1.Categories; }, function (Category) { return Category.id; }),
+        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.JoinColumn)({
+            name: 'categoryId'
         })
-    ], Dishes.prototype, "ConnectionCategoryDish");
+    ], Dishes.prototype, "Category");
     Dishes = __decorate([
         (0, typeorm_1.Entity)("Dishes")
     ], Dishes);

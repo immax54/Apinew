@@ -1,33 +1,58 @@
-import { ClientRequest } from "http";
+
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "./Client";
+import { Dishes } from "./Dishes";
 @Entity("BrackLog")
 export class Bracklog
 {
 @PrimaryGeneratedColumn()
 id!:number;
 
-@Column('text')
-Dish!:string
+@ManyToOne(
+    () =>Dishes,
+    dish => dish.dish
+    )
+
+@Column('integer')
+@JoinColumn({
+    name:'dishId'
+})
+dish:Dishes
+
+@Column('integer')
+timespend!:number
+
+@Column('integer')
+rating!:number 
+
+@Column('integer')
+serveTime!:number
 
 @Column('text')
-DishMark!:string
+note!:string
 
 @Column('text')
-ConfirmHours!: string
-
-@Column('text',{nullable:true})
-Additional!: string
-
-@Column('date')
-created!:Date;
+date!:string;
 
 @ManyToOne(
-() =>User,
-user => user.Bracklog
-)
+    () =>User,
+    user => user.Bracklog
+    )
+
+@Column('integer')
 @JoinColumn({
     name:'user_id'
 })
 user:User
+
+@ManyToOne(
+    () =>User,
+    userdone => userdone.Bracklog//date + id_usera    
+    )
+
+@Column('integer')
+@JoinColumn({
+    name:'userdone'//id_Bracklog +date+ id_usera    
+})
+userdone:User
 }

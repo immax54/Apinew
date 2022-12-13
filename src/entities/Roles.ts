@@ -9,7 +9,7 @@ export class Roles
 id!:number;
 
 @Column("text")
-role!:string;
+name!:string;
 
 @OneToMany(
     ()=>ConnectionUserRole,

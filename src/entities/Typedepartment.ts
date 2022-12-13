@@ -1,13 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-@Entity("Places")
-export class Places
+@Entity("Department")
+export class Department
 {
 @PrimaryGeneratedColumn()
 id!:number;
 
 @Column('text')
 name!:string
-
-@Column('text')
-created!:string
 }

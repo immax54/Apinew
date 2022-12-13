@@ -48,23 +48,22 @@ var Accounts_1 = require("./entities/Accounts");
 var Professions_1 = require("./entities/Professions");
 var Categories_1 = require("./entities/Categories");
 var Dishes_1 = require("./entities/Dishes");
-var ConnectionCategoryDish_1 = require("./entities/ConnectionCategoryDish");
 var Roles_1 = require("./entities/Roles");
 var ConnectionUserRole_1 = require("./entities/ConnectionUserRole");
 var Objects_1 = require("./entities/Objects");
 var Places_1 = require("./entities/Places");
 var Typedepartment_1 = require("./entities/Typedepartment");
-var ConnectionFacilityPlacesDepartmentApplianece_1 = require("./entities/ConnectionFacilityPlacesDepartmentApplianece");
 var ConnectionUserProfession_copy_1 = require("./entities/ConnectionUserProfession copy");
 var Devices_1 = require("./entities/Devices");
+var NotificationsTempcontrolLog_1 = require("./entities/NotificationsTempcontrolLog");
 var AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "ubuntu",
-    password: "ubuntu",
-    database: "pi",
-    entities: [Client_1.User, Brack_1.Bracklog, Devices_1.Appliances, Health_1.Health, Temperature_ontrol_1.TemperatureСontrolLog, Accounts_1.Account, Dishes_1.Dishes, Professions_1.Professions, Categories_1.Categories, ConnectionCategoryDish_1.ConnectionCategoryDish, Roles_1.Roles, ConnectionUserRole_1.ConnectionUserRole, Places_1.Places, Objects_1.Subject, Typedepartment_1.Typedepartment, ConnectionFacilityPlacesDepartmentApplianece_1.ConnectionFacilityPlacesDepartmentApplianece, ConnectionUserProfession_copy_1.ConnectionUserProfession],
+    username: "postgres",
+    password: "123",
+    database: "postgres",
+    entities: [Client_1.User, NotificationsTempcontrolLog_1.NotificationsTempcontrolLog, Brack_1.Bracklog, Devices_1.Appliance, Health_1.Health, Temperature_ontrol_1.TemperatureСontrolLog, Accounts_1.Account, Dishes_1.Dishes, Professions_1.Professions, Categories_1.Categories, Roles_1.Roles, ConnectionUserRole_1.ConnectionUserRole, Places_1.Places, Objects_1.Subject, Typedepartment_1.Department, ConnectionUserProfession_copy_1.ConnectionUserProfession],
     synchronize: true
 });
 AppDataSource.initialize()
@@ -113,8 +112,13 @@ function GetData(body, res) {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
 }
+function sleep(ms) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, ms);
+    });
+}
 var ngrok = require('ngrok');
-ngrok.authtoken('2Gj2e1okLI8jtft3cqzgiDaztCJ_795j3CUFjQGGhvgcLSu4r');
+ngrok.authtoken('2GuBDDtmUMvGx04gv6xhgUaVsPc_5Pyi3ytd1Ej7d14XkDiLf');
 ngrok.connect(8080).then(function (data) { return console.log(data); });
 http.createServer(function (req, res) {
     return __awaiter(this, void 0, void 0, function () {
@@ -146,7 +150,7 @@ http.createServer(function (req, res) {
             res.write(data);
             res.end();
         }
-        var url, method, body_1, body_2, body_3, body_4, body_5, body_6, body_7, body_8, body_9, body_10, body_11, body_12, body_13, body_14, body_15, body_16, body_17, body_18, body_19, body_20, body_21, body_22, userRepository, userRepository, userRepository, userRepository, userRepository, created, i_1, dishes, i_2, dishes, i_3, dishes, i_4, dishes, created, i, category, created, i, role, created, i, connect, i, connect, i, connect, i, connect, i_5, created, user, i_6, prof;
+        var url, method, body_1, body_2, body_3, body_4, body_5, body_6, body_7, body_8, body_9, body_10, body_11, body_12, body_13, body_14, body_15, body_16, body_17, body_18, body_19, body_20, rolesRepository, TempcontrolRepository, rolesRepository, rolesRepository, TempcontrolRepository, created, i_1, dishes, i_2, dishes, i_3, dishes, i_4, dishes, created, i, category, created, i, role, i_5, created, user, i_6, prof;
         var _this = this;
         return __generator(this, function (_a) {
             url = req.url;
@@ -161,26 +165,52 @@ http.createServer(function (req, res) {
                 }).on('data', function (chunk) {
                     body_1.push(chunk);
                 }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
-                    var resjson, TemperatureСontrol, created;
+                    function NotificationPost(data) {
+                        return __awaiter(this, void 0, void 0, function () {
+                            var Notification;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, sleep(2500)];
+                                    case 1:
+                                        _a.sent();
+                                        Notification = new NotificationsTempcontrolLog_1.NotificationsTempcontrolLog();
+                                        Notification.User = resjson_1.user;
+                                        created = new Date();
+                                        Notification.TemperatureСontrolLog = data + 1;
+                                        Notification.created = created;
+                                        Notification.statusOfSign = false;
+                                        Notification.statusNotification = false;
+                                        AppDataSource.manager.save(Notification);
+                                        res.write(JSON.stringify(Notification));
+                                        return [2 /*return*/];
+                                }
+                            });
+                        });
+                    }
+                    var TempcontrolRepository, resjson_1, TemperatureСontrol, created, id, FindOne;
                     return __generator(this, function (_a) {
                         GetData(body_1, res);
                         if (isJsonString(body_1) == true) {
-                            resjson = (JSON.parse(body_1));
+                            TempcontrolRepository = AppDataSource.getRepository(Temperature_ontrol_1.TemperatureСontrolLog);
+                            resjson_1 = (JSON.parse(body_1));
                             TemperatureСontrol = new Temperature_ontrol_1.TemperatureСontrolLog();
-                            TemperatureСontrol.user = resjson.user;
-                            TemperatureСontrol.temperature = resjson.temperature;
-                            TemperatureСontrol.vlazhn = resjson.vlazhn;
-                            TemperatureСontrol.sign = resjson.sign;
-                            TemperatureСontrol.ConnectionFacilityPlacesDepartmentApplianece = resjson.applianceplace;
+                            TemperatureСontrol.user = resjson_1.user;
+                            TemperatureСontrol.temperature = resjson_1.temperature;
+                            TemperatureСontrol.vlazhn = resjson_1.vlazhn;
+                            TemperatureСontrol.sign = false;
+                            TemperatureСontrol.Appliance = resjson_1.appliance;
                             created = new Date;
                             TemperatureСontrol.date = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
                             TemperatureСontrol.time = "".concat(created.getHours(), ":").concat(created.getMinutes(), ":").concat(created.getSeconds());
                             if (typeof (TemperatureСontrol.user) == "number") {
                                 if (typeof (TemperatureСontrol.temperature) == "number") {
                                     if (typeof (TemperatureСontrol.vlazhn) == "number") {
-                                        if (typeof (TemperatureСontrol.ConnectionFacilityPlacesDepartmentApplianece) == "number") {
+                                        if (typeof (TemperatureСontrol.Appliance) == "number") {
                                             if (typeof (TemperatureСontrol.sign) == 'boolean') {
                                                 AppDataSource.manager.save(TemperatureСontrol);
+                                                id = TemperatureСontrol.id;
+                                                FindOne = TempcontrolRepository.find({ select: { id: true }, where: { id: id } }).then(function (data) { return (data.slice(-1)[0].id); });
+                                                FindOne.then(function (data) { return NotificationPost(data); });
                                                 res.write("TemperatureControlLog has been added" + JSON.stringify(TemperatureСontrol));
                                                 res.end();
                                                 console.log('TemperatureControl post');
@@ -218,11 +248,11 @@ http.createServer(function (req, res) {
                         health.okz = resjson.okz;
                         health.anginamark = resjson.anginamark;
                         health.diagnos = resjson.diagnos;
-                        health.passtowork = resjson.passtowork;
+                        health.passtowork = false;
                         var created = new Date;
                         health.date = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
-                        health.signSupervisor = resjson.signsupervisor;
-                        health.signWorker = resjson.signworker;
+                        health.signSupervisor = false;
+                        health.signWorker = false;
                         if ((typeof (health.signSupervisor) == 'boolean' && typeof (health.signWorker) == 'boolean' && health.User != null && (health.okz != null && (typeof (health.okz) == 'boolean')) && (health.anginamark != null && (typeof (health.anginamark) == 'boolean'))) && health.diagnos != null && (health.passtowork != null && typeof (health.passtowork) == 'boolean') && typeof (health.ConnectionUserProfession) == 'number') {
                             AppDataSource.manager.save(health);
                             res.write("Health has been added" + JSON.stringify(health));
@@ -298,7 +328,7 @@ http.createServer(function (req, res) {
                         user.otch = resjson.otch;
                         user.deleted = false;
                         user.banned = false;
-                        user.passwordToChange = false;
+                        user.requestToChange = false;
                         user.created = new Date;
                         if ((user.name != null && user.fam != null && user.otch != null && typeof (user.deleted) == "boolean" && typeof (user.banned) == "boolean")) {
                             AppDataSource.manager.save(user);
@@ -393,9 +423,10 @@ http.createServer(function (req, res) {
                         var dish = new Dishes_1.Dishes();
                         dish.active = true;
                         dish.dish = resjson.dish;
+                        dish.Category = resjson.category;
                         var created = new Date;
                         dish.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
-                        if (typeof (dish.dish) == "string") {
+                        if (typeof (dish.dish) == "string" && typeof (dish.Category) == "number") {
                             AppDataSource.manager.save(dish);
                             res.write("Connection has been added" + JSON.stringify(dish));
                             res.end();
@@ -426,7 +457,7 @@ http.createServer(function (req, res) {
                         profession.name = resjson.profession;
                         if (typeof (profession.name) == "string") {
                             AppDataSource.manager.save(profession);
-                            res.write("Connection has been added" + JSON.stringify(profession));
+                            res.write("Profession has been added" + JSON.stringify(profession));
                             res.end();
                             console.log('Profession post');
                         }
@@ -487,9 +518,9 @@ http.createServer(function (req, res) {
                         object.name = resjson.name;
                         if (typeof (object.name) == "string") {
                             AppDataSource.manager.save(object);
-                            res.write("Object has been added" + JSON.stringify(object));
+                            res.write("Subject has been added" + JSON.stringify(object));
                             res.end();
-                            console.log('Object post');
+                            console.log('Subject post');
                         }
                         else {
                             res.write("ERROR! data error Data");
@@ -543,7 +574,7 @@ http.createServer(function (req, res) {
                     GetData(body_12, res);
                     if (isJsonString(body_12) == true) {
                         var resjson = (JSON.parse(body_12));
-                        var department = new Typedepartment_1.Typedepartment();
+                        var department = new Typedepartment_1.Department();
                         department.name = resjson.name;
                         if (typeof (department.name) == "string") {
                             AppDataSource.manager.save(department);
@@ -562,7 +593,7 @@ http.createServer(function (req, res) {
                     }
                 });
             }
-            else if (url.toString() === "/categoryondishpost" && method === 'POST') {
+            else if (url.toString() === "/rolepost" && method === 'POST') {
                 body_13 = [];
                 req.on('error', function (err) {
                     console.error(err);
@@ -572,43 +603,11 @@ http.createServer(function (req, res) {
                     GetData(body_13, res);
                     if (isJsonString(body_13) == true) {
                         var resjson = (JSON.parse(body_13));
-                        var Connect = new ConnectionCategoryDish_1.ConnectionCategoryDish();
-                        Connect.Dish = resjson.dish;
-                        Connect.Category = resjson.category;
-                        var created = new Date;
-                        Connect.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
-                        if (typeof (Connect.Dish) == "number" && typeof (Connect.Category) == 'number') {
-                            AppDataSource.manager.save(Connect);
-                            res.write("Connection has been added" + JSON.stringify(Connect));
-                            res.end();
-                            console.log('Connection post');
-                        }
-                        else {
-                            res.write("ERROR! data error Data");
-                            res.end();
-                        }
-                    }
-                    else {
-                        res.write("ERROR! Input isnt JSON");
-                        res.end();
-                    }
-                });
-            }
-            else if (url.toString() === "/rolepost" && method === 'POST') {
-                body_14 = [];
-                req.on('error', function (err) {
-                    console.error(err);
-                }).on('data', function (chunk) {
-                    body_14.push(chunk);
-                }).on('end', function () {
-                    GetData(body_14, res);
-                    if (isJsonString(body_14) == true) {
-                        var resjson = (JSON.parse(body_14));
                         var role = new Roles_1.Roles();
-                        role.role = resjson.role;
-                        if (typeof (role.role) == "string") {
+                        role.name = resjson.name;
+                        if (typeof (role.name) == "string") {
                             AppDataSource.manager.save(role);
-                            res.write("Connection has been added" + JSON.stringify(role));
+                            res.write("Role has been added" + JSON.stringify(role));
                             res.end();
                             console.log('Role post');
                         }
@@ -624,15 +623,15 @@ http.createServer(function (req, res) {
                 });
             }
             else if (url.toString() === "/roleonuserpost" && method === 'POST') {
-                body_15 = [];
+                body_14 = [];
                 req.on('error', function (err) {
                     console.error(err);
                 }).on('data', function (chunk) {
-                    body_15.push(chunk);
+                    body_14.push(chunk);
                 }).on('end', function () {
-                    GetData(body_15, res);
-                    if (isJsonString(body_15) == true) {
-                        var resjson = (JSON.parse(body_15));
+                    GetData(body_14, res);
+                    if (isJsonString(body_14) == true) {
+                        var resjson = (JSON.parse(body_14));
                         var connect = new ConnectionUserRole_1.ConnectionUserRole();
                         connect.Roles = resjson.role;
                         connect.User = resjson.user;
@@ -656,20 +655,25 @@ http.createServer(function (req, res) {
                 });
             }
             else if (url.toString() === "/appliancepost" && method === 'POST') {
-                body_16 = [];
+                body_15 = [];
                 req.on('error', function (err) {
                     console.error(err);
                 }).on('data', function (chunk) {
-                    body_16.push(chunk);
+                    body_15.push(chunk);
                 }).on('end', function () {
-                    GetData(body_16, res);
-                    if (isJsonString(body_16) == true) {
-                        var resjson = (JSON.parse(body_16));
-                        var appliance = new Devices_1.Appliances();
+                    GetData(body_15, res);
+                    if (isJsonString(body_15) == true) {
+                        var resjson = (JSON.parse(body_15));
+                        var appliance = new Devices_1.Appliance();
                         appliance.name = resjson.name;
                         appliance.normalpoint = resjson.normalpoint;
                         appliance.startnormalpoint = resjson.startnormalpoint;
                         appliance.endnormalpoint = resjson.endnormalpoint;
+                        appliance.Subject = resjson.subject;
+                        appliance.Place = resjson.place;
+                        appliance.Department = resjson.department;
+                        var created = new Date;
+                        appliance.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
                         if (typeof (appliance.name) == "string" && typeof (appliance.normalpoint) == "string" && typeof (appliance.startnormalpoint) == "number" && typeof (appliance.endnormalpoint) == "number") {
                             AppDataSource.manager.save(appliance);
                             res.write("Connection has been added" + JSON.stringify(appliance));
@@ -687,54 +691,20 @@ http.createServer(function (req, res) {
                     }
                 });
             }
-            else if (url.toString() === "/appliancewithplacepost" && method === 'POST') {
-                body_17 = [];
-                req.on('error', function (err) {
-                    console.error(err);
-                }).on('data', function (chunk) {
-                    body_17.push(chunk);
-                }).on('end', function () {
-                    GetData(body_17, res);
-                    if (isJsonString(body_17) == true) {
-                        var resjson = (JSON.parse(body_17));
-                        var connectionFacilityPlacesDepartmentApplianece = new ConnectionFacilityPlacesDepartmentApplianece_1.ConnectionFacilityPlacesDepartmentApplianece();
-                        connectionFacilityPlacesDepartmentApplianece.Place = resjson.place;
-                        connectionFacilityPlacesDepartmentApplianece.Typedepartment = resjson.department;
-                        connectionFacilityPlacesDepartmentApplianece.Appliances = resjson.appliance;
-                        connectionFacilityPlacesDepartmentApplianece.Subject = resjson.subject;
-                        var created = new Date;
-                        connectionFacilityPlacesDepartmentApplianece.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
-                        if (typeof (connectionFacilityPlacesDepartmentApplianece.Place) == "number" && typeof (connectionFacilityPlacesDepartmentApplianece.Appliances) == "number" && typeof (connectionFacilityPlacesDepartmentApplianece.Subject) == "number" && typeof (connectionFacilityPlacesDepartmentApplianece.Typedepartment) == "number") {
-                            AppDataSource.manager.save(connectionFacilityPlacesDepartmentApplianece);
-                            res.write("Connection has been added" + JSON.stringify(connectionFacilityPlacesDepartmentApplianece));
-                            res.end();
-                            console.log('Connection post');
-                        }
-                        else {
-                            res.write("ERROR! data error Data");
-                            res.end();
-                        }
-                    }
-                    else {
-                        res.write("ERROR! Input isnt JSON");
-                        res.end();
-                    }
-                });
-            }
             else if (url.toString() === "/userupdate" && method === 'POST') {
-                body_18 = [];
+                body_16 = [];
                 req.on('error', function (err) {
                     console.error(err);
                 }).on('data', function (chunk) {
-                    body_18.push(chunk);
+                    body_16.push(chunk);
                 }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
                     var resjson, userRepository, userToUpdate;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                GetData(body_18, res);
-                                if (!(isJsonString(body_18) == true)) return [3 /*break*/, 2];
-                                resjson = (JSON.parse(body_18));
+                                GetData(body_16, res);
+                                if (!(isJsonString(body_16) == true)) return [3 /*break*/, 2];
+                                resjson = (JSON.parse(body_16));
                                 userRepository = AppDataSource.getRepository(Client_1.User);
                                 return [4 /*yield*/, userRepository.findOneBy({
                                         id: resjson.user
@@ -743,7 +713,7 @@ http.createServer(function (req, res) {
                                 userToUpdate = _a.sent();
                                 userToUpdate.deleted = resjson.deleted;
                                 userToUpdate.banned = resjson.banned;
-                                userToUpdate.passwordToChange = resjson.passwordToChange;
+                                userToUpdate.requestToChange = resjson.requestToChange;
                                 if ((typeof (resjson.banned) == 'boolean' && typeof (resjson.deleted) == 'boolean' && typeof (resjson.passwordToChange) == 'boolean')) {
                                     userRepository.manager.save(userToUpdate);
                                     res.write("User has been updated" + JSON.stringify(userToUpdate));
@@ -765,19 +735,19 @@ http.createServer(function (req, res) {
                 }); });
             }
             else if (url.toString() === "/passwordrestore" && method === 'POST') {
-                body_19 = [];
+                body_17 = [];
                 req.on('error', function (err) {
                     console.error(err);
                 }).on('data', function (chunk) {
-                    body_19.push(chunk);
+                    body_17.push(chunk);
                 }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
                     var resjson, accRepository, accRepositoyrToUpdate;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                GetData(body_19, res);
-                                if (!(isJsonString(body_19) == true)) return [3 /*break*/, 2];
-                                resjson = (JSON.parse(body_19));
+                                GetData(body_17, res);
+                                if (!(isJsonString(body_17) == true)) return [3 /*break*/, 2];
+                                resjson = (JSON.parse(body_17));
                                 accRepository = AppDataSource.getRepository(Accounts_1.Account);
                                 return [4 /*yield*/, accRepository.findOneBy({
                                         id: resjson.account
@@ -806,24 +776,36 @@ http.createServer(function (req, res) {
                 }); });
             }
             else if (url.toString() === "/toggledishinmenu" && method === 'POST') {
-                body_20 = [];
+                body_18 = [];
                 req.on('error', function (err) {
                     console.error(err);
                 }).on('data', function (chunk) {
-                    body_20.push(chunk);
+                    body_18.push(chunk);
                 }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
-                    var resjson, dishRepository, dishRepositoyrToUpdate;
+                    var resjson, i_7, dishRepository, dishRepositoyrToUpdate;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                GetData(body_20, res);
-                                if (!(isJsonString(body_20) == true)) return [3 /*break*/, 2];
-                                resjson = (JSON.parse(body_20));
-                                dishRepository = AppDataSource.getRepository(Dishes_1.Dishes);
-                                return [4 /*yield*/, dishRepository.findOneBy({
-                                        id: resjson.dish
-                                    })];
+                                GetData(body_18, res);
+                                if (!(isJsonString(body_18) == true)) return [3 /*break*/, 5];
+                                resjson = (JSON.parse(body_18));
+                                if (typeof (resjson.dish) !== 'object') {
+                                    res.write("ERROR! dish isnt array error");
+                                    res.end();
+                                }
+                                i_7 = 0;
+                                _a.label = 1;
                             case 1:
+                                if (!(i_7 < resjson.dish.length)) return [3 /*break*/, 4];
+                                dishRepository = AppDataSource.getRepository(Dishes_1.Dishes);
+                                if (typeof (resjson.dish[i_7]) !== 'number') {
+                                    res.write("ERROR! dish ".concat(resjson.dish[i_7], " not number error"));
+                                    resjson.dish[i_7] = resjson.dish[i_7 + 1];
+                                }
+                                return [4 /*yield*/, dishRepository.findOneBy({
+                                        id: resjson.dish[i_7]
+                                    })];
+                            case 2:
                                 dishRepositoyrToUpdate = _a.sent();
                                 dishRepositoyrToUpdate.active = resjson.active;
                                 if ((typeof (resjson.active) == 'boolean') && (dishRepositoyrToUpdate != null)) {
@@ -836,30 +818,34 @@ http.createServer(function (req, res) {
                                     res.write("ERROR! data error Data");
                                     res.end();
                                 }
-                                return [3 /*break*/, 3];
-                            case 2:
+                                _a.label = 3;
+                            case 3:
+                                i_7++;
+                                return [3 /*break*/, 1];
+                            case 4: return [3 /*break*/, 6];
+                            case 5:
                                 res.write("ERROR! Input isnt JSON");
                                 res.end();
-                                _a.label = 3;
-                            case 3: return [2 /*return*/];
+                                _a.label = 6;
+                            case 6: return [2 /*return*/];
                         }
                     });
                 }); });
             }
             else if (url.toString() === "/updatedish" && method === 'POST') {
-                body_21 = [];
+                body_19 = [];
                 req.on('error', function (err) {
                     console.error(err);
                 }).on('data', function (chunk) {
-                    body_21.push(chunk);
+                    body_19.push(chunk);
                 }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
                     var resjson, dishRepository, dishRepositoyrToUpdate;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                GetData(body_21, res);
-                                if (!(isJsonString(body_21) == true)) return [3 /*break*/, 2];
-                                resjson = (JSON.parse(body_21));
+                                GetData(body_19, res);
+                                if (!(isJsonString(body_19) == true)) return [3 /*break*/, 2];
+                                resjson = (JSON.parse(body_19));
                                 dishRepository = AppDataSource.getRepository(Dishes_1.Dishes);
                                 return [4 /*yield*/, dishRepository.findOneBy({
                                         id: resjson.id
@@ -887,20 +873,20 @@ http.createServer(function (req, res) {
                     });
                 }); });
             }
-            else if (url.toString() === "/roleupdate" && method === 'POST') {
-                body_22 = [];
+            else if (url.toString() === "/roleonuserupdate" && method === 'POST') {
+                body_20 = [];
                 req.on('error', function (err) {
                     console.error(err);
                 }).on('data', function (chunk) {
-                    body_22.push(chunk);
+                    body_20.push(chunk);
                 }).on('end', function () { return __awaiter(_this, void 0, void 0, function () {
                     var resjson, userRepository, userRepositoyrToUpdate;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                GetData(body_22, res);
-                                if (!(isJsonString(body_22) == true)) return [3 /*break*/, 2];
-                                resjson = (JSON.parse(body_22));
+                                GetData(body_20, res);
+                                if (!(isJsonString(body_20) == true)) return [3 /*break*/, 2];
+                                resjson = (JSON.parse(body_20));
                                 userRepository = AppDataSource.getRepository(ConnectionUserRole_1.ConnectionUserRole);
                                 return [4 /*yield*/, userRepository.findOneBy({
                                         User: resjson.user
@@ -934,29 +920,37 @@ http.createServer(function (req, res) {
             else if (url.toString() === "/categoriesget") {
                 Get(Categories_1.Categories);
             }
-            else if (url.toString() === '/connectioncategorydishget') {
-                userRepository = AppDataSource.getRepository(ConnectionCategoryDish_1.ConnectionCategoryDish);
-                userRepository.find({ relations: { Dish: true, Category: true } }).then(function (data) { return writeend(JSON.stringify(data)); });
-            }
             else if (url.toString() === '/connectionuserroleget') {
-                userRepository = AppDataSource.getRepository(ConnectionUserRole_1.ConnectionUserRole);
-                userRepository.find({ relations: { User: true, Roles: true } }).then(function (data) { return writeend(JSON.stringify(data)); });
+                rolesRepository = AppDataSource.getRepository(ConnectionUserRole_1.ConnectionUserRole);
+                rolesRepository.createQueryBuilder('RolesOnUser')
+                    .select("RolesOnUser.User")
+                    .leftJoin("RolesOnUser.User", "User")
+                    .addSelect(["User.fam", "User.name", "User.otch"])
+                    .leftJoin("RolesOnUser.Roles", "Roles")
+                    .addSelect(["Roles.name"])
+                    .getMany()
+                    .then(function (data) { return writeend(JSON.stringify(data)); });
             }
             else if (url.toString() === '/rolesget') {
                 Get(Roles_1.Roles);
             }
             else if (url.toString() === '/departmentsget') {
-                Get(Typedepartment_1.Typedepartment);
+                Get(Typedepartment_1.Department);
             }
             else if (url.toString() === '/placesget') {
                 Get(Places_1.Places);
             }
             else if (url.toString() === '/appliancesget') {
-                Get(Devices_1.Appliances);
-            }
-            else if (url.toString() === '/applianceofplacesget') {
-                userRepository = AppDataSource.getRepository(ConnectionFacilityPlacesDepartmentApplianece_1.ConnectionFacilityPlacesDepartmentApplianece);
-                userRepository.find({ relations: { Subject: true, Place: true, Typedepartment: true, Appliances: true } }).then(function (data) { return writeend(JSON.stringify(data)); });
+                TempcontrolRepository = AppDataSource.getRepository(Devices_1.Appliance);
+                TempcontrolRepository.createQueryBuilder('Appliance')
+                    .leftJoin("Appliance.Subject", "Subject")
+                    .addSelect(["Subject.name"])
+                    .leftJoin("Appliance.Place", "Place")
+                    .addSelect(["Place.name"])
+                    .leftJoin("Appliance.Department", "Department")
+                    .addSelect(["Department.name"])
+                    .getMany()
+                    .then(function (data) { return writeend(JSON.stringify(data)); });
             }
             else if (url.toString() === '/subjectsget') {
                 Get(Objects_1.Subject);
@@ -965,11 +959,23 @@ http.createServer(function (req, res) {
                 Get(Professions_1.Professions);
             }
             else if (url.toString() === "/professiononuserget") {
-                userRepository = AppDataSource.getRepository(ConnectionUserProfession_copy_1.ConnectionUserProfession);
-                userRepository.find({ relations: { User: true, Professions: true } }).then(function (data) { return writeend(JSON.stringify(data)); });
+                rolesRepository = AppDataSource.getRepository(ConnectionUserProfession_copy_1.ConnectionUserProfession);
+                rolesRepository.createQueryBuilder('ProfessionOnUser')
+                    .select("ProfessionOnUser.User")
+                    .leftJoin("ProfessionOnUser.User", "User")
+                    .addSelect(["User.fam", "User.name", "User.otch"])
+                    .leftJoin("ProfessionOnUser.Professions", "Professions")
+                    .addSelect(["Professions.name"])
+                    .getMany()
+                    .then(function (data) { return writeend(JSON.stringify(data)); });
             }
             else if (url.toString() === "/dishesget") {
-                Get(Dishes_1.Dishes);
+                rolesRepository = AppDataSource.getRepository(Dishes_1.Dishes);
+                rolesRepository.createQueryBuilder('Dishes')
+                    .leftJoin("Dishes.Category", "Category")
+                    .addSelect("Category.name")
+                    .getMany()
+                    .then(function (data) { return writeend(JSON.stringify(data)); });
             }
             else if (url.toString() === "/brackget") {
                 Get(Brack_1.Bracklog);
@@ -978,8 +984,18 @@ http.createServer(function (req, res) {
                 Get(Accounts_1.Account);
             }
             else if (url.toString() === "/tempcontrolget") {
-                userRepository = AppDataSource.getRepository(Temperature_ontrol_1.TemperatureСontrolLog);
-                userRepository.find({ relations: { ConnectionFacilityPlacesDepartmentApplianece: { Subject: true, Typedepartment: true, Appliances: true, Place: true } } }).then(function (data) { return writeend(JSON.stringify(data)); });
+                TempcontrolRepository = AppDataSource.getRepository(Temperature_ontrol_1.TemperatureСontrolLog);
+                TempcontrolRepository.createQueryBuilder('Tempcontrol')
+                    .leftJoin("Tempcontrol.Appliance", "Appliance")
+                    .addSelect(["Appliance.name"])
+                    .leftJoin("Appliance.Subject", "Subject")
+                    .addSelect(["Subject.name"])
+                    .leftJoin("Appliance.Place", "Place")
+                    .addSelect(["Place.name"])
+                    .leftJoin("Appliance.Department", "Department")
+                    .addSelect(["Department.name"])
+                    .getMany()
+                    .then(function (data) { return writeend(JSON.stringify(data)); });
             }
             else if (url.toString() === "/healthget") {
                 Get(Health_1.Health);
@@ -990,6 +1006,7 @@ http.createServer(function (req, res) {
                     dishes = new Dishes_1.Dishes();
                     dishes.dish = listdishesgarnire[i_1];
                     dishes.active = true;
+                    dishes.Category = 1;
                     dishes.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
                     AppDataSource.manager.save(dishes);
                 }
@@ -997,6 +1014,7 @@ http.createServer(function (req, res) {
                     dishes = new Dishes_1.Dishes();
                     dishes.dish = listdishesnapit[i_2];
                     dishes.active = true;
+                    dishes.Category = 2;
                     dishes.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
                     AppDataSource.manager.save(dishes);
                 }
@@ -1004,6 +1022,7 @@ http.createServer(function (req, res) {
                     dishes = new Dishes_1.Dishes();
                     dishes.dish = listdishespech[i_3];
                     dishes.active = true;
+                    dishes.Category = 3;
                     dishes.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
                     AppDataSource.manager.save(dishes);
                 }
@@ -1011,6 +1030,7 @@ http.createServer(function (req, res) {
                     dishes = new Dishes_1.Dishes();
                     dishes.dish = listdishessalats[i_4];
                     dishes.active = true;
+                    dishes.Category = 4;
                     dishes.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
                     AppDataSource.manager.save(dishes);
                 }
@@ -1032,43 +1052,10 @@ http.createServer(function (req, res) {
                 created = new Date;
                 for (i = 0; i <= listroles.length - 1; i++) {
                     role = new Roles_1.Roles;
-                    role.role = listroles[i];
+                    role.name = listroles[i];
                     AppDataSource.manager.save(role);
                 }
                 res.write("Done roles");
-                res.end();
-            }
-            else if (url.toString() === '/connectcategory1') {
-                created = new Date;
-                for (i = 1; i <= 55; i++) {
-                    connect = new ConnectionCategoryDish_1.ConnectionCategoryDish;
-                    connect.Dish = i;
-                    connect.Category = 2;
-                    connect.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
-                    AppDataSource.manager.save(connect);
-                }
-                for (i = 56; i <= 63; i++) {
-                    connect = new ConnectionCategoryDish_1.ConnectionCategoryDish;
-                    connect.Dish = i;
-                    connect.Category = 3;
-                    connect.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
-                    AppDataSource.manager.save(connect);
-                }
-                for (i = 64; i <= 69; i++) {
-                    connect = new ConnectionCategoryDish_1.ConnectionCategoryDish;
-                    connect.Dish = i;
-                    connect.Category = 4;
-                    connect.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
-                    AppDataSource.manager.save(connect);
-                }
-                for (i = 70; i <= 75; i++) {
-                    connect = new ConnectionCategoryDish_1.ConnectionCategoryDish;
-                    connect.Dish = i;
-                    connect.Category = 5;
-                    connect.created = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
-                    AppDataSource.manager.save(connect);
-                }
-                res.write("Done connection");
                 res.end();
             }
             else if (url.toString() === '/users1') {
@@ -1081,7 +1068,7 @@ http.createServer(function (req, res) {
                     user.created = created;
                     user.deleted = false;
                     user.banned = false;
-                    user.passwordToChange = false;
+                    user.requestToChange = false;
                     AppDataSource.manager.save(user);
                 }
                 res.write("Done users");

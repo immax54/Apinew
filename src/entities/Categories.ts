@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn,OneToMany } from "typeorm"
-import { ConnectionCategoryDish } from "./ConnectionCategoryDish";
+import { Column, Entity, PrimaryGeneratedColumn,OneToMany } from "typeorm"
+import { Dishes } from "./Dishes";
 @Entity("Categories")
 export class Categories
 {
@@ -7,16 +7,16 @@ export class Categories
 id!:number;
 
 @Column('text')
-category!:string
+name!:string
 
 @Column('text')
 created!:string
 
 @OneToMany(
-    ()=>ConnectionCategoryDish,
-    ConnectionCategoryDish=>ConnectionCategoryDish.Category,{
+    ()=>Dishes,
+    Dishes=>Dishes.Category,{
         cascade: true,
     }
 )
-ConnectionCategoryDish:ConnectionCategoryDish
+Dishes:Dishes
 }

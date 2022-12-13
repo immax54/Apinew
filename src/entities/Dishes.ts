@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity,ManyToOne, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Bracklog } from "./Brack";
-import { ConnectionCategoryDish } from "./ConnectionCategoryDish";
+import { Categories } from "./Categories";
 @Entity("Dishes")
 export class Dishes
 {
@@ -23,11 +23,14 @@ created!:string
 )
 Bracklog:Bracklog
 
-@OneToMany(
-    ()=>ConnectionCategoryDish,
-    ConnectionCategoryDish=>ConnectionCategoryDish.Dish,{
-        cascade: true,
-    }
-)
-ConnectionCategoryDish:ConnectionCategoryDish
+@ManyToOne(
+    () =>Categories,
+    Category=> Category.id
+    )
+
+@Column('integer')
+@JoinColumn({
+    name:'categoryId'
+})
+Category:Categories
 }

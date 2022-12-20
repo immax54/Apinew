@@ -79,11 +79,11 @@ var placesGet_1 = require("./methods/placesGet");
 var applianceGet_1 = require("./methods/applianceGet");
 var AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
-    host: "localhost",
+    host: "localhost", 
     port: 5432,
-    username: "postgres",
-    password: "123",
-    database: "postgres",
+    username: "ubuntu",
+    password:"ubuntu",
+    database: "pi",
     entities: [
         User_1.User,
         NotificationsTempcontrolLog_1.NotificationsTempcontrolLog,
@@ -126,7 +126,7 @@ function GetData(body, res) {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
 }
-ngrok.authtoken("2GuBDDtmUMvGx04gv6xhgUaVsPc_5Pyi3ytd1Ej7d14XkDiLf");
+ngrok.authtoken("2Gj2e1okLI8jtft3cqzgiDaztCJ_795j3CUFjQGGhvgcLSu4r");
 ngrok.connect(8080).then(function (data) { return console.log(data); });
 http
     .createServer(function (req, res) {

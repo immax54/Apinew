@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.Places = void 0;
 var typeorm_1 = require("typeorm");
+var ConnectionSubjectPlaces_1 = require("./ConnectionSubjectPlaces");
 var Places = /** @class */ (function () {
     function Places() {
     }
@@ -15,11 +16,13 @@ var Places = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], Places.prototype, "id");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Places.prototype, "name");
     __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Places.prototype, "created");
+        (0, typeorm_1.OneToMany)(function () { return ConnectionSubjectPlaces_1.ConnectionSubjectPlaces; }, function (ConnectionSubjectPlaces) { return ConnectionSubjectPlaces.Places; }, {
+            cascade: true
+        })
+    ], Places.prototype, "ConnectionSubjectPlaces");
     Places = __decorate([
         (0, typeorm_1.Entity)("Places")
     ], Places);

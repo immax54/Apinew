@@ -8,31 +8,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.Account = void 0;
 var typeorm_1 = require("typeorm");
-var Client_1 = require("./Client");
+var User_1 = require("./User");
 var Account = /** @class */ (function () {
     function Account() {
     }
     __decorate([
-        (0, typeorm_1.PrimaryGeneratedColumn)() //проф + role... таблиц связи проф, между пользователями
+        (0, typeorm_1.PrimaryGeneratedColumn)() // проф + role... таблиц связи проф, между пользователями
     ], Account.prototype, "id");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Account.prototype, "login");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Account.prototype, "password");
     __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Account.prototype, "created");
-    __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.Account; }),
-        (0, typeorm_1.Column)('numeric'),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.Account; }),
+        (0, typeorm_1.Column)("numeric"),
         (0, typeorm_1.JoinColumn)({
-            name: 'user_id'
+            name: "user_id"
         })
     ], Account.prototype, "user");
     Account = __decorate([
-        (0, typeorm_1.Entity)('accounts')
+        (0, typeorm_1.Entity)("accounts")
     ], Account);
     return Account;
 }());

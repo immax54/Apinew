@@ -19,7 +19,7 @@ var Roles = /** @class */ (function () {
         (0, typeorm_1.Column)("text")
     ], Roles.prototype, "name");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return ConnectionUserRole_1.ConnectionUserRole; }, function (ConnectionUserRole) { return ConnectionUserRole.Roles; }, {
+        (0, typeorm_1.OneToMany)(function () { return ConnectionUserRole_1.ConnectionUserRole; }, function (ConnectionUserRole) { return ConnectionUserRole.Role; }, {
             cascade: true
         })
     ], Roles.prototype, "ConnectionUserRole");

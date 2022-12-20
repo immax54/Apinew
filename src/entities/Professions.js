@@ -6,20 +6,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.Professions = void 0;
+exports.Profession = void 0;
 var typeorm_1 = require("typeorm");
-var Professions = /** @class */ (function () {
-    function Professions() {
+var ConnectionUserProfession_1 = require("./ConnectionUserProfession");
+var Profession = /** @class */ (function () {
+    function Profession() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)()
-    ], Professions.prototype, "id");
+    ], Profession.prototype, "id");
     __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Professions.prototype, "name");
-    Professions = __decorate([
-        (0, typeorm_1.Entity)("Professions")
-    ], Professions);
-    return Professions;
+        (0, typeorm_1.Column)("text")
+    ], Profession.prototype, "name");
+    __decorate([
+        (0, typeorm_1.OneToMany)(function () { return ConnectionUserProfession_1.ConnectionUserProfession; }, function (ConnectionUserProfession) { return ConnectionUserProfession.Profession; }, {
+            cascade: true
+        })
+    ], Profession.prototype, "ConnectionUserProfession");
+    Profession = __decorate([
+        (0, typeorm_1.Entity)("Profession")
+    ], Profession);
+    return Profession;
 }());
-exports.Professions = Professions;
+exports.Profession = Profession;

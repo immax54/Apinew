@@ -1,13 +1,20 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ConnectionSubjectPlaces } from "./ConnectionSubjectPlaces";
+
 @Entity("Places")
-export class Places
-{
-@PrimaryGeneratedColumn()
-id!:number;
+export class Places {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-@Column('text')
-name!:string
+  @Column("text")
+  name!: string;
 
-@Column('text')
-created!:string
+  @OneToMany(
+    () => ConnectionSubjectPlaces,
+    (ConnectionSubjectPlaces) => ConnectionSubjectPlaces.Places,
+    {
+      cascade: true,
+    }
+  )
+  ConnectionSubjectPlaces: ConnectionSubjectPlaces;
 }

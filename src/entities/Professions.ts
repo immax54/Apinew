@@ -1,10 +1,20 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-@Entity("Professions")
-export class Professions
-{
-@PrimaryGeneratedColumn()
-id!:number;
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ConnectionUserProfession } from "./ConnectionUserProfession";
 
-@Column('text')
-name!:string
+@Entity("Profession")
+export class Profession {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column("text")
+  name!: string;
+
+  @OneToMany(
+    () => ConnectionUserProfession,
+    (ConnectionUserProfession) => ConnectionUserProfession.Profession,
+    {
+      cascade: true,
+    }
+  )
+  ConnectionUserProfession: ConnectionUserProfession;
 }

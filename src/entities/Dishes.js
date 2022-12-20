@@ -17,14 +17,11 @@ var Dishes = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], Dishes.prototype, "id");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Dishes.prototype, "dish");
     __decorate([
-        (0, typeorm_1.Column)('boolean')
+        (0, typeorm_1.Column)("boolean")
     ], Dishes.prototype, "active");
-    __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Dishes.prototype, "created");
     __decorate([
         (0, typeorm_1.OneToMany)(function () { return Brack_1.Bracklog; }, function (Bracklog) { return Bracklog.dish; }, {
             cascade: true
@@ -32,9 +29,9 @@ var Dishes = /** @class */ (function () {
     ], Dishes.prototype, "Bracklog");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Categories_1.Categories; }, function (Category) { return Category.id; }),
-        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
-            name: 'categoryId'
+            name: "categoryId"
         })
     ], Dishes.prototype, "Category");
     Dishes = __decorate([

@@ -1,29 +1,27 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import { User } from "./Client";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { User } from "./User";
 
-@Entity('accounts')
-export class Account  {
-    @PrimaryGeneratedColumn()//проф + role... таблиц связи проф, между пользователями
-    id!:number
+@Entity("accounts")
+export class Account {
+  @PrimaryGeneratedColumn() // проф + role... таблиц связи проф, между пользователями
+  id!: number;
 
-    @Column('text')
-    login!:string
+  @Column("text")
+  login!: string;
 
-    @Column('text')
-    password!:string
+  @Column("text")
+  password!: string;
 
-    @Column('text')
-    created!:Date;
-    
-    
-@ManyToOne(
-    () =>User,
-    user => user.Account
-    )
-
-@Column('numeric')
-@JoinColumn({
-    name:'user_id'
-})
-user:User
+  @ManyToOne(() => User, (user) => user.Account)
+  @Column("numeric")
+  @JoinColumn({
+    name: "user_id",
+  })
+  user: User;
 }

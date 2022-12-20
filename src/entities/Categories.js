@@ -16,11 +16,8 @@ var Categories = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], Categories.prototype, "id");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Categories.prototype, "name");
-    __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Categories.prototype, "created");
     __decorate([
         (0, typeorm_1.OneToMany)(function () { return Dishes_1.Dishes; }, function (Dishes) { return Dishes.Category; }, {
             cascade: true

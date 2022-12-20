@@ -8,9 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.Appliance = void 0;
 var typeorm_1 = require("typeorm");
-var Objects_1 = require("./Objects");
-var Places_1 = require("./Places");
-var Typedepartment_1 = require("./Typedepartment");
+var ConnectionSubjectPlaces_1 = require("./ConnectionSubjectPlaces");
+var TemperatureControl_1 = require("./TemperatureControl");
 var Appliance = /** @class */ (function () {
     function Appliance() {
     }
@@ -18,41 +17,29 @@ var Appliance = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], Appliance.prototype, "id");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Appliance.prototype, "name");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Appliance.prototype, "normalpoint");
     __decorate([
-        (0, typeorm_1.Column)('integer')
+        (0, typeorm_1.Column)("integer")
     ], Appliance.prototype, "startnormalpoint");
     __decorate([
-        (0, typeorm_1.Column)('integer')
+        (0, typeorm_1.Column)("integer")
     ], Appliance.prototype, "endnormalpoint");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Objects_1.Subject; }, function (Subject) { return Subject.name; }),
-        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.ManyToOne)(function () { return ConnectionSubjectPlaces_1.ConnectionSubjectPlaces; }, function (ConnectionSubjectPlaces) { return ConnectionSubjectPlaces.id; }),
+        (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
-            name: 'subjectId'
+            name: "placeId"
         })
-    ], Appliance.prototype, "Subject");
+    ], Appliance.prototype, "ConnectionSubjectPlaces");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Places_1.Places; }, function (Place) { return Place.name; }),
-        (0, typeorm_1.Column)('integer'),
-        (0, typeorm_1.JoinColumn)({
-            name: 'placeId'
+        (0, typeorm_1.OneToMany)(function () { return TemperatureControl_1.TemperatureControlLog; }, function (TemperatureControlLog) { return TemperatureControlLog.Appliance; }, {
+            cascade: true
         })
-    ], Appliance.prototype, "Place");
-    __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Typedepartment_1.Department; }, function (Department) { return Department.name; }),
-        (0, typeorm_1.Column)('integer'),
-        (0, typeorm_1.JoinColumn)({
-            name: 'departmentId'
-        })
-    ], Appliance.prototype, "Department");
-    __decorate([
-        (0, typeorm_1.Column)('text')
-    ], Appliance.prototype, "created");
+    ], Appliance.prototype, "TemperatureControlLog");
     Appliance = __decorate([
         (0, typeorm_1.Entity)("Appliance")
     ], Appliance);

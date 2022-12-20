@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.Bracklog = void 0;
 var typeorm_1 = require("typeorm");
-var Client_1 = require("./Client");
+var User_1 = require("./User");
 var Dishes_1 = require("./Dishes");
 var Bracklog = /** @class */ (function () {
     function Bracklog() {
@@ -18,39 +18,39 @@ var Bracklog = /** @class */ (function () {
     ], Bracklog.prototype, "id");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Dishes_1.Dishes; }, function (dish) { return dish.dish; }),
-        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
-            name: 'dishId'
+            name: "dishId"
         })
     ], Bracklog.prototype, "dish");
     __decorate([
-        (0, typeorm_1.Column)('integer')
+        (0, typeorm_1.Column)("integer")
     ], Bracklog.prototype, "timespend");
     __decorate([
-        (0, typeorm_1.Column)('integer')
+        (0, typeorm_1.Column)("integer")
     ], Bracklog.prototype, "rating");
     __decorate([
-        (0, typeorm_1.Column)('integer')
+        (0, typeorm_1.Column)("integer")
     ], Bracklog.prototype, "serveTime");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Bracklog.prototype, "note");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Bracklog.prototype, "date");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (user) { return user.Bracklog; }),
-        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.Bracklog; }),
+        (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
-            name: 'user_id'
+            name: "user_id"
         })
     ], Bracklog.prototype, "user");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (userdone) { return userdone.Bracklog; } //date + id_usera    
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (userdone) { return userdone.Bracklog; } // date + id_usera
         ),
-        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
-            name: 'userdone' //id_Bracklog +date+ id_usera    
+            name: "userdone"
         })
     ], Bracklog.prototype, "userdone");
     Bracklog = __decorate([

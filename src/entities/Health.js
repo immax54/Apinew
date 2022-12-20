@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.Health = void 0;
 var typeorm_1 = require("typeorm");
-var Client_1 = require("./Client");
-var ConnectionUserProfession_copy_1 = require("./ConnectionUserProfession copy");
+var User_1 = require("./User");
+var ConnectionUserProfession_1 = require("./ConnectionUserProfession");
 var Health = /** @class */ (function () {
     function Health() {
     }
@@ -17,38 +17,38 @@ var Health = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], Health.prototype, "id");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return ConnectionUserProfession_copy_1.ConnectionUserProfession; }, function (ConnectionUserProfession) { return ConnectionUserProfession.Professions; }),
-        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.ManyToOne)(function () { return ConnectionUserProfession_1.ConnectionUserProfession; }, function (ConnectionUserProfession) { return ConnectionUserProfession.Profession; }),
+        (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
-            name: 'userProfessionId'
+            name: "userProfessionId"
         })
     ], Health.prototype, "ConnectionUserProfession");
     __decorate([
-        (0, typeorm_1.Column)('boolean')
+        (0, typeorm_1.Column)("boolean")
     ], Health.prototype, "okz");
     __decorate([
-        (0, typeorm_1.Column)('boolean')
+        (0, typeorm_1.Column)("boolean")
     ], Health.prototype, "anginamark");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Health.prototype, "diagnos");
     __decorate([
-        (0, typeorm_1.Column)('boolean')
+        (0, typeorm_1.Column)("boolean")
     ], Health.prototype, "passtowork");
     __decorate([
-        (0, typeorm_1.Column)('text')
+        (0, typeorm_1.Column)("text")
     ], Health.prototype, "date");
     __decorate([
-        (0, typeorm_1.Column)('boolean')
+        (0, typeorm_1.Column)("boolean")
     ], Health.prototype, "signSupervisor");
     __decorate([
-        (0, typeorm_1.Column)('boolean')
+        (0, typeorm_1.Column)("boolean")
     ], Health.prototype, "signWorker");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Client_1.User; }, function (User) { return User.Health; }),
-        (0, typeorm_1.Column)('integer'),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (User) { return User.Health; }),
+        (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
-            name: 'user_id'
+            name: "user_id"
         })
     ], Health.prototype, "User");
     Health = __decorate([

@@ -81,8 +81,8 @@ var AppDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: "postgres",
-    password: "123",
+    username: "pi",
+    password: "pi",
     database: "postgres",
     entities: [
         User_1.User,
@@ -122,7 +122,7 @@ function GetData(res) {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
 }
-ngrok.authtoken("2GuBDDtmUMvGx04gv6xhgUaVsPc_5Pyi3ytd1Ej7d14XkDiLf");
+ngrok.authtoken("2Gj2e1okLI8jtft3cqzgiDaztCJ_795j3CUFjQGGhvgcLSu4r");
 ngrok
     .connect(8080)
     .then(function (data) { return console.log(data); })["catch"](function (error) { return error; });

@@ -1,4 +1,5 @@
 import type { DataSource } from "typeorm";
+import type { ServerResponse } from "http";
 import { User } from "../entities/User";
 
 function isJsonString(str: string) {
@@ -9,17 +10,15 @@ function isJsonString(str: string) {
   }
   return true;
 }
-let res: any;
 export async function userPost(
-  body: any[string],
+  body: string[],
   AppDataSource: DataSource,
-  res: any,
-  req: any
-): Promise<any> {
+  res: ServerResponse
+): Promise<void> {
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
-  if (isJsonString(body) === true) {
-    const resjson = JSON.parse(body);
+  if (isJsonString(body.toString()) === true) {
+    const resjson = JSON.parse(body.toString());
     const user = new User();
     user.name = resjson.name;
     user.surname = resjson.surname;
@@ -36,7 +35,6 @@ export async function userPost(
       AppDataSource.manager.save(user);
       res.write(`User has been added${JSON.stringify(user)}`);
       res.end();
-      console.log("User post");
     } else {
       res.write("ERROR! data error Data");
       res.end();

@@ -19,10 +19,10 @@ var Profession = /** @class */ (function () {
         (0, typeorm_1.Column)("text")
     ], Profession.prototype, "name");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return ConnectionUserProfession_1.ConnectionUserProfession; }, function (ConnectionUserProfession) { return ConnectionUserProfession.Profession; }, {
+        (0, typeorm_1.OneToMany)(function () { return ConnectionUserProfession_1.ConnectionUserProfession; }, function (ConnectionUserProfessions) { return ConnectionUserProfessions.Professions; }, {
             cascade: true
         })
-    ], Profession.prototype, "ConnectionUserProfession");
+    ], Profession.prototype, "ConnectionUserProfessions");
     Profession = __decorate([
         (0, typeorm_1.Entity)("Profession")
     ], Profession);

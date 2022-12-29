@@ -48,15 +48,15 @@ function applianceGet(AppDataSource, res) {
         return __generator(this, function (_a) {
             TempcontrolRepository = AppDataSource.getRepository(Devices_1.Appliance);
             TempcontrolRepository.createQueryBuilder("Appliance")
-                .leftJoin("Appliance.ConnectionSubjectPlaces", "ConnectionSubjectPlaces")
-                .leftJoin("ConnectionSubjectPlaces.Subject", "Subject")
+                .leftJoin("Appliance.ConnectionSubjectPlace", "ConnectionSubjectPlaces")
+                .leftJoin("ConnectionSubjectPlaces.Subjects", "Subject")
                 .addSelect(["Subject.name"])
-                .leftJoin("ConnectionSubjectPlaces.Places", "Places")
+                .leftJoin("ConnectionSubjectPlaces.Place", "Places")
                 .addSelect(["Places.name"])
-                .leftJoin("ConnectionSubjectPlaces.Department", "Department")
+                .leftJoin("ConnectionSubjectPlaces.Departments", "Department")
                 .addSelect(["Department.name"])
                 .getMany()
-                .then(function (data) { return writeend(JSON.stringify(data)); });
+                .then(function (data) { return writeend(JSON.stringify(data)); })["catch"](function (error) { return res.write(error); });
             return [2 /*return*/];
         });
     });

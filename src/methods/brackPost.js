@@ -42,26 +42,25 @@ function brackPost(body, AppDataSource, res) {
     return __awaiter(this, void 0, void 0, function () {
         function isJsonString(str) {
             try {
-                JSON.parse(str);
+                JSON.parse(str.toString());
             }
             catch (e) {
                 return false;
             }
             return true;
         }
-        function GetData(body, res) {
-            body = Uint8Array.toString();
-            res.on("error", function (err) {
-                console.error(err);
+        function GetData(response) {
+            response.on("error", function (err) {
+                res.write(err);
             });
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
+            response.statusCode = 500;
+            response.setHeader("Content-Type", "application/json");
         }
         var resjson, brack, created;
         return __generator(this, function (_a) {
-            GetData(body, res);
+            GetData(res);
             if (isJsonString(body) === true) {
-                resjson = JSON.parse(body);
+                resjson = JSON.parse(body.toString());
                 brack = new Brack_1.Bracklog();
                 brack.user = resjson.user;
                 brack.serveTime = resjson.serveTime;

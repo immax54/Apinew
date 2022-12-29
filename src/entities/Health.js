@@ -17,12 +17,12 @@ var Health = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], Health.prototype, "id");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return ConnectionUserProfession_1.ConnectionUserProfession; }, function (ConnectionUserProfession) { return ConnectionUserProfession.Profession; }),
+        (0, typeorm_1.ManyToOne)(function () { return ConnectionUserProfession_1.ConnectionUserProfession; }, function (ConnectionUserProfessions) { return ConnectionUserProfessions.Professions; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "userProfessionId"
         })
-    ], Health.prototype, "ConnectionUserProfession");
+    ], Health.prototype, "ConnectionUserProfessions");
     __decorate([
         (0, typeorm_1.Column)("boolean")
     ], Health.prototype, "okz");
@@ -45,12 +45,12 @@ var Health = /** @class */ (function () {
         (0, typeorm_1.Column)("boolean")
     ], Health.prototype, "signWorker");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (User) { return User.Health; }),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (Users) { return Users.Healths; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "user_id"
         })
-    ], Health.prototype, "User");
+    ], Health.prototype, "Users");
     Health = __decorate([
         (0, typeorm_1.Entity)("Health")
     ], Health);

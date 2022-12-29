@@ -42,35 +42,34 @@ function proffessionPost(body, AppDataSource, res) {
     return __awaiter(this, void 0, void 0, function () {
         function isJsonString(str) {
             try {
-                JSON.parse(str);
+                JSON.parse(str.toString());
             }
             catch (e) {
                 return false;
             }
             return true;
         }
-        function GetData(body, res) {
-            body = Uint8Array.toString();
-            res.on("error", function (err) {
-                console.error(err);
+        function GetData(response) {
+            response.on("error", function (err) {
+                response.write(err);
             });
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "application/json");
         }
         var resjson, profession;
         return __generator(this, function (_a) {
-            GetData(body, res);
+            GetData(res);
             if (isJsonString(body) === true) {
-                GetData(body, res);
+                GetData(res);
                 if (isJsonString(body) === true) {
-                    resjson = JSON.parse(body);
+                    resjson = JSON.parse(body.toString());
                     profession = new Professions_1.Profession();
                     profession.name = resjson.profession;
                     if (typeof profession.name === "string") {
                         AppDataSource.manager.save(profession);
                         res.write("Profession has been added".concat(JSON.stringify(profession)));
                         res.end();
-                        console.log("Profession post");
+                        // console.log("Profession post");
                     }
                     else {
                         res.write("ERROR! data error Data");

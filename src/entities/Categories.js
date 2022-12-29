@@ -19,10 +19,10 @@ var Categories = /** @class */ (function () {
         (0, typeorm_1.Column)("text")
     ], Categories.prototype, "name");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Dishes_1.Dishes; }, function (Dishes) { return Dishes.Category; }, {
+        (0, typeorm_1.OneToMany)(function () { return Dishes_1.Dishes; }, function (Dish) { return Dish.Category; }, {
             cascade: true
         })
-    ], Categories.prototype, "Dishes");
+    ], Categories.prototype, "Dish");
     Categories = __decorate([
         (0, typeorm_1.Entity)("Categories")
     ], Categories);

@@ -2,8 +2,6 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToMany,
   ManyToOne,
   JoinColumn,
 } from "typeorm";
@@ -23,7 +21,7 @@ export class NotificationsTempcontrolLog {
 
   @ManyToOne(
     () => TemperatureControlLog,
-    (TemperatureControlLog) => TemperatureControlLog.id,
+    (TemperatureControlLogs) => TemperatureControlLogs.id,
     {
       cascade: true,
     }
@@ -32,14 +30,14 @@ export class NotificationsTempcontrolLog {
   @JoinColumn({
     name: "TemperatureСontrolLogId",
   })
-  TemperatureControlLog: TemperatureControlLog;
+  TemperatureControlLogs: TemperatureControlLog;
 
-  @ManyToOne(() => User, (User) => User.id)
+  @ManyToOne(() => User, (Users) => Users.id)
   @Column("integer")
   @JoinColumn({
     name: "userId",
   })
-  User: User;
+  Users: User;
 
   TemperatureСontrolLog: string;
 }

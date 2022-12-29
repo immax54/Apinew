@@ -23,10 +23,10 @@ var Dishes = /** @class */ (function () {
         (0, typeorm_1.Column)("boolean")
     ], Dishes.prototype, "active");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Brack_1.Bracklog; }, function (Bracklog) { return Bracklog.dish; }, {
+        (0, typeorm_1.OneToMany)(function () { return Brack_1.Bracklog; }, function (Bracklogs) { return Bracklogs.dish; }, {
             cascade: true
         })
-    ], Dishes.prototype, "Bracklog");
+    ], Dishes.prototype, "Bracklogs");
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return Categories_1.Categories; }, function (Category) { return Category.id; }),
         (0, typeorm_1.Column)("integer"),

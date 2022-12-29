@@ -4,7 +4,6 @@ import { Bracklog } from "./Brack";
 import { Health } from "./Health";
 import { TemperatureControlLog } from "./TemperatureControl";
 import { ConnectionUserRole } from "./ConnectionUserRole";
-
 import { ConnectionUserProfession } from "./ConnectionUserProfession";
 
 @Entity("user")
@@ -27,48 +26,45 @@ export class User {
   @Column("boolean")
   banned!: boolean;
 
-  @OneToMany(() => Bracklog, (Bracklog) => Bracklog.user, {
+  @OneToMany(() => Bracklog, (Bracklogs) => Bracklogs.user, {
     cascade: true,
   })
-  Bracklog: Bracklog;
+  Bracklogs: Bracklog;
 
-  @OneToMany(() => Bracklog, (Bracklog) => Bracklog.userdone, {
-    cascade: true,
-  })
   @OneToMany(
     () => ConnectionUserProfession,
-    (ConnectionUserProfession) => ConnectionUserProfession.User,
+    (ConnectionUserProfessions) => ConnectionUserProfessions.Users,
     {
       cascade: true,
     }
   )
-  ConnectionUserProfession: ConnectionUserProfession;
+  ConnectionUserProfessions: ConnectionUserProfession;
 
-  @OneToMany(() => Account, (Account) => Account.user, {
+  @OneToMany(() => Account, (Accounts) => Accounts.user, {
     cascade: true,
   })
-  Account: Account;
+  Accounts: Account;
 
   @OneToMany(
     () => ConnectionUserRole,
-    (ConnectionUserRole) => ConnectionUserRole.User,
+    (ConnectionUserRoles) => ConnectionUserRoles.Users,
     {
       cascade: true,
     }
   )
-  ConnectionUserRole: ConnectionUserRole;
+  ConnectionUserRoles: ConnectionUserRole;
 
-  @OneToMany(() => Health, (Health) => Health.User, {
+  @OneToMany(() => Health, (Healths) => Healths.Users, {
     cascade: true,
   })
-  Health: Health;
+  Healths: Health;
 
   @OneToMany(
     () => TemperatureControlLog,
-    (TemperatureControlLog) => TemperatureControlLog.user,
+    (TemperatureControlLogs) => TemperatureControlLogs.user,
     {
       cascade: true,
     }
   )
-  TemperatureСontrolLog: TemperatureControlLog;
+  TemperatureСontrolLogs: TemperatureControlLog;
 }

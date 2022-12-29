@@ -15,25 +15,22 @@ export class ConnectionUserProfession {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Profession, (Profession) => Profession.id)
+  @ManyToOne(() => Profession, (Professions) => Professions.id)
   @Column("integer")
   @JoinColumn({
     name: "professionId",
   })
-  Profession: Profession;
+  Professions: Profession;
 
-  @ManyToOne(() => User, (User) => User.id)
+  @ManyToOne(() => User, (Users) => Users.id)
   @Column("integer")
   @JoinColumn({
     name: "userId",
   })
-  User: User;
-  @OneToMany(
-    () => Appliance,
-    (Appliance) => Appliance.name,
-    {
-      cascade: true,
-    }
-  )
-  Appliance: Appliance;
+  Users: User;
+
+  @OneToMany(() => Appliance, (Appliances) => Appliances.name, {
+    cascade: true,
+  })
+  Appliances: Appliance;
 }

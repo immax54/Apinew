@@ -24,12 +24,12 @@ var ConnectionUserRole = /** @class */ (function () {
         })
     ], ConnectionUserRole.prototype, "Role");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (User) { return User.id; }),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (Users) { return Users.id; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "userId"
         })
-    ], ConnectionUserRole.prototype, "User");
+    ], ConnectionUserRole.prototype, "Users");
     ConnectionUserRole = __decorate([
         (0, typeorm_1.Entity)("ConnectionUserRole")
     ], ConnectionUserRole);

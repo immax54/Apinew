@@ -1,11 +1,11 @@
 import type { DataSource } from "typeorm";
-import e from "cors";
+import type { ServerResponse } from "http";
+import type { IncomingMessage } from "http";
 import { User } from "../entities/User";
 
-function GetData(body: any[string], res: any[string]) {
-  body = Uint8Array.toString();
+function GetData(res: ServerResponse) {
   res.on("error", (err: string) => {
-    console.error(err);
+    res.write(err);
   });
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
@@ -13,57 +13,58 @@ function GetData(body: any[string], res: any[string]) {
 function isJsonString(str: string) {
   try {
     JSON.parse(str);
-  } catch (e) {
+  } catch (err) {
     return false;
   }
   return true;
 }
 export function getUser(
   AppDataSource: DataSource,
-  res: any[string],
-  body: any[string],
-  req: any[string]
+  res: ServerResponse,
+  body: string[],
+  req: IncomingMessage
 ) {
-  function writeend(data: any[string]): void {
+  function writeend(data: string): void {
     res.write(data);
     res.end();
   }
 
   req
     .on("error", (err: string) => {
-      console.error(err);
+      res.write(err);
     })
     .on("data", (chunk: string) => {
       body.push(chunk);
     })
     .on("end", async () => {
-      GetData(body, res);
-      if (isJsonString(body) === true) {
-        const resjson = JSON.parse(body);
+      GetData(res);
+      if (isJsonString(body.toString()) === true) {
+        const resjson = JSON.parse(body.toString());
         const rolesRepository = AppDataSource.getRepository(User);
         if (typeof resjson.id === "number") {
           rolesRepository
             .createQueryBuilder("User")
             .where(`User.id = ${resjson.id}`)
-            .leftJoin("User.ConnectionUserRole", "ConnectionUserRole")
-            .addSelect(["ConnectionUserRole.Role"])
-            .leftJoin("ConnectionUserRole.Role", "Role")
+            .leftJoin("User.ConnectionUserRoles", "ConnectionUserRoles")
+            .addSelect(["ConnectionUserRoles.Role"])
+            .leftJoin("ConnectionUserRoles.Role", "Role")
             .addSelect(["Role.name"])
             .leftJoin(
-              "User.ConnectionUserProfession",
+              "User.ConnectionUserProfessions",
               "ConnectionUserProfession"
             )
-            .addSelect(["ConnectionUserProfession.Profession"])
-            .leftJoin("ConnectionUserProfession.Profession", "Profession")
+            .addSelect(["ConnectionUserProfession.Professions"])
+            .leftJoin("ConnectionUserProfession.Professions", "Profession")
             .addSelect(["Profession.name"])
-            .leftJoin("User.Health", "Health")
+            .leftJoin("User.Healths", "Health")
             .addSelect("Health.signWorker")
-            .leftJoin("User.Bracklog", "Bracklog")
+            .leftJoin("User.Bracklogs", "Bracklog")
             .addSelect(["Bracklog.id"])
-            .leftJoin("User.TemperatureСontrolLog", "TemperatureСontrolLog")
+            .leftJoin("User.TemperatureСontrolLogs", "TemperatureСontrolLog")
             .addSelect(["TemperatureСontrolLog.id"])
             .getMany()
-            .then((data) => writeend(JSON.stringify(data)));
+            .then((data) => writeend(JSON.stringify(data)))
+            .catch((err) => err);
         } else {
           res.write("ERROR! id isnt number");
           res.end();

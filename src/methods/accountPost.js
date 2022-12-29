@@ -42,33 +42,32 @@ function accountPost(body, AppDataSource, res, req) {
     return __awaiter(this, void 0, void 0, function () {
         function isJsonString(str) {
             try {
-                JSON.parse(str);
+                JSON.parse(str.toString());
             }
             catch (e) {
                 return false;
             }
             return true;
         }
-        function GetData(body, res) {
-            body = Uint8Array.toString();
-            res.on("error", function (err) {
-                console.error(err);
+        function GetData(response) {
+            response.on("error", function (err) {
+                res.write(err);
             });
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "application/json");
         }
         return __generator(this, function (_a) {
             req
                 .on("error", function (err) {
-                console.error(err);
+                res.write(err);
             })
                 .on("data", function (chunk) {
                 body.push(chunk);
             })
                 .on("end", function () {
-                GetData(body, res);
+                GetData(res);
                 if (isJsonString(body) === true) {
-                    var resjson = JSON.parse(body);
+                    var resjson = JSON.parse(body.toString());
                     var connect = new Accounts_1.Account();
                     connect.login = resjson.login;
                     connect.password = resjson.password;
@@ -79,7 +78,7 @@ function accountPost(body, AppDataSource, res, req) {
                         AppDataSource.manager.save(connect);
                         res.write("Connection has been added".concat(JSON.stringify(connect)));
                         res.end();
-                        console.log("Connection post");
+                        // console.log("Connection post");
                     }
                     else {
                         res.write("ERROR! data error Data");

@@ -25,10 +25,10 @@ var Subject = /** @class */ (function () {
         (0, typeorm_1.Column)("text")
     ], Subject.prototype, "type");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return ConnectionSubjectPlaces_1.ConnectionSubjectPlaces; }, function (ConnectionSubjectPlaces) { return ConnectionSubjectPlaces.Subject; }, {
+        (0, typeorm_1.OneToMany)(function () { return ConnectionSubjectPlaces_1.ConnectionSubjectPlaces; }, function (ConnectionSubjectPlace) { return ConnectionSubjectPlace.Subjects; }, {
             cascade: true
         })
-    ], Subject.prototype, "ConnectionSubjectPlaces");
+    ], Subject.prototype, "ConnectionSubjectPlace");
     Subject = __decorate([
         (0, typeorm_1.Entity)("subject")
     ], Subject);

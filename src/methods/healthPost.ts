@@ -1,42 +1,42 @@
 import type { DataSource } from "typeorm";
+import type { IncomingMessage, ServerResponse } from "http";
 import { Health } from "../entities/Health";
 
 export async function healthPost(
-  body: any[string],
+  body: string[],
   AppDataSource: DataSource,
-  res: any,
-  req: any
-): Promise<any> {
-  function isJsonString(str: string) {
+  res: ServerResponse,
+  req: IncomingMessage
+): Promise<void> {
+  function isJsonString(str: string[]) {
     try {
-      JSON.parse(str);
+      JSON.parse(str.toString());
     } catch (e) {
       return false;
     }
     return true;
   }
-  function GetData(body: string | any[], res: any) {
-    body = Uint8Array.toString();
-    res.on("error", (err: string) => {
-      console.error(err);
+  function GetData(response: ServerResponse) {
+    response.on("error", (err: string) => {
+      res.write(err);
     });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "application/json");
   }
   req
     .on("error", (err: string) => {
-      console.error(err);
+      res.write(err);
     })
     .on("data", (chunk: string) => {
       body.push(chunk);
     })
     .on("end", () => {
-      GetData(body, res);
+      GetData(res);
       if (isJsonString(body) === true) {
-        const resjson = JSON.parse(body);
+        const resjson = JSON.parse(body.toString());
         const health = new Health();
-        health.User = resjson.user;
-        health.ConnectionUserProfession = resjson.connectionUserProfession;
+        health.Users = resjson.user;
+        health.ConnectionUserProfessions = resjson.connectionUserProfession;
         health.okz = resjson.okz;
         health.anginamark = resjson.anginamark;
         health.diagnos = resjson.diagnos;
@@ -47,11 +47,10 @@ export async function healthPost(
         }-${created.getFullYear()}`;
         health.signSupervisor = false;
         health.signWorker = false;
-
         if (
           typeof health.signSupervisor === "boolean" &&
           typeof health.signWorker === "boolean" &&
-          health.User != null &&
+          health.Users != null &&
           health.okz != null &&
           typeof health.okz === "boolean" &&
           health.anginamark != null &&
@@ -59,12 +58,12 @@ export async function healthPost(
           health.diagnos != null &&
           health.passtowork != null &&
           typeof health.passtowork === "boolean" &&
-          typeof health.ConnectionUserProfession === "number"
+          typeof health.ConnectionUserProfessions === "number"
         ) {
           AppDataSource.manager.save(health);
           res.write(`Health has been added${JSON.stringify(health)}`);
           res.end();
-          console.log("Health post");
+          // console.log("Health post");
         } else {
           res.write("ERROR! data error Data");
           res.end();

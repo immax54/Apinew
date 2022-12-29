@@ -35,7 +35,7 @@ export class Bracklog {
   @Column("text")
   date!: string;
 
-  @ManyToOne(() => User, (user) => user.Bracklog)
+  @ManyToOne(() => User, (user) => user.Bracklogs)
   @Column("integer")
   @JoinColumn({
     name: "user_id",
@@ -44,7 +44,7 @@ export class Bracklog {
 
   @ManyToOne(
     () => User,
-    (userdone) => userdone.Bracklog // date + id_usera
+    (userdone) => userdone.Bracklogs // date + id_usera
   )
   @Column("integer")
   @JoinColumn({

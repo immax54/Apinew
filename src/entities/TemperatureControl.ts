@@ -28,14 +28,14 @@ export class TemperatureControlLog {
   @Column("boolean")
   sign!: boolean; // id_Tempcontrol_log +date+ id_usera          Подпись таблица
 
-  @ManyToOne(() => Appliance, (Appliance) => Appliance.name)
+  @ManyToOne(() => Appliance, (Appliances) => Appliances.name)
   @Column("integer")
   @JoinColumn({
     name: "applianceId",
   })
-  Appliance: Appliance;
+  Appliances: Appliance;
 
-  @ManyToOne(() => User, (user) => user.TemperatureСontrolLog)
+  @ManyToOne(() => User, (user) => user.TemperatureСontrolLogs)
   @Column("integer")
   @JoinColumn({
     name: "user_id",

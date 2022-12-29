@@ -15,13 +15,13 @@ export class Health {
 
   @ManyToOne(
     () => ConnectionUserProfession,
-    (ConnectionUserProfession) => ConnectionUserProfession.Profession
+    (ConnectionUserProfessions) => ConnectionUserProfessions.Professions
   )
   @Column("integer")
   @JoinColumn({
     name: "userProfessionId",
   })
-  ConnectionUserProfession: ConnectionUserProfession;
+  ConnectionUserProfessions: ConnectionUserProfession;
 
   @Column("boolean")
   okz!: boolean;
@@ -44,10 +44,10 @@ export class Health {
   @Column("boolean")
   signWorker!: boolean; // id_health_log +date+id_usera
 
-  @ManyToOne(() => User, (User) => User.Health)
+  @ManyToOne(() => User, (Users) => Users.Healths)
   @Column("integer")
   @JoinColumn({
     name: "user_id",
   })
-  User: User;
+  Users: User;
 }

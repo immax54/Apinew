@@ -47,15 +47,14 @@ function isJsonString(str) {
     }
     return true;
 }
-var res;
-function userPost(body, AppDataSource, res, req) {
+function userPost(body, AppDataSource, res) {
     return __awaiter(this, void 0, void 0, function () {
         var resjson, user;
         return __generator(this, function (_a) {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
-            if (isJsonString(body) === true) {
-                resjson = JSON.parse(body);
+            if (isJsonString(body.toString()) === true) {
+                resjson = JSON.parse(body.toString());
                 user = new User_1.User();
                 user.name = resjson.name;
                 user.surname = resjson.surname;
@@ -70,7 +69,6 @@ function userPost(body, AppDataSource, res, req) {
                     AppDataSource.manager.save(user);
                     res.write("User has been added".concat(JSON.stringify(user)));
                     res.end();
-                    console.log("User post");
                 }
                 else {
                     res.write("ERROR! data error Data");

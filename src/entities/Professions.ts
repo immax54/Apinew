@@ -11,10 +11,10 @@ export class Profession {
 
   @OneToMany(
     () => ConnectionUserProfession,
-    (ConnectionUserProfession) => ConnectionUserProfession.Profession,
+    (ConnectionUserProfessions) => ConnectionUserProfessions.Professions,
     {
       cascade: true,
     }
   )
-  ConnectionUserProfession: ConnectionUserProfession;
+  ConnectionUserProfessions: ConnectionUserProfession;
 }

@@ -9,8 +9,8 @@ export class Categories {
   @Column("text")
   name!: string;
 
-  @OneToMany(() => Dishes, (Dishes) => Dishes.Category, {
+  @OneToMany(() => Dishes, (Dish) => Dish.Category, {
     cascade: true,
   })
-  Dishes: Dishes;
+  Dish: Dishes;
 }

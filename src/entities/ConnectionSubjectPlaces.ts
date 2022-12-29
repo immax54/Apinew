@@ -14,24 +14,24 @@ export class ConnectionSubjectPlaces {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Subject, (Subject) => Subject.name)
+  @ManyToOne(() => Subject, (Subjects) => Subjects.name)
   @Column("integer")
   @JoinColumn({
     name: "subjectId",
   })
-  Subject: Subject;
+  Subjects: Subject;
 
-  @ManyToOne(() => Places, (Places) => Places.name)
+  @ManyToOne(() => Places, (Place) => Place.name)
   @Column("integer")
   @JoinColumn({
     name: "placeId",
   })
-  Places: Places;
+  Place: Places;
 
-  @ManyToOne(() => Department, (Department) => Department.name)
+  @ManyToOne(() => Department, (Departments) => Departments.name)
   @Column("integer")
   @JoinColumn({
     name: "departmetId",
   })
-  Department: Department;
+  Departments: Department;
 }

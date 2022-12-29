@@ -23,21 +23,21 @@ var NotificationsTempcontrolLog = /** @class */ (function () {
         (0, typeorm_1.Column)("boolean")
     ], NotificationsTempcontrolLog.prototype, "statusNotification");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return TemperatureControl_1.TemperatureControlLog; }, function (TemperatureControlLog) { return TemperatureControlLog.id; }, {
+        (0, typeorm_1.ManyToOne)(function () { return TemperatureControl_1.TemperatureControlLog; }, function (TemperatureControlLogs) { return TemperatureControlLogs.id; }, {
             cascade: true
         }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "TemperatureСontrolLogId"
         })
-    ], NotificationsTempcontrolLog.prototype, "TemperatureControlLog");
+    ], NotificationsTempcontrolLog.prototype, "TemperatureControlLogs");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (User) { return User.id; }),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (Users) { return Users.id; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "userId"
         })
-    ], NotificationsTempcontrolLog.prototype, "User");
+    ], NotificationsTempcontrolLog.prototype, "Users");
     NotificationsTempcontrolLog = __decorate([
         (0, typeorm_1.Entity)("NotificationsTempcontrolLog")
     ], NotificationsTempcontrolLog);

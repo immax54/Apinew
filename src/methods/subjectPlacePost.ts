@@ -1,53 +1,53 @@
 import type { DataSource } from "typeorm";
-
+import type { ServerResponse } from "http";
+import type { IncomingMessage } from "http";
 import { ConnectionSubjectPlaces } from "../entities/ConnectionSubjectPlaces";
 
 export async function subjectPlacePost(
-  body: any[string],
+  body: string[],
   AppDataSource: DataSource,
-  res: any,
-  req: any[string]
-): Promise<any> {
-  function isJsonString(str: string) {
+  res: ServerResponse,
+  req: IncomingMessage
+): Promise<void> {
+  function isJsonString(str: string[]) {
     try {
-      JSON.parse(str);
+      JSON.parse(str.toString());
     } catch (e) {
       return false;
     }
     return true;
   }
-  function GetData(body: string | any[], res: any) {
-    body = Uint8Array.toString();
-    res.on("error", (err: string) => {
-      console.error(err);
+  function GetData(response: ServerResponse) {
+    response.on("error", (err: string) => {
+      response.write(err);
     });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "application/json");
   }
   req
     .on("error", (err: string) => {
-      console.error(err);
+      res.write(err);
     })
     .on("data", (chunk: string) => {
       body.push(chunk);
     })
     .on("end", () => {
-      GetData(body, res);
+      GetData(res);
       if (isJsonString(body) === true) {
-        const resjson = JSON.parse(body);
+        const resjson = JSON.parse(body.toString());
         const connect = new ConnectionSubjectPlaces();
-        connect.Places = resjson.place;
-        connect.Department = resjson.department;
-        connect.Subject = resjson.subject;
+        connect.Place = resjson.place;
+        connect.Departments = resjson.department;
+        connect.Subjects = resjson.subject;
         if (
-          typeof connect.Subject === "number" &&
-          typeof connect.Places === "number" &&
-          typeof connect.Department === "number"
+          typeof connect.Subjects === "number" &&
+          typeof connect.Place === "number" &&
+          typeof connect.Departments === "number"
         ) {
           AppDataSource.manager.save(connect);
           res.write(`Connection has been added${JSON.stringify(connect)}`);
           res.end();
-          console.log("Connection post");
+          // console.log("Connection post");
         } else {
           res.write("ERROR! data error Data");
           res.end();

@@ -42,36 +42,35 @@ function healthPost(body, AppDataSource, res, req) {
     return __awaiter(this, void 0, void 0, function () {
         function isJsonString(str) {
             try {
-                JSON.parse(str);
+                JSON.parse(str.toString());
             }
             catch (e) {
                 return false;
             }
             return true;
         }
-        function GetData(body, res) {
-            body = Uint8Array.toString();
-            res.on("error", function (err) {
-                console.error(err);
+        function GetData(response) {
+            response.on("error", function (err) {
+                res.write(err);
             });
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "application/json");
         }
         return __generator(this, function (_a) {
             req
                 .on("error", function (err) {
-                console.error(err);
+                res.write(err);
             })
                 .on("data", function (chunk) {
                 body.push(chunk);
             })
                 .on("end", function () {
-                GetData(body, res);
+                GetData(res);
                 if (isJsonString(body) === true) {
-                    var resjson = JSON.parse(body);
+                    var resjson = JSON.parse(body.toString());
                     var health = new Health_1.Health();
-                    health.User = resjson.user;
-                    health.ConnectionUserProfession = resjson.connectionUserProfession;
+                    health.Users = resjson.user;
+                    health.ConnectionUserProfessions = resjson.connectionUserProfession;
                     health.okz = resjson.okz;
                     health.anginamark = resjson.anginamark;
                     health.diagnos = resjson.diagnos;
@@ -82,7 +81,7 @@ function healthPost(body, AppDataSource, res, req) {
                     health.signWorker = false;
                     if (typeof health.signSupervisor === "boolean" &&
                         typeof health.signWorker === "boolean" &&
-                        health.User != null &&
+                        health.Users != null &&
                         health.okz != null &&
                         typeof health.okz === "boolean" &&
                         health.anginamark != null &&
@@ -90,11 +89,11 @@ function healthPost(body, AppDataSource, res, req) {
                         health.diagnos != null &&
                         health.passtowork != null &&
                         typeof health.passtowork === "boolean" &&
-                        typeof health.ConnectionUserProfession === "number") {
+                        typeof health.ConnectionUserProfessions === "number") {
                         AppDataSource.manager.save(health);
                         res.write("Health has been added".concat(JSON.stringify(health)));
                         res.end();
-                        console.log("Health post");
+                        // console.log("Health post");
                     }
                     else {
                         res.write("ERROR! data error Data");

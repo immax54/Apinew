@@ -29,17 +29,17 @@ var Appliance = /** @class */ (function () {
         (0, typeorm_1.Column)("integer")
     ], Appliance.prototype, "endnormalpoint");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return ConnectionSubjectPlaces_1.ConnectionSubjectPlaces; }, function (ConnectionSubjectPlaces) { return ConnectionSubjectPlaces.id; }),
+        (0, typeorm_1.ManyToOne)(function () { return ConnectionSubjectPlaces_1.ConnectionSubjectPlaces; }, function (ConnectionSubjectPlace) { return ConnectionSubjectPlace.id; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "placeId"
         })
-    ], Appliance.prototype, "ConnectionSubjectPlaces");
+    ], Appliance.prototype, "ConnectionSubjectPlace");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return TemperatureControl_1.TemperatureControlLog; }, function (TemperatureControlLog) { return TemperatureControlLog.Appliance; }, {
+        (0, typeorm_1.OneToMany)(function () { return TemperatureControl_1.TemperatureControlLog; }, function (TemperatureControlLogs) { return TemperatureControlLogs.Appliances; }, {
             cascade: true
         })
-    ], Appliance.prototype, "TemperatureControlLog");
+    ], Appliance.prototype, "TemperatureControlLogs");
     Appliance = __decorate([
         (0, typeorm_1.Entity)("Appliance")
     ], Appliance);

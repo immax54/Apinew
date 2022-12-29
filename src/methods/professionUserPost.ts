@@ -1,41 +1,41 @@
 import type { DataSource } from "typeorm";
+import type { ServerResponse } from "http";
 import { ConnectionUserProfession } from "../entities/ConnectionUserProfession";
 
 export async function proffessionUserPost(
-  body: any[string],
+  body: string[],
   AppDataSource: DataSource,
-  res: any
-): Promise<any> {
-  function isJsonString(str: string) {
+  res: ServerResponse
+): Promise<void> {
+  function isJsonString(str: string[]) {
     try {
-      JSON.parse(str);
+      JSON.parse(str.toString());
     } catch (e) {
       return false;
     }
     return true;
   }
-  function GetData(body: string | any[], res: any) {
-    body = Uint8Array.toString();
-    res.on("error", (err: string) => {
-      console.error(err);
+  function GetData(response: ServerResponse) {
+    response.on("error", (err: string) => {
+      res.write(err);
     });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "application/json");
   }
-  GetData(body, res);
+  GetData(res);
   if (isJsonString(body) === true) {
-    const resjson = JSON.parse(body);
+    const resjson = JSON.parse(body.toString());
     const profession = new ConnectionUserProfession();
-    profession.User = resjson.user;
-    profession.Profession = resjson.profession;
+    profession.Users = resjson.user;
+    profession.Professions = resjson.profession;
     if (
-      typeof profession.User === "number" &&
-      typeof profession.Profession === "number"
+      typeof profession.Users === "number" &&
+      typeof profession.Professions === "number"
     ) {
       AppDataSource.manager.save(profession);
       res.write(`Connection has been added${JSON.stringify(profession)}`);
       res.end();
-      console.log("Profession post");
+      // console.log("Profession post");
     } else {
       res.write("ERROR! data error Data");
       res.end();

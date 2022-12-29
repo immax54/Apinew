@@ -18,7 +18,7 @@ export class Account {
   @Column("text")
   password!: string;
 
-  @ManyToOne(() => User, (user) => user.Account)
+  @ManyToOne(() => User, (user) => user.Accounts)
   @Column("numeric")
   @JoinColumn({
     name: "user_id",

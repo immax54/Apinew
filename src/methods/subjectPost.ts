@@ -1,11 +1,12 @@
 import type { DataSource } from "typeorm";
+import type { ServerResponse } from "http";
 import { Subject } from "../entities/Objects";
 
 export async function subjectPost(
-  body: any[string],
+  body: string[],
   AppDataSource: DataSource,
-  res: any
-): Promise<any> {
+  res: ServerResponse
+): Promise<void> {
   function isJsonString(str: string) {
     try {
       JSON.parse(str);
@@ -14,17 +15,16 @@ export async function subjectPost(
     }
     return true;
   }
-  function GetData(body: string | any[], res: any) {
-    body = Uint8Array.toString();
-    res.on("error", (err: string) => {
-      console.error(err);
+  function GetData(response: ServerResponse) {
+    response.on("error", (err: string) => {
+      response.write(err);
     });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "application/json");
   }
-  GetData(body, res);
-  if (isJsonString(body) === true) {
-    const resjson = JSON.parse(body);
+  GetData(res);
+  if (isJsonString(body.toString()) === true) {
+    const resjson = JSON.parse(body.toString());
     const object = new Subject();
     object.name = resjson.name;
     object.type = resjson.type;
@@ -37,7 +37,7 @@ export async function subjectPost(
       AppDataSource.manager.save(object);
       res.write(`Subject has been added${JSON.stringify(object)}`);
       res.end();
-      console.log("Subject post");
+      // console.log("Subject post");
     } else {
       res.write("ERROR! data error Data");
       res.end();

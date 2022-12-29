@@ -20,10 +20,10 @@ export class Dishes {
   @Column("boolean")
   active!: boolean;
 
-  @OneToMany(() => Bracklog, (Bracklog) => Bracklog.dish, {
+  @OneToMany(() => Bracklog, (Bracklogs) => Bracklogs.dish, {
     cascade: true,
   })
-  Bracklog: Bracklog;
+  Bracklogs: Bracklog;
 
   @ManyToOne(() => Categories, (Category) => Category.id)
   @Column("integer")

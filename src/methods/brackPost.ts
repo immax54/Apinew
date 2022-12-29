@@ -1,30 +1,30 @@
 import type { DataSource } from "typeorm";
+import type { ServerResponse } from "http";
 import { Bracklog } from "../entities/Brack";
 
 export async function brackPost(
-  body: any[string],
+  body: string[],
   AppDataSource: DataSource,
-  res: any
+  res: ServerResponse
 ): Promise<boolean> {
-  function isJsonString(str: string) {
+  function isJsonString(str: string[]) {
     try {
-      JSON.parse(str);
+      JSON.parse(str.toString());
     } catch (e) {
       return false;
     }
     return true;
   }
-  function GetData(body: string | any[], res: any) {
-    body = Uint8Array.toString();
-    res.on("error", (err: string) => {
-      console.error(err);
+  function GetData(response: ServerResponse) {
+    response.on("error", (err: string) => {
+      res.write(err);
     });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "application/json");
   }
-  GetData(body, res);
+  GetData(res);
   if (isJsonString(body) === true) {
-    const resjson = JSON.parse(body);
+    const resjson = JSON.parse(body.toString());
     const brack = new Bracklog();
     brack.user = resjson.user;
     brack.serveTime = resjson.serveTime;

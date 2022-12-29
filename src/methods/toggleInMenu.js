@@ -47,39 +47,34 @@ function isJsonString(str) {
     }
     return true;
 }
-function GetData(body, res) {
-    body = Uint8Array.toString();
+function GetData(res) {
     res.on("error", function (err) {
-        console.error(err);
+        res.write(err);
     });
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
 }
-var res;
 function toggleInMenu(body, AppDataSource, res, req) {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             req
                 .on("error", function (err) {
-                console.error(err);
+                res.write(err);
             })
                 .on("data", function (chunk) {
                 body.push(chunk);
             })
                 .on("end", function () { return __awaiter(_this, void 0, void 0, function () {
-                var resjson, i, dishRepository, dishRepositoyrToUpdate, i, dishRepository, dishRepositoyrToUpdate;
+                var resjson, i, dishRepository, dishRepositoyrToUpdate, i, dishRepository, dishRepositoyrToUpdate_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            GetData(body, res);
-                            if (!(isJsonString(body) === true)) return [3 /*break*/, 9];
-                            resjson = JSON.parse(body);
-                            if (typeof resjson.dishToggleIn !== "object" &&
-                                typeof resjson.dishdishToggleOff !== "object") {
-                                res.write("ERROR! dish isnt array error");
-                                res.end();
-                            }
+                            GetData(res);
+                            if (!(isJsonString(body.toString()) === true)) return [3 /*break*/, 9];
+                            resjson = JSON.parse(body.toString());
+                            if (!(typeof resjson.dishToggleIn === "object" &&
+                                typeof resjson.dishToggleOff === "object")) return [3 /*break*/, 4];
                             i = 0;
                             _a.label = 1;
                         case 1:
@@ -87,7 +82,7 @@ function toggleInMenu(body, AppDataSource, res, req) {
                             dishRepository = AppDataSource.getRepository(Dishes_1.Dishes);
                             if (typeof resjson.dishToggleIn[i] !== "number") {
                                 res.write("ERROR! dish ".concat(resjson.dish[i], " not number error"));
-                                resjson.dishToggleIn[i] = resjson.dishToggleIn[i + 1];
+                                res.end;
                             }
                             return [4 /*yield*/, dishRepository.findOneBy({
                                     id: resjson.dishToggleIn[i]
@@ -96,8 +91,6 @@ function toggleInMenu(body, AppDataSource, res, req) {
                             dishRepositoyrToUpdate = _a.sent();
                             dishRepositoyrToUpdate.active = true;
                             dishRepository.manager.save(dishRepositoyrToUpdate);
-                            res.write("Dish has been toggled".concat(JSON.stringify(dishRepositoyrToUpdate)));
-                            res.end();
                             _a.label = 3;
                         case 3:
                             i++;
@@ -110,16 +103,16 @@ function toggleInMenu(body, AppDataSource, res, req) {
                             dishRepository = AppDataSource.getRepository(Dishes_1.Dishes);
                             if (typeof resjson.dishToggleOff[i] !== "number") {
                                 res.write("ERROR! dish ".concat(resjson.dish[i], " not number error"));
-                                resjson.dishToggleOff[i] = resjson.dishToggleOff[i + 1];
+                                res.end;
                             }
                             return [4 /*yield*/, dishRepository.findOneBy({
                                     id: resjson.dishToggleOff[i]
                                 })];
                         case 6:
-                            dishRepositoyrToUpdate = _a.sent();
-                            dishRepositoyrToUpdate.active = false;
-                            dishRepository.manager.save(dishRepositoyrToUpdate);
-                            res.write("Dish has been toggled".concat(JSON.stringify(dishRepositoyrToUpdate)));
+                            dishRepositoyrToUpdate_1 = _a.sent();
+                            dishRepositoyrToUpdate_1.active = false;
+                            dishRepository.manager.save(dishRepositoyrToUpdate_1);
+                            res.write("Dish has been toggled".concat(JSON.stringify(dishRepositoyrToUpdate_1)));
                             res.end();
                             _a.label = 7;
                         case 7:
@@ -127,7 +120,7 @@ function toggleInMenu(body, AppDataSource, res, req) {
                             return [3 /*break*/, 5];
                         case 8: return [3 /*break*/, 10];
                         case 9:
-                            res.write("ERROR! Input isnt JSON");
+                            res.write("ERROR! dish isnt array error");
                             res.end();
                             _a.label = 10;
                         case 10: return [2 /*return*/];
@@ -139,3 +132,4 @@ function toggleInMenu(body, AppDataSource, res, req) {
     });
 }
 exports.toggleInMenu = toggleInMenu;
+;

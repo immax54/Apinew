@@ -38,10 +38,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.getUser = void 0;
 var User_1 = require("../entities/User");
-function GetData(body, res) {
-    body = Uint8Array.toString();
+function GetData(res) {
     res.on("error", function (err) {
-        console.error(err);
+        res.write(err);
     });
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
@@ -50,7 +49,7 @@ function isJsonString(str) {
     try {
         JSON.parse(str);
     }
-    catch (e) {
+    catch (err) {
         return false;
     }
     return true;
@@ -63,7 +62,7 @@ function getUser(AppDataSource, res, body, req) {
     }
     req
         .on("error", function (err) {
-        console.error(err);
+        res.write(err);
     })
         .on("data", function (chunk) {
         body.push(chunk);
@@ -71,30 +70,30 @@ function getUser(AppDataSource, res, body, req) {
         .on("end", function () { return __awaiter(_this, void 0, void 0, function () {
         var resjson, rolesRepository;
         return __generator(this, function (_a) {
-            GetData(body, res);
-            if (isJsonString(body) === true) {
-                resjson = JSON.parse(body);
+            GetData(res);
+            if (isJsonString(body.toString()) === true) {
+                resjson = JSON.parse(body.toString());
                 rolesRepository = AppDataSource.getRepository(User_1.User);
                 if (typeof resjson.id === "number") {
                     rolesRepository
                         .createQueryBuilder("User")
                         .where("User.id = ".concat(resjson.id))
-                        .leftJoin("User.ConnectionUserRole", "ConnectionUserRole")
-                        .addSelect(["ConnectionUserRole.Role"])
-                        .leftJoin("ConnectionUserRole.Role", "Role")
+                        .leftJoin("User.ConnectionUserRoles", "ConnectionUserRoles")
+                        .addSelect(["ConnectionUserRoles.Role"])
+                        .leftJoin("ConnectionUserRoles.Role", "Role")
                         .addSelect(["Role.name"])
-                        .leftJoin("User.ConnectionUserProfession", "ConnectionUserProfession")
-                        .addSelect(["ConnectionUserProfession.Profession"])
-                        .leftJoin("ConnectionUserProfession.Profession", "Profession")
+                        .leftJoin("User.ConnectionUserProfessions", "ConnectionUserProfession")
+                        .addSelect(["ConnectionUserProfession.Professions"])
+                        .leftJoin("ConnectionUserProfession.Professions", "Profession")
                         .addSelect(["Profession.name"])
-                        .leftJoin("User.Health", "Health")
+                        .leftJoin("User.Healths", "Health")
                         .addSelect("Health.signWorker")
-                        .leftJoin("User.Bracklog", "Bracklog")
+                        .leftJoin("User.Bracklogs", "Bracklog")
                         .addSelect(["Bracklog.id"])
-                        .leftJoin("User.TemperatureСontrolLog", "TemperatureСontrolLog")
+                        .leftJoin("User.TemperatureСontrolLogs", "TemperatureСontrolLog")
                         .addSelect(["TemperatureСontrolLog.id"])
                         .getMany()
-                        .then(function (data) { return writeend(JSON.stringify(data)); });
+                        .then(function (data) { return writeend(JSON.stringify(data)); })["catch"](function (err) { return err; });
                 }
                 else {
                     res.write("ERROR! id isnt number");

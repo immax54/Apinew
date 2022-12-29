@@ -20,10 +20,10 @@ export class ConnectionUserRole {
   })
   Role: Roles;
 
-  @ManyToOne(() => User, (User) => User.id)
+  @ManyToOne(() => User, (Users) => Users.id)
   @Column("integer")
   @JoinColumn({
     name: "userId",
   })
-  User: User;
+  Users: User;
 }

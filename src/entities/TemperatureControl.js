@@ -32,14 +32,14 @@ var TemperatureControlLog = /** @class */ (function () {
         (0, typeorm_1.Column)("boolean")
     ], TemperatureControlLog.prototype, "sign");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Devices_1.Appliance; }, function (Appliance) { return Appliance.name; }),
+        (0, typeorm_1.ManyToOne)(function () { return Devices_1.Appliance; }, function (Appliances) { return Appliances.name; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "applianceId"
         })
-    ], TemperatureControlLog.prototype, "Appliance");
+    ], TemperatureControlLog.prototype, "Appliances");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.TemperatureСontrolLog; }),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.TemperatureСontrolLogs; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "user_id"

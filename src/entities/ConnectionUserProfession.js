@@ -18,24 +18,24 @@ var ConnectionUserProfession = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], ConnectionUserProfession.prototype, "id");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Professions_1.Profession; }, function (Profession) { return Profession.id; }),
+        (0, typeorm_1.ManyToOne)(function () { return Professions_1.Profession; }, function (Professions) { return Professions.id; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "professionId"
         })
-    ], ConnectionUserProfession.prototype, "Profession");
+    ], ConnectionUserProfession.prototype, "Professions");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (User) { return User.id; }),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (Users) { return Users.id; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "userId"
         })
-    ], ConnectionUserProfession.prototype, "User");
+    ], ConnectionUserProfession.prototype, "Users");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Devices_1.Appliance; }, function (Appliance) { return Appliance.name; }, {
+        (0, typeorm_1.OneToMany)(function () { return Devices_1.Appliance; }, function (Appliances) { return Appliances.name; }, {
             cascade: true
         })
-    ], ConnectionUserProfession.prototype, "Appliance");
+    ], ConnectionUserProfession.prototype, "Appliances");
     ConnectionUserProfession = __decorate([
         (0, typeorm_1.Entity)("ConnectionUserProfession")
     ], ConnectionUserProfession);

@@ -49,19 +49,18 @@ function subjectPost(body, AppDataSource, res) {
             }
             return true;
         }
-        function GetData(body, res) {
-            body = Uint8Array.toString();
-            res.on("error", function (err) {
-                console.error(err);
+        function GetData(response) {
+            response.on("error", function (err) {
+                response.write(err);
             });
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "application/json");
         }
         var resjson, object;
         return __generator(this, function (_a) {
-            GetData(body, res);
-            if (isJsonString(body) === true) {
-                resjson = JSON.parse(body);
+            GetData(res);
+            if (isJsonString(body.toString()) === true) {
+                resjson = JSON.parse(body.toString());
                 object = new Objects_1.Subject();
                 object.name = resjson.name;
                 object.type = resjson.type;
@@ -72,7 +71,7 @@ function subjectPost(body, AppDataSource, res) {
                     AppDataSource.manager.save(object);
                     res.write("Subject has been added".concat(JSON.stringify(object)));
                     res.end();
-                    console.log("Subject post");
+                    // console.log("Subject post");
                 }
                 else {
                     res.write("ERROR! data error Data");

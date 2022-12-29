@@ -36,38 +36,35 @@ var User = /** @class */ (function () {
         (0, typeorm_1.Column)("boolean")
     ], User.prototype, "banned");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Brack_1.Bracklog; }, function (Bracklog) { return Bracklog.user; }, {
+        (0, typeorm_1.OneToMany)(function () { return Brack_1.Bracklog; }, function (Bracklogs) { return Bracklogs.user; }, {
             cascade: true
         })
-    ], User.prototype, "Bracklog");
+    ], User.prototype, "Bracklogs");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Brack_1.Bracklog; }, function (Bracklog) { return Bracklog.userdone; }, {
-            cascade: true
-        }),
-        (0, typeorm_1.OneToMany)(function () { return ConnectionUserProfession_1.ConnectionUserProfession; }, function (ConnectionUserProfession) { return ConnectionUserProfession.User; }, {
+        (0, typeorm_1.OneToMany)(function () { return ConnectionUserProfession_1.ConnectionUserProfession; }, function (ConnectionUserProfessions) { return ConnectionUserProfessions.Users; }, {
             cascade: true
         })
-    ], User.prototype, "ConnectionUserProfession");
+    ], User.prototype, "ConnectionUserProfessions");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Accounts_1.Account; }, function (Account) { return Account.user; }, {
+        (0, typeorm_1.OneToMany)(function () { return Accounts_1.Account; }, function (Accounts) { return Accounts.user; }, {
             cascade: true
         })
-    ], User.prototype, "Account");
+    ], User.prototype, "Accounts");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return ConnectionUserRole_1.ConnectionUserRole; }, function (ConnectionUserRole) { return ConnectionUserRole.User; }, {
+        (0, typeorm_1.OneToMany)(function () { return ConnectionUserRole_1.ConnectionUserRole; }, function (ConnectionUserRoles) { return ConnectionUserRoles.Users; }, {
             cascade: true
         })
-    ], User.prototype, "ConnectionUserRole");
+    ], User.prototype, "ConnectionUserRoles");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Health_1.Health; }, function (Health) { return Health.User; }, {
+        (0, typeorm_1.OneToMany)(function () { return Health_1.Health; }, function (Healths) { return Healths.Users; }, {
             cascade: true
         })
-    ], User.prototype, "Health");
+    ], User.prototype, "Healths");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return TemperatureControl_1.TemperatureControlLog; }, function (TemperatureControlLog) { return TemperatureControlLog.user; }, {
+        (0, typeorm_1.OneToMany)(function () { return TemperatureControl_1.TemperatureControlLog; }, function (TemperatureControlLogs) { return TemperatureControlLogs.user; }, {
             cascade: true
         })
-    ], User.prototype, "Temperature\u0421ontrolLog");
+    ], User.prototype, "Temperature\u0421ontrolLogs");
     User = __decorate([
         (0, typeorm_1.Entity)("user")
     ], User);

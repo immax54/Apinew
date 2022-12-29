@@ -38,31 +38,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.dishPost = void 0;
 var Dishes_1 = require("../entities/Dishes");
-var res;
 function dishPost(body, AppDataSource, res) {
     return __awaiter(this, void 0, void 0, function () {
         function isJsonString(str) {
             try {
-                JSON.parse(str);
+                JSON.parse(str.toString());
             }
             catch (e) {
                 return false;
             }
             return true;
         }
-        function GetData(body, res) {
-            body = Uint8Array.toString();
-            res.on("error", function (err) {
-                console.error(err);
+        function GetData(response) {
+            response.on("error", function (err) {
+                res.write(err);
             });
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "application/json");
         }
         var resjson, dish;
         return __generator(this, function (_a) {
-            GetData(body, res);
+            GetData(res);
             if (isJsonString(body) === true) {
-                resjson = JSON.parse(body);
+                resjson = JSON.parse(body.toString());
                 dish = new Dishes_1.Dishes();
                 dish.active = true;
                 dish.dish = resjson.dish;
@@ -71,7 +69,7 @@ function dishPost(body, AppDataSource, res) {
                     AppDataSource.manager.save(dish);
                     res.write("Connection has been added".concat(JSON.stringify(dish)));
                     res.end();
-                    console.log("Connection post");
+                    //  console.log("Connection post");
                 }
                 else {
                     res.write("ERROR! data error Data");

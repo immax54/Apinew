@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  OneToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ConnectionSubjectPlaces } from "./ConnectionSubjectPlaces";
 
 @Entity("subject")
@@ -23,10 +17,10 @@ export class Subject {
 
   @OneToMany(
     () => ConnectionSubjectPlaces,
-    (ConnectionSubjectPlaces) => ConnectionSubjectPlaces.Subject,
+    (ConnectionSubjectPlace) => ConnectionSubjectPlace.Subjects,
     {
       cascade: true,
     }
   )
-  ConnectionSubjectPlaces: ConnectionSubjectPlaces;
+  ConnectionSubjectPlace: ConnectionSubjectPlaces;
 }

@@ -11,10 +11,10 @@ export class Roles {
 
   @OneToMany(
     () => ConnectionUserRole,
-    (ConnectionUserRole) => ConnectionUserRole.Role,
+    (ConnectionUserRoles) => ConnectionUserRoles.Role,
     {
       cascade: true,
     }
   )
-  ConnectionUserRole: ConnectionUserRole;
+  ConnectionUserRoles: ConnectionUserRole;
 }

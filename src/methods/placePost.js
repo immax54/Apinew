@@ -42,33 +42,32 @@ function placePost(body, AppDataSource, res) {
     return __awaiter(this, void 0, void 0, function () {
         function isJsonString(str) {
             try {
-                JSON.parse(str);
+                JSON.parse(str.toString());
             }
             catch (e) {
                 return false;
             }
             return true;
         }
-        function GetData(body, res) {
-            body = Uint8Array.toString();
-            res.on("error", function (err) {
-                console.error(err);
+        function GetData(response) {
+            response.on("error", function (err) {
+                response.write(err);
             });
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "application/json");
         }
         var resjson, place;
         return __generator(this, function (_a) {
-            GetData(body, res);
+            GetData(res);
             if (isJsonString(body) === true) {
-                resjson = JSON.parse(body);
+                resjson = JSON.parse(body.toString());
                 place = new Places_1.Places();
                 place.name = resjson.name;
                 if (typeof place.name === "string") {
                     AppDataSource.manager.save(place);
                     res.write("Place has been added".concat(JSON.stringify(place)));
                     res.end();
-                    console.log("Place post");
+                    // console.log("Place post");
                 }
                 else {
                     res.write("ERROR! data error Data");

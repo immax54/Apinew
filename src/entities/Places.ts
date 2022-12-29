@@ -11,10 +11,10 @@ export class Places {
 
   @OneToMany(
     () => ConnectionSubjectPlaces,
-    (ConnectionSubjectPlaces) => ConnectionSubjectPlaces.Places,
+    (ConnectionSubjectPlace) => ConnectionSubjectPlace.Place,
     {
       cascade: true,
     }
   )
-  ConnectionSubjectPlaces: ConnectionSubjectPlaces;
+  ConnectionSubjectPlace: ConnectionSubjectPlaces;
 }

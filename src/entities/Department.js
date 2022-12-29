@@ -19,10 +19,10 @@ var Department = /** @class */ (function () {
         (0, typeorm_1.Column)("text")
     ], Department.prototype, "name");
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return ConnectionSubjectPlaces_1.ConnectionSubjectPlaces; }, function (ConnectionSubjectPlaces) { return ConnectionSubjectPlaces.Department; }, {
+        (0, typeorm_1.OneToMany)(function () { return ConnectionSubjectPlaces_1.ConnectionSubjectPlaces; }, function (ConnectionSubjectPlace) { return ConnectionSubjectPlace.Departments; }, {
             cascade: true
         })
-    ], Department.prototype, "ConnectionSubjectPlaces");
+    ], Department.prototype, "ConnectionSubjectPlace");
     Department = __decorate([
         (0, typeorm_1.Entity)("Department")
     ], Department);

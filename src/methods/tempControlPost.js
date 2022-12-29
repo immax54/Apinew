@@ -49,48 +49,46 @@ function tempControlPost(body, AppDataSource, res, req) {
             }
             return true;
         }
-        function sleep(ms) {
-            return new Promise(function (resolve) {
-                setTimeout(resolve, ms);
+        // function sleep(ms: number) {
+        //   return new Promise((resolve) => {
+        //     setTimeout(resolve, ms);
+        //   });
+        // }
+        function GetData(response) {
+            response.on("error", function (err) {
+                response.write(err);
             });
-        }
-        function GetData(body, res) {
-            body = Uint8Array.toString();
-            res.on("error", function (err) {
-                console.error(err);
-            });
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "application/json");
         }
         var _this = this;
         return __generator(this, function (_a) {
             req
                 .on("error", function (err) {
-                console.error(err);
+                res.write(err);
             })
                 .on("data", function (chunk) {
                 body.push(chunk);
             })
                 .on("end", function () { return __awaiter(_this, void 0, void 0, function () {
-                var TempcontrolRepository, resjson, TemperatureСontrol, created;
+                var resjson, TemperatureСontrol, created;
                 return __generator(this, function (_a) {
-                    GetData(body, res);
-                    if (isJsonString(body) == true) {
-                        TempcontrolRepository = AppDataSource.getRepository(TemperatureControl_1.TemperatureControlLog);
-                        resjson = JSON.parse(body);
+                    GetData(res);
+                    if (isJsonString(body.toString()) === true) {
+                        resjson = JSON.parse(body.toString());
                         TemperatureСontrol = new TemperatureControl_1.TemperatureControlLog();
                         TemperatureСontrol.user = resjson.user;
                         TemperatureСontrol.temperature = resjson.temperature;
                         TemperatureСontrol.vlazhn = resjson.vlazhn;
                         TemperatureСontrol.sign = false;
-                        TemperatureСontrol.Appliance = resjson.appliance;
+                        TemperatureСontrol.Appliances = resjson.appliance;
                         created = new Date();
                         TemperatureСontrol.date = "".concat(created.getDate(), "-").concat(created.getMonth() + 1, "-").concat(created.getFullYear());
                         TemperatureСontrol.time = "".concat(created.getHours(), ":").concat(created.getMinutes(), ":").concat(created.getSeconds());
                         if (typeof TemperatureСontrol.user === "number") {
                             if (typeof TemperatureСontrol.temperature === "number") {
                                 if (typeof TemperatureСontrol.vlazhn === "number") {
-                                    if (typeof TemperatureСontrol.Appliance === "number") {
+                                    if (typeof TemperatureСontrol.Appliances === "number") {
                                         if (typeof TemperatureСontrol.sign === "boolean") {
                                             AppDataSource.manager.save(TemperatureСontrol);
                                             // async function NotificationPost(data: number) {
@@ -113,7 +111,7 @@ function tempControlPost(body, AppDataSource, res, req) {
                                             // FindOne.then((data) => NotificationPost(data));
                                             res.write("TemperatureControlLog has been added".concat(JSON.stringify(TemperatureСontrol)));
                                             res.end();
-                                            console.log("TemperatureControl post");
+                                            // console.log("TemperatureControl post");
                                         }
                                     }
                                 }

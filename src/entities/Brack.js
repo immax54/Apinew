@@ -39,14 +39,14 @@ var Bracklog = /** @class */ (function () {
         (0, typeorm_1.Column)("text")
     ], Bracklog.prototype, "date");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.Bracklog; }),
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.Bracklogs; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "user_id"
         })
     ], Bracklog.prototype, "user");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (userdone) { return userdone.Bracklog; } // date + id_usera
+        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (userdone) { return userdone.Bracklogs; } // date + id_usera
         ),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({

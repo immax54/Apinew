@@ -49,14 +49,14 @@ function placesGet(AppDataSource, res) {
             rolesRepository = AppDataSource.getRepository(ConnectionSubjectPlaces_1.ConnectionSubjectPlaces);
             rolesRepository
                 .createQueryBuilder("Building")
-                .leftJoin("Building.Subject", "Subject")
+                .leftJoin("Building.Subjects", "Subject")
                 .addSelect(["Subject.name", "Subject.address", "Subject.type"])
-                .leftJoin("Building.Places", "Places")
+                .leftJoin("Building.Place", "Places")
                 .addSelect(["Places.name"])
-                .leftJoin("Building.Department", "Department")
+                .leftJoin("Building.Departments", "Department")
                 .addSelect(["Department.name"])
                 .getMany()
-                .then(function (data) { return writeend(JSON.stringify(data)); });
+                .then(function (data) { return writeend(JSON.stringify(data)); })["catch"](function (error) { return res.write(error); });
             return [2 /*return*/];
         });
     });

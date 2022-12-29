@@ -28,20 +28,20 @@ export class Appliance {
 
   @ManyToOne(
     () => ConnectionSubjectPlaces,
-    (ConnectionSubjectPlaces) => ConnectionSubjectPlaces.id
+    (ConnectionSubjectPlace) => ConnectionSubjectPlace.id
   )
   @Column("integer")
   @JoinColumn({
     name: "placeId",
   })
-  ConnectionSubjectPlaces: ConnectionSubjectPlaces;
+  ConnectionSubjectPlace: ConnectionSubjectPlaces;
 
   @OneToMany(
     () => TemperatureControlLog,
-    (TemperatureControlLog) => TemperatureControlLog.Appliance,
+    (TemperatureControlLogs) => TemperatureControlLogs.Appliances,
     {
       cascade: true,
     }
   )
-  TemperatureControlLog: TemperatureControlLog;
+  TemperatureControlLogs: TemperatureControlLog;
 }

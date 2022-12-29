@@ -18,26 +18,26 @@ var ConnectionSubjectPlaces = /** @class */ (function () {
         (0, typeorm_1.PrimaryGeneratedColumn)()
     ], ConnectionSubjectPlaces.prototype, "id");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Objects_1.Subject; }, function (Subject) { return Subject.name; }),
+        (0, typeorm_1.ManyToOne)(function () { return Objects_1.Subject; }, function (Subjects) { return Subjects.name; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "subjectId"
         })
-    ], ConnectionSubjectPlaces.prototype, "Subject");
+    ], ConnectionSubjectPlaces.prototype, "Subjects");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Places_1.Places; }, function (Places) { return Places.name; }),
+        (0, typeorm_1.ManyToOne)(function () { return Places_1.Places; }, function (Place) { return Place.name; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "placeId"
         })
-    ], ConnectionSubjectPlaces.prototype, "Places");
+    ], ConnectionSubjectPlaces.prototype, "Place");
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Department_1.Department; }, function (Department) { return Department.name; }),
+        (0, typeorm_1.ManyToOne)(function () { return Department_1.Department; }, function (Departments) { return Departments.name; }),
         (0, typeorm_1.Column)("integer"),
         (0, typeorm_1.JoinColumn)({
             name: "departmetId"
         })
-    ], ConnectionSubjectPlaces.prototype, "Department");
+    ], ConnectionSubjectPlaces.prototype, "Departments");
     ConnectionSubjectPlaces = __decorate([
         (0, typeorm_1.Entity)("ConnectionSubjectPlaces")
     ], ConnectionSubjectPlaces);

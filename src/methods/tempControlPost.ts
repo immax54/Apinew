@@ -1,13 +1,13 @@
 import type { DataSource } from "typeorm";
+import type { IncomingMessage, ServerResponse } from "http";
 import { TemperatureControlLog } from "../entities/TemperatureControl";
-import { NotificationsTempcontrolLog } from "../entities/NotificationsTempcontrolLog";
 
 export async function tempControlPost(
-  body: any[string],
+  body: string[],
   AppDataSource: DataSource,
-  res: any,
-  req: any[string]
-): Promise<any> {
+  res: ServerResponse,
+  req: IncomingMessage
+): Promise<void> {
   function isJsonString(str: string) {
     try {
       JSON.parse(str);
@@ -16,39 +16,35 @@ export async function tempControlPost(
     }
     return true;
   }
-  function sleep(ms: number) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
+  // function sleep(ms: number) {
+  //   return new Promise((resolve) => {
+  //     setTimeout(resolve, ms);
+  //   });
+  // }
+  function GetData(response: ServerResponse) {
+    response.on("error", (err: string) => {
+      response.write(err);
     });
-  }
-  function GetData(body: string | any[], res: any) {
-    body = Uint8Array.toString();
-    res.on("error", (err: string) => {
-      console.error(err);
-    });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "application/json");
   }
   req
     .on("error", (err: string) => {
-      console.error(err);
+      res.write(err);
     })
     .on("data", (chunk: string) => {
       body.push(chunk);
     })
     .on("end", async () => {
-      GetData(body, res);
-      if (isJsonString(body) == true) {
-        const TempcontrolRepository = AppDataSource.getRepository(
-          TemperatureControlLog
-        );
-        const resjson = JSON.parse(body);
+      GetData(res);
+      if (isJsonString(body.toString()) === true) {
+        const resjson = JSON.parse(body.toString());
         const TemperatureСontrol = new TemperatureControlLog();
         TemperatureСontrol.user = resjson.user;
         TemperatureСontrol.temperature = resjson.temperature;
         TemperatureСontrol.vlazhn = resjson.vlazhn;
         TemperatureСontrol.sign = false;
-        TemperatureСontrol.Appliance = resjson.appliance;
+        TemperatureСontrol.Appliances = resjson.appliance;
         const created = new Date();
         TemperatureСontrol.date = `${created.getDate()}-${
           created.getMonth() + 1
@@ -57,7 +53,7 @@ export async function tempControlPost(
         if (typeof TemperatureСontrol.user === "number") {
           if (typeof TemperatureСontrol.temperature === "number") {
             if (typeof TemperatureСontrol.vlazhn === "number") {
-              if (typeof TemperatureСontrol.Appliance === "number") {
+              if (typeof TemperatureСontrol.Appliances === "number") {
                 if (typeof TemperatureСontrol.sign === "boolean") {
                   AppDataSource.manager.save(TemperatureСontrol);
                   // async function NotificationPost(data: number) {
@@ -84,7 +80,7 @@ export async function tempControlPost(
                     )}`
                   );
                   res.end();
-                  console.log("TemperatureControl post");
+                  // console.log("TemperatureControl post");
                 }
               }
             }
